@@ -1,0 +1,266 @@
+#set page(
+  paper: "a4",
+  margin: (x: 2.5cm, y: 2.5cm),
+  header: align(right)[*Pregătire Examen Titularizare 2023*],
+  footer: [
+    #line(length: 100%, stroke: 0.5pt + luma(150))
+    #grid(
+      columns: (1fr, 1fr),
+      align(left)[Rezolvare Examen Titularizare Model & Var 2023],
+      align(right)[Pagina #context counter(page).display()],
+    )
+  ]
+)
+#set text(
+  font: "Arial",
+  size: 11pt,
+  lang: "ro"
+)
+#set par(justify: true)
+
+#align(center)[
+  #text(size: 20pt, weight: "bold")[Rezolvare Completă și Detaliată] \
+  #v(3mm)
+  #text(size: 14pt, style: "italic")[Concursul Național pentru Ocuparea Posturilor Didactice] \
+  #text(size: 12pt)[Anul 2023 - Informatică și Tehnologia Informației]
+]
+
+#v(1cm)
+#outline(indent: 1.5em)
+#pagebreak()
+
+= I. Rezolvare Titularizare Model 2023
+
+== SUBIECTUL I (30 de puncte)
+
+=== 1. Structura de date: Heap
+- *Definire*: Un heap este un arbore binar aproape complet ce respectă proprietatea de heap: cheia fiecărui nod este mai mare sau egală cu cheile fiilor săi (Max-Heap) sau mai mică ori egală cu cheile acestora (Min-Heap).
+- *Reprezentare*: Se utilizează un vector $H$ în care rădăcina este $H[1]$. Pentru un nod de pe poziția $i$:
+  - Fiu stânga: $2 i$
+  - Fiu dreapta: $2 i + 1$
+  - Părinte: $i div 2$
+- *Inserare (Max-Heap)*: Se adaugă nodul pe prima poziție liberă la sfârșitul vectorului, apoi se reface proprietatea de heap prin urcarea elementului (`up-heap` / `sift-up`) prin comparații succesive cu părintele său.
+- *Eliminare maxim (rădăcină)*: Se înlocuiește rădăcina cu ultimul element din heap, se decrementează dimensiunea, iar apoi se coboară elementul (`down-heap` / `sift-down` / `heapify`) comparându-l cu cel mai mare dintre fiii săi până când structura este validă.
+
+- *Problemă (HeapSort)*:
+  - *C++*:
+    ```cpp
+    #include <iostream>
+    using namespace std;
+    void heapify(int A[], int n, int i) {
+        int cel_mai_mare = i;
+        int l = 2 * i + 1, r = 2 * i + 2;
+        if (l < n && A[l] > A[cel_mai_mare]) cel_mai_mare = l;
+        if (r < n && A[r] > A[cel_mai_mare]) cel_mai_mare = r;
+        if (cel_mai_mare != i) {
+            swap(A[i], A[cel_mai_mare]);
+            heapify(A, n, cel_mai_mare);
+        }
+    }
+    void heapSort(int A[], int n) {
+        for (int i = n / 2 - 1; i >= 0; --i) heapify(A, n, i);
+        for (int i = n - 1; i > 0; --i) {
+            swap(A[0], A[i]);
+            heapify(A, i, 0);
+        }
+    }
+    int main() {
+        int A[] = {12, 11, 13, 5, 6, 7};
+        heapSort(A, 6);
+        for (int x : A) cout << x << " ";
+        return 0;
+    }
+    ```
+
+---
+
+=== 2. Rețele de calculatoare: Concepte de bază
+- *Definiție*: Un grup de calculatoare conectate prin canale de comunicație pentru partajarea resurselor.
+- *Avantaje*: Partajarea resurselor hardware (ex. imprimante) și software, stocare centralizată și comunicare rapidă (email, chat).
+- *Tipuri*: LAN (Local Area Network), MAN (Metropolitan Area Network), WAN (Wide Area Network).
+- *Protocoale*: TCP (controlul transmisiei), IP (adresa destinație).
+- *Echipamente*: Switch, Router.
+
+---
+
+== SUBIECTUL al II-lea (30 de puncte)
+
+=== 1. Programare: Rame concentrice
+
+*Soluție C++:*
+```cpp
+#include <iostream>
+using namespace std;
+
+int a[51][51];
+
+void pqrama(int a[51][51], int p, int q, int x) {
+    for (int j = p; j <= q; ++j) {
+        a[p][j] = x;
+        a[q][j] = x;
+    }
+    for (int i = p; i <= q; ++i) {
+        a[i][p] = x;
+        a[i][q] = x;
+    }
+}
+
+int main() {
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    int K = (n + 1) / 2;
+    for (int i = 1; i <= K; ++i) {
+        pqrama(a, i, n - i + 1, K - i + 1);
+    }
+    
+    for (int i = 1; i <= n; ++i) {
+        for (int j = 1; j <= n; ++j) {
+            cout << a[i][j] << (j == n ? "" : " ");
+        }
+        cout << "\n";
+    }
+    return 0;
+}
+```
+
+*Soluție Pascal:*
+```pascal
+program RameConcentrice;
+type
+  TMatrice = array[1..50, 1..50] of integer;
+var
+  a: TMatrice;
+  n, i, j, K: integer;
+
+procedure pqrama(var a: TMatrice; p, q, x: integer);
+var
+  idx: integer;
+begin
+  for idx := p to q do
+  begin
+    a[p, idx] := x;
+    a[q, idx] := x;
+  end;
+  for idx := p to q do
+  begin
+    a[idx, p] := x;
+    a[idx, q] := x;
+  end;
+end;
+
+begin
+  read(n);
+  K := (n + 1) div 2;
+  for i := 1 to K do
+    pqrama(a, i, n - i + 1, K - i + 1);
+    
+  for i := 1 to n do
+  begin
+    for j := 1 to n do
+    begin
+      write(a[i, j]);
+      if j < n then write(' ');
+    end;
+    writeln;
+  end;
+end.
+```
+
+---
+
+=== 2. Algoritm eficient: Termeni recurență în interval
+
+*Soluție C++:*
+```cpp
+#include <iostream>
+#include <fstream>
+#include <vector>
+using namespace std;
+
+int main() {
+    long long x, y;
+    if (!(cin >> x >> y)) return 0;
+    
+    vector<long long> rez;
+    long long n = 0;
+    while (true) {
+        long long val = n * n + n + 1;
+        if (val > y) break;
+        if (val >= x) rez.push_back(val);
+        n++;
+    }
+    
+    ofstream fout("titu2022.out");
+    for (int i = rez.size() - 1; i >= 0; --i) {
+        fout << rez[i] << (i == 0 ? "" : " ");
+    }
+    fout.close();
+    
+    return 0;
+}
+```
+
+*Soluție Pascal:*
+```pascal
+program RecurentaFisier;
+var
+  x, y, n, val: int64;
+  rez: array[1..40000] of int64;
+  count, i: integer;
+  fout: text;
+begin
+  readln(x, y);
+  n := 0;
+  count := 0;
+  while true do
+  begin
+    val := n * n + n + 1;
+    if val > y then break;
+    if val >= x then
+    begin
+      count := count + 1;
+      rez[count] := val;
+    end;
+    n := n + 1;
+  end;
+  
+  assign(fout, 'titu2022.out');
+  rewrite(fout);
+  for i := count downto 1 do
+  begin
+    write(fout, rez[i]);
+    if i > 1 then write(fout, ' ');
+  end;
+  close(fout);
+end.
+```
+
+---
+
+= II. Rezolvare Titularizare Varianta 3 (12 iulie 2023)
+
+[Subiect PDF](file:///wsl.localhost/Debian/home/daniel/projects/inf/Informatică și tehnologia informației/2023/Tit_050_Informatica_P_2023_var_03_LRO.pdf) | [Barem PDF](file:///wsl.localhost/Debian/home/daniel/projects/inf/Informatică și tehnologia informației/2023/Tit_050_Informatica_P_2023_bar_03_LRO.pdf)
+
+*(Notă: Acest subiect este identic cu cel din Titularizare 2024 Model).*
+
+== SUBIECTUL I
+=== 1. Tipul Real
+Vezi Titularizare 2024 (Secțiunea I.1).
+
+=== 2. Procesoare de text: Tabele
+Vezi Titularizare 2024 (Secțiunea I.2).
+
+== SUBIECTUL al II-lea
+=== 1. Programare: n-ouroboros
+Codul C++ și Pascal este identic cu cel din modelul 2024 (Secțiunea II.1).
+
+=== 2. Algoritm eficient: Sumă subset 2023
+Codul C++ și Pascal este identic cu cel din modelul 2024 (Secțiunea II.2).
+
+== SUBIECTUL al III-lea
+=== 1. Didactică: Exercițiul
+Didactica predării algoritmilor de grafuri hamiltoniene.
+
+=== 2. Evaluare: Dispozitive de intrare
+Proiectare test de evaluare pe baza dispozitivelor de intrare ale PC-ului.
