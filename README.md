@@ -19,9 +19,10 @@ inf/
     ├── 2011 - 2026/                       # Dosare organizate pe ani
     │   ├── [An]_var_[...].pdf             # Subiectele oficiale (variante/modele)
     │   ├── [An]_bar_[...].pdf             # Baremele oficiale de corectare
-    │   ├── rezolvari_[An].md              # Rezolvările detaliate în format Markdown
-    │   ├── rezolvari_[An].typ             # Sursa Typst pentru tehnoredactare premium
-    │   └── rezolvari_[An].pdf             # PDF-ul final generat din Typst
+    │   ├── rezolvare_definitivat_[An].typ # Sursa Typst pentru Definitivat
+    │   ├── rezolvare_definitivat_[An].pdf # PDF Definitivat
+    │   ├── rezolvare_titularizare_[An].typ # Sursa Typst pentru Titularizare
+    │   └── rezolvare_titularizare_[An].pdf # PDF Titularizare
     ├── proba practica/                    # Subiecte și resurse pentru proba practică
     └── carti/                             # Suport de curs (metodică, pedagogie, programare)*
 ```
@@ -41,16 +42,16 @@ Fiecare an rezolvat conține elementele cheie cerute la examen:
 
 ## 📊 Stadiul Rezolvărilor
 
-| Anul | Definitivat | Titularizare | Format Markdown | Format Typst | PDF Premium | Stadiu |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **2026** | Model | Model | ✔️ [MD](file:///wsl.localhost/Debian/home/daniel/projects/inf/Informatică și tehnologia informației/2026/rezolvari_2026.md) | ✔️ [TYP](file:///wsl.localhost/Debian/home/daniel/projects/inf/Informatică și tehnologia informației/2026/rezolvari_2026.typ) | ✔️ [PDF](file:///wsl.localhost/Debian/home/daniel/projects/inf/Informatică și tehnologia informației/2026/rezolvari_2026.pdf) | **Finalizat** |
-| **2025** | Subiecte | Subiecte | ⏳ | ⏳ | ⏳ | În lucru |
-| **2024** | Subiecte | Subiecte | ⏳ | ⏳ | ⏳ | Planificat |
-| **2023** | Subiecte | Subiecte | ⏳ | ⏳ | ⏳ | Planificat |
-| **2022** | Subiecte | Subiecte | ⏳ | ⏳ | ⏳ | Planificat |
-| **2021** | Subiecte | Subiecte | ⏳ | ⏳ | ⏳ | Planificat |
-| **2020** | Subiecte | Subiecte | ⏳ | ⏳ | ⏳ | Planificat |
-| **2019 - 2011** | Subiecte | Subiecte | ⏳ | ⏳ | ⏳ | Planificat |
+| Anul | Definitivat (Subiect) | Titularizare (Subiect) | Rezolvare Definitivat | Rezolvare Titularizare | Stadiu |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| **2026** | Model | Model | [TYP](file:///wsl.localhost/Debian/home/daniel/projects/inf/Informatică și tehnologia informației/2026/rezolvare_definitivat_2026.typ) / [PDF](file:///wsl.localhost/Debian/home/daniel/projects/inf/Informatică și tehnologia informației/2026/rezolvare_definitivat_2026.pdf) | [TYP](file:///wsl.localhost/Debian/home/daniel/projects/inf/Informatică și tehnologia informației/2026/rezolvare_titularizare_2026.typ) / [PDF](file:///wsl.localhost/Debian/home/daniel/projects/inf/Informatică și tehnologia informației/2026/rezolvare_titularizare_2026.pdf) | **Finalizat** |
+| **2025** | Model + Var 2 | Model + Var 3 | [TYP](file:///wsl.localhost/Debian/home/daniel/projects/inf/Informatică și tehnologia informației/2025/rezolvare_definitivat_2025.typ) / [PDF](file:///wsl.localhost/Debian/home/daniel/projects/inf/Informatică și tehnologia informației/2025/rezolvare_definitivat_2025.pdf) | [TYP](file:///wsl.localhost/Debian/home/daniel/projects/inf/Informatică și tehnologia informației/2025/rezolvare_titularizare_2025.typ) / [PDF](file:///wsl.localhost/Debian/home/daniel/projects/inf/Informatică și tehnologia informației/2025/rezolvare_titularizare_2025.pdf) | **Finalizat** |
+| **2024** | Subiecte | Subiecte | ⏳ | ⏳ | Planificat |
+| **2023** | Subiecte | Subiecte | ⏳ | ⏳ | Planificat |
+| **2022** | Subiecte | Subiecte | ⏳ | ⏳ | Planificat |
+| **2021** | Subiecte | Subiecte | ⏳ | ⏳ | Planificat |
+| **2020** | Subiecte | Subiecte | ⏳ | ⏳ | Planificat |
+| **2019 - 2011** | Subiecte | Subiecte | ⏳ | ⏳ | Planificat |
 
 ---
 
@@ -59,16 +60,16 @@ Fiecare an rezolvat conține elementele cheie cerute la examen:
 [Typst](https://typst.app) este un sistem modern de tehnoredactare. Dacă dorești să modifici rezolvările și să generezi din nou fișierele PDF:
 
 ### Opțiunea 1: Online (Fără instalare)
-1. Copiază codul din fișierul `.typ` dorit (de exemplu, `rezolvari_2026.typ`).
+1. Copiază codul dintr-un fișier `.typ` dorit (de exemplu, `rezolvare_definitivat_2026.typ`).
 2. Lipsește-l în editorul online gratuit de pe [typst.app](https://typst.app).
 3. Descarcă PDF-ul generat instantaneu.
 
 ### Opțiunea 2: Local (Din terminal)
 Dacă ai Typst instalat pe sistem, deschide terminalul în directorul proiectului și rulează:
 ```bash
-typst compile "Informatică și tehnologia informației/2026/rezolvari_2026.typ" "Informatică și tehnologia informației/2026/rezolvari_2026.pdf"
+typst compile "Informatică și tehnologia informației/2026/rezolvare_definitivat_2026.typ" "Informatică și tehnologia informației/2026/rezolvare_definitivat_2026.pdf"
 ```
 Pentru a monitoriza modificările în timp real (Live Preview local):
 ```bash
-typst watch "Informatică și tehnologia informației/2026/rezolvari_2026.typ"
+typst watch "Informatică și tehnologia informației/2026/rezolvare_definitivat_2026.typ"
 ```
