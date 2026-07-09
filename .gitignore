@@ -6,5 +6,6 @@ Informatică și tehnologia informației/carti/
 Thumbs.db
 *.tmp
 *.temp
+*.txt
 .vscode/
 .idea/
