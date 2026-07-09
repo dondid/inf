@@ -1,12 +1,12 @@
 #set page(
   paper: "a4",
   margin: (x: 2.5cm, y: 2.5cm),
-  header: align(right)[*Pregătire Examen Informatică & TIC*],
+  header: align(right)[*Pregătire Examen Definitivare 2026*],
   footer: [
     #line(length: 100%, stroke: 0.5pt + luma(150))
     #grid(
       columns: (1fr, 1fr),
-      align(left)[Rezolvări Subiecte Model 2026],
+      align(left)[Rezolvare Examen Definitivat Model 2026],
       align(right)[Pagina #context counter(page).display()],
     )
   ]
@@ -19,23 +19,21 @@
 #set par(justify: true)
 
 #align(center)[
-  #text(size: 22pt, weight: "bold")[Rezolvări Complete și Detaliate] \
+  #text(size: 20pt, weight: "bold")[Rezolvare Completă și Detaliată] \
   #v(3mm)
-  #text(size: 14pt, style: "italic")[Subiecte Model 2026 - Informatică și Tehnologia Informației] \
-  #text(size: 12pt)[(Definitivat & Concursul de Titularizare)]
+  #text(size: 14pt, style: "italic")[Examenul Național pentru Definitivare în Învățământ] \
+  #text(size: 12pt)[Model 2026 - Informatică și Tehnologia Informației]
 ]
 
 #v(1cm)
 #outline(indent: 1.5em)
 #pagebreak()
 
-= Examenul Național pentru Definitivare în Învățământ – Model 2026
+= SUBIECTUL I (60 de puncte)
 
-== SUBIECTUL I (60 de puncte)
+== 1. Structura de date: Listă simplu înlănțuită
 
-=== 1. Structura de date: Listă simplu înlănțuită
-
-==== a) Noțiuni preliminare: Parcurgerea nodurilor
+=== a) Noțiuni preliminare: Parcurgerea nodurilor
 O listă simplu înlănțuită este o structură de date dinamică formată din noduri alocate necontiguu în memoria Heap. Fiecare nod este format din:
 - *Informația utilă* (datele stocate).
 - *Legătura/Pointerul* către nodul următor (`urm` / `next`).
@@ -62,7 +60,7 @@ type
 
 *Parcurgerea nodurilor*: Pornind de la pointerul de start al listei (`prim`), se vizitează nodul curent și se înaintează la următorul prin reatribuirea pointerului de parcurgere cu legătura sa: `p = p->urm` (C++) sau `p := p^.urm` (Pascal), până când pointerul devine `NULL` / `nil`.
 
-==== b) Descrierea și exemplificarea etapelor pentru cele 4 operații de inserare
+=== b) Descrierea și exemplificarea etapelor pentru cele 4 operații de inserare
 Presupunem o listă cu 5 noduri: `prim -> [10] -> [20] -> [30] -> [40] -> [50] -> NULL`.
 Noul nod de inserat este indicat de pointerul `nou`, având valoarea `99`.
 
@@ -130,7 +128,7 @@ Noul nod de inserat este indicat de pointerul `nou`, având valoarea `99`.
   p^.urm := nou;
   ```
 
-==== c) Exemplu de utilizare într-o problemă completă (Inserare Ordonată)
+=== c) Exemplu de utilizare într-o problemă completă (Inserare Ordonată)
 - *Enunț*: Se citesc numere întregi până la introducerea valorii 0. Să se creeze o listă simplu înlănțuită prin inserare ordonată crescător, apoi să se afișeze elementele listei.
 - *Implementare C++*:
 ```cpp
@@ -225,7 +223,6 @@ begin
   read(x);
   while x <> 0 do
   begin
-    pointer := nil;
     inserareOrdonata(prim, x);
     read(x);
   end;
@@ -235,28 +232,28 @@ end.
 
 ---
 
-=== 2. Sisteme de operare, rețele și securitate
+== 2. Sisteme de operare, rețele și securitate
 
-==== a) Noțiuni preliminare:
+=== a) Noțiuni preliminare:
 1. *Sistem de calcul*: Componenta fizică (hard) și cea logică (soft) ce conlucrează pentru a permite introducerea, stocarea, procesarea și livrarea datelor.
 2. *Sistem de operare*: Programul de bază ce administrează memoria, procesele, componentele hardware și software, oferind o interfață utilizator-mașină.
 3. *Rețea de calculatoare*: Un ansamblu de echipamente interconectate pentru partajarea de date, fișiere și resurse hardware.
 
-==== b) Trei tipuri de amenințări informatice:
+=== b) Trei tipuri de amenințări informatice:
 1. *Troian*: Se ascunde în programe utile; nu se multiplică singur; deschide breșe de acces (Backdoors).
 2. *Ransomware*: Criptează fișierele și cere răscumpărare în criptomonede.
 3. *Vierme (Worm)*: Se propagă autonom prin rețele, exploatând breșe de securitate; consumă lățimea de bandă.
 
-==== c) Două acțiuni ale unui antivirus la detectarea unui virus:
+=== c) Două acțiuni ale unui antivirus la detectarea unui virus:
 1. *Carantinarea*: Mutarea fișierului într-un folder criptat și izolat.
 2. *Ștergerea / Curățarea*: Eliminarea semnăturilor virale sau ștergerea fișierului gazdă.
 
-==== d) Exemplu de program antivirus cunoscut:
+=== d) Exemplu de program antivirus cunoscut:
 - *Bitdefender Antivirus*.
 
 ---
 
-=== 3. Programare: Generare etichete sală spectacol
+== 3. Programare: Generare etichete sală spectacol
 
 *Soluție C++:*
 ```cpp
@@ -358,9 +355,9 @@ end.
 
 ---
 
-=== 4. Baze de date: Asociație Festivaluri
+== 4. Baze de date: Asociație Festivaluri
 
-==== a) Modelul conceptual (Entități, Atribute, Relații, Forme Normale, Restricții)
+=== a) Modelul conceptual (Entități, Atribute, Relații, Forme Normale, Restricții)
 1. *FESTIVAL*: `id_festival` (PK), `denumire` (U, NOT NULL), `tematica`, `site_oficial` (NULL).
 2. *TIP_EVENIMENT*: `id_tip` (PK), `denumire_tip` (U, NOT NULL), `spatiu_necesar`, `nr_max_participanti`, `varsta_minima`.
 3. *EVENIMENT*: `id_eveniment` (PK), `id_festival` (FK), `id_tip` (FK), `denumire`, `descriere`, `data_ora_inceput`, `durata` (CHECK > 0), `locatie`, `categorie_public_tinta`.
@@ -374,7 +371,7 @@ Forme Normale (3NF):
 - *2NF*: Toate coloanele non-cheie depind integral de întreaga cheie primară (chei simple, nu compuse).
 - *3NF*: Fără dependențe tranzitive (atributele non-cheie sunt direct dependente doar de cheia primară a tabelei lor).
 
-==== b) Modelul Fizic (Structura tabelelor)
+=== b) Modelul Fizic (Structura tabelelor)
 
 #table(
   columns: (auto, auto, auto, auto),
@@ -389,7 +386,7 @@ Forme Normale (3NF):
   [EVENIMENT], [durata], [INT], [CHECK (durata > 0)]
 )
 
-==== c) Adăugarea datelor de bază (Comenzi SQL)
+=== c) Adăugarea datelor de bază (Comenzi SQL)
 ```sql
 INSERT INTO FESTIVAL (denumire, tematica, site_oficial) 
 VALUES ('EduCode 2025', 'Inovatie in predarea informaticii', NULL);
@@ -397,240 +394,27 @@ VALUES ('EduCode 2025', 'Inovatie in predarea informaticii', NULL);
 
 ---
 
-== SUBIECTUL al II-lea (30 de puncte)
+= SUBIECTUL al II-lea (30 de puncte)
 
-=== 1. Proiectarea unei activități didactice (Alegere Secvență)
+== 1. Proiectarea unei activități didactice (Alegere Secvență)
 
-==== OPTIUNEA A: Secvența A (Metoda Divide et Impera)
+=== OPTIUNEA A: Secvența A (Metoda Divide et Impera)
 - *Metoda*: *Problematizarea*.
 - *Caracteristici*: Stimulează gândirea analitică prin crearea unei situații-problemă; încurajează participarea activă.
 - *Scenariu*: Profesorul propune determinarea maximului dintr-un vector prin divizarea repetată în subvectori simetrici, ghidând elevii să descopere singuri principiul recursivității.
 
-==== OPTIUNEA B: Secvența B (Dispozitive de stocare a datelor)
+=== OPTIUNEA B: Secvența B (Dispozitive de stocare a datelor)
 - *Metoda*: *Mozaicul (Jigsaw)*.
 - *Caracteristici*: Dezvoltă spiritul de echipă; fiecare elev este responsabil de asimilarea și predarea unei subteme.
 - *Scenariu*: Elevii sunt împărțiți în grupe de experți (HDD, SSD, Cloud, Unități de măsură), studiază suportul tehnic, iar apoi predau subtemele în grupul de bază.
 
-=== 2. Evaluarea rezultatelor școlare: Proba Scrisă
+== 2. Evaluarea rezultatelor școlare: Proba Scrisă
 - *Avantaje*: Evaluare obiectivă, economie de timp, reducerea factorului stres.
 - *Limită*: Nu poate evalua deprinderile practice pe calculator.
 
-==== Itemi de evaluare:
+=== Itemi de evaluare:
 *Secvența A (Alegere Multiplă):*
 Alegerea metodei optime pentru căutarea rapidă a unei valori într-un tablou sortat. Răspuns: Căutarea binară.
 
 *Secvența B (Răspuns Scurt):*
 Diferența dintre HDD și SSD. Răspuns: Viteza de transfer și rezistența la șocuri (fără piese mobile).
-
-#pagebreak()
-
-= Concursul Național de Ocupare a Posturilor Didactice – Model 2026
-
-== SUBIECTUL I (30 de puncte)
-
-=== 1. Structura de date: Coadă
-
-==== a) Accesul la elemente
-Coada funcționează pe principiul FIFO (First-In, First-Out). Adăugarea se face la sfârșitul cozii (`rear`), iar extragerea de la început (`front`).
-
-==== b) Descriere și Exemplificare pentru o coadă cu 4 elemente
-Fie coada în care se inserează pe rând elementele `A`, `B`, `C`, `D`, urmată de o ștergere.
-
-===== 1. Reprezentarea Secvențială (Vector fix și indicii front/rear)
-- *Cod C++*:
-  ```cpp
-  char Q[100];
-  int front = 0, rear = 0;
-  Q[rear++] = 'A'; // Inserare
-  char sters = Q[front++]; // Stergere
-  ```
-- *Cod Pascal*:
-  ```pascal
-  var
-    Q: array[0..99] of char;
-    front: integer = 0;
-    rear: integer = 0;
-  begin
-    Q[rear] := 'A'; rear := rear + 1; // Inserare
-    sters := Q[front]; front := front + 1; // Stergere
-  end;
-  ```
-
-===== 2. Reprezentarea Înlănțuită (Noduri dinamice)
-- *Cod C++*:
-  ```cpp
-  struct Nod { char info; Nod* urm; };
-  Nod *prim = nullptr, *ultim = nullptr;
-  ```
-- *Cod Pascal*:
-  ```pascal
-  type
-    PNod = ^TNod;
-    TNod = record info: char; urm: PNod; end;
-  var
-    prim: PNod = nil;
-    ultim: PNod = nil;
-  ```
-
-=== 2. Arhitectura sistemelor de calcul: Unitatea Centrală de Prelucrare (UCP)
-- *Magistrale*: Date (translație date), Adrese (locație RAM), Control (semnale R/W și tact).
-- *Componente*: ALU (aritmetică și logică), UCC (comandă și control).
-- *Parametri*: Frecvență tact $5.2 "GHz"$, Număr nuclee $16$, Cache L3 $32 "MB"$.
-
----
-
-== SUBIECTUL al II-lea (30 de puncte)
-
-=== 1. Programare Backtracking: Combinări bancnote
-
-*Soluție C++:*
-```cpp
-#include <iostream>
-#include <algorithm>
-using namespace std;
-
-int n;
-int c[10], b[10];
-
-void tipar() {
-    for (int i = 0; i < n; ++i) {
-        if (b[i] > 0) {
-            cout << b[i] << "x" << c[i] << (c[i] == 1 ? "leu " : "lei ");
-        }
-    }
-    cout << "\n";
-}
-
-void back(int idx, int sum) {
-    if (sum == 0) { tipar(); return; }
-    if (idx < 0) return;
-    int max_b = sum / c[idx];
-    for (int bills = max_b; bills >= 0; --bills) {
-        b[idx] = bills;
-        back(idx - 1, sum - bills * c[idx]);
-    }
-    b[idx] = 0;
-}
-
-int main() {
-    int s;
-    cin >> s >> n;
-    for (int i = 0; i < n; ++i) { cin >> c[i]; b[i] = 0; }
-    sort(c, c + n);
-    back(n - 1, s);
-    return 0;
-}
-```
-
-*Soluție Pascal:*
-```pascal
-program CombinariBancnote;
-var
-  s, i, j, temp: integer;
-  n: integer;
-  c, b: array[0..9] of integer;
-
-procedure tipar;
-var k: integer;
-begin
-  for k := 0 to n - 1 do
-  begin
-    if b[k] > 0 then
-    begin
-      if c[k] = 1 then write(b[k], 'x', c[k], 'leu ')
-      else write(b[k], 'x', c[k], 'lei ');
-    end;
-  end;
-  writeln;
-end;
-
-procedure back(idx, sum: integer);
-var bills, max_b: integer;
-begin
-  if sum = 0 then begin tipar; exit; end;
-  if idx < 0 then exit;
-  max_b := sum div c[idx];
-  for bills := max_b downto 0 do
-  begin
-    b[idx] := bills;
-    back(idx - 1, sum - bills * c[idx]);
-  end;
-  b[idx] := 0;
-end;
-
-begin
-  read(s, n);
-  for i := 0 to n - 1 do begin read(c[i]); b[i] := 0; end;
-  for i := 0 to n - 2 do
-    for j := i + 1 to n - 1 do
-      if c[i] > c[j] then
-      begin
-        temp := c[i]; c[i] := c[j]; c[j] := temp;
-      end;
-  back(n - 1, s);
-end.
-```
-
-=== 2. Algoritmi eficienți: Suprapunere Programări Cabinet Medic
-
-*Soluție C++:*
-```cpp
-#include <iostream>
-#include <fstream>
-using namespace std;
-
-int main() {
-    ifstream fin("titu2025.txt");
-    int current, val, rescheduled = 0;
-    if (!(fin >> current)) return 0;
-    while (fin >> val) {
-        if (val == current) rescheduled++;
-        else current = val;
-    }
-    cout << rescheduled << endl;
-    return 0;
-}
-```
-
-*Soluție Pascal:*
-```pascal
-program EvaluareSuprapuneri;
-var
-  fin: text;
-  current, val, rescheduled: longint;
-begin
-  assign(fin, 'titu2025.txt'); reset(fin);
-  if eof(fin) then begin writeln(0); close(fin); halt; end;
-  read(fin, current);
-  rescheduled := 0;
-  while not eof(fin) do
-  begin
-    read(fin, val);
-    if val = current then rescheduled := rescheduled + 1
-    else current := val;
-  end;
-  close(fin);
-  writeln(rescheduled);
-end.
-```
-
----
-
-== SUBIECTUL al III-lea (30 de puncte)
-
-=== 1. Proiectare Test de Evaluare și Barem (Secvența A)
-
-#table(
-  columns: (auto, auto),
-  [*Item*], [*Tip & Cerință (C++ / Pascal)*],
-  [Item 1], [Alegere Multiplă. Parametri transmiși prin valoare vs referință. Răspuns: B.],
-  [Item 2], [Completare spații libere: determinare dacă un număr este par.],
-  [Item 3], [Răspuns Scurt: Avantajele modularizării codului.],
-  [Item 4], [Întrebare structurată pentru urmărirea recursivității.],
-  [Item 5], [Subiectiv: Calculul sumei cifrelor impare ale unui număr natural.]
-)
-
-=== 2. Proiectarea unei strategii didactice pentru Secvența B (Animații și Modele 3D)
-- *Mijloc*: *Tinkercad*.
-- *Metoda*: *Învățarea prin descoperire*.
-- *Activitate*: Crearea și modelarea unei animații de translație 3D.
