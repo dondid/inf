@@ -1,0 +1,135 @@
+
+--- PAGE 1 ---
+Ministerul Educaţiei și Cercetării 
+Centrul Național pentru Curriculum și Evaluare 
+Probă scrisă la informatică și tehnologia informației  MODEL 
+Pagina 1 din 2 
+CONCURSUL NAŢIONAL DE OCUPARE A POSTURILOR DIDACTICE/CATEDRELOR 
+VACANTE/REZERVATE DIN ÎNVĂŢĂMÂNTUL PREUNIVERSITAR 
+21 iulie 2026 
+ 
+Probă scrisă 
+INFORMATICĂ ȘI TEHNOLOGIA INFORMAȚIEI 
+MODEL 
+• Toate subiectele sunt obligatorii. Se acordă zece puncte din oficiu. 
+• Timpul de lucru efectiv este de patru ore. 
+• Programele cerute vor fi scrise folosind unul dintre limbajele de programare Pascal, C 
+sau C++, la alegere. Identificatorii utilizați în progra me trebuie să corespundă 
+semnificației asociate acestora, eventual în formă prescurtată. 
+ 
+SUBIECTUL I (30 de puncte) 
+1. Prezentați structura de date de tip coadă, având în vedere: 
+- acces la elementele unei cozi; 
+- descriere în limbaj natural și exemplificare a etapelor de realizare a operațiilor specifice 
+(inserare, ștergere a câte unui element) pentru o coadă cu 4 elemente, utilizând reprezentarea 
+secvențială, respectiv reprezentarea înlănțuită a elementelor; 
+- un exemplu de utilizare a operații lor specifice pentru o structură de date de tip coadă în 
+rezolvarea unei probleme (enunț, descriere în limbaj natural a unei soluții, implementare în limbaj 
+de programare a soluției, utilizând una dintre metodele de reprezentare, la alegere). 
+ (15 puncte) 
+ 
+2. Prezentați unitatea centrală (UCP) în ansamblul arhitectural al sistemului de calcul, având în vedere: 
+- integrare în ansamblul arhitectural al unui sistem de calcul; 
+- două componente din structura unității centrale, precizând, pentru fiecare, rolul avut în funcționarea 
+unui sistem de calcul; 
+- trei parametri care fac parte din specificațiile/caracteristicile tehnice ale unui microprocesor, precizând, 
+pentru fiecare, modul în care influențează performanța îndeplinirii funcției de bază a acestuia, precum și 
+câte un exemplu de valoare a parametrului pentru un microprocesor din generația actuală. 
+ (15 puncte) 
+ 
+SUBIECTUL al II-lea (30 de puncte) 
+1. La o casierie sunt bancnote de diferite cupiuri (valori monetare care sunt înscrise pe bancnote), într-
+un număr suficient, astfel încât să poată fi obținută cu acestea orice sumă cuprinsă între 1 și 104 lei.  
+Variabilele n, c și b sunt globale: n memorează un număr natural  (n∈[2,10]), iar c, respectiv b, 
+permit accesul la câte un tablou unidimensional, cu câte n elemente: c cu numere naturale din 
+intervalul [1,104], reprezentând cupiurile din casierie , iar b cu valori naturale din intervalul 
+[0,104], reprezentând numărul de bancnote , pentru fiecare cupiură, în ordinea din  tabloul c, 
+utilizate la obținerea unei sume oarecare.  
+ 
+Subprogramul tipar nu are niciun parametru și, pe baza datelor memorate în variabilele globale, 
+afișează pe ecran, pentru fiecare cupiură care a fost utilizată efectiv la obținerea sumei, în ordine, 
+numărul corespunzător d e bancnote, astfel : numărul de bancnote și cupiura sunt separate prin 
+simbolul x, după cupiură urmează cuvântul lei, dacă este diferită de 1, sau de cuvântul leu, în 
+caz contrar, apoi un spațiu, ca în exemplu. 
+Exemplu: pentru n=4, c=(1,2,3,5) și b=(3,1,0,1), se afișează: 3x1leu 1x2lei 1x5lei 
+ 
+Se citesc de la tastatură  două numere naturale, s și n (s∈[1,104], n∈[2,10]), apoi n numere 
+naturale distincte din intervalul [1,104], reprezentând cupiurile din casierie.  
+Se cere să se determine toate modalitățile de obținere a sumei s, utilizând bancnote de cupiuri din 
+casierie. Fiecare soluție se afișează pe câte o linie a ecranului, precizând numărul corespunzător de 
+bancnote pentru fiecare cupiură care contribuie efectiv la obținerea sumei, în ordine, ca în exemplu. 
+Exemplu: pentru s=10, n=4 și cupiurile (1,2,3,5), se obțin 20 de soluții, dintre care două sunt: 
+2x5lei  
+3x1leu 1x2lei 1x5lei 
+Scrieţi programul Pascal/C/C++ corespunzător cerinţei, care să cuprindă definiția completă a 
+subprogramului precizat mai sus, precum și apeluri utile ale acestuia. 
+ (15 puncte) 
+ 
+ 
+--- PAGE 2 ---
+Ministerul Educaţiei și Cercetării 
+Centrul Național pentru Curriculum și Evaluare 
+Probă scrisă la informatică și tehnologia informației  MODEL 
+Pagina 2 din 2 
+2. La cabinetul unui medic , programările pentru consultațiile din luna următoare  sunt înregistrate 
+online. F iecare programare este codificată printr -o valoare obținută prin alipirea a două numere 
+naturale, reprezentând ziua și ora pentru care s -a făcut programarea , în această ordine . Fiecare 
+consultație începe la o oră fixă, dată prin două cifre, începând de la ora 08 până la ora 20, și are 
+alocate 50 de minute. 
+ 
+Fișierul titu2025.txt conține un șir de cel mult 105 numere naturale din intervalul [108,3120], 
+reprezentând codurile programărilor, ordonate crescător, separate prin câte un spațiu.  
+Se cere să se afișeze numărul de programări care trebuie actualizate, din cauza suprapunerii cu 
+alte programări . Proiectați un algoritm eficient din punct ul de vedere al memoriei utilizate și al 
+timpului de executare.  
+Exemplu: dacă fișierul are conținutul 
+alăturat, se afișează pe ecran 3 
+912 912 912 1009 1418 1418 1520 1618 
+(programările pentru ziua 9, ora 12, respectiv pentru ziua 14, ora 18, se suprapun). 
+Scrieți programul Pascal/C/C++ corespunzător cerinței și explicați în limbaj natural metoda de 
+rezolvare, justificând eficiența acesteia. 
+  (15 puncte) 
+ 
+SUBIECTUL al III-lea (30 de puncte) 
+Se consideră secvențele de mai jos, notate cu A și B, extrase din programele școlare de liceu, 
+pentru disciplina INFORMATICĂ, respectiv pentru gimnaziu, disciplina INFORMATICĂ ȘI TIC: 
+A: 
+Competențe specifice Conținuturi 
+2.1.Utilizarea corectă a subprogramelor 
+predefinite şi a celor definite de utilizator 
+2.2.Construirea unor subprograme pentru  
+rezolvarea subproblemelor unei probleme 
+Subprograme 
+[...] 
+• Transferul parametrilor la apel 
+• Returnarea valorilor de către subprograme 
+ (Programe școlare de INFORMATICĂ, OMECI nr. 5099/09.09.2009) 
+B:  
+Competenţe specifice Conţinuturi 
+3.2. Elaborarea de animații grafice și 
+modele 3D folosind operații specifice 
+pentru a ilustra dinamic diverse teme 
+Operații de editare a proprietăților unui obiect: 
+dimensionare, rotire, transparență, poziționare  
+Operații specifice de realizare a unei animații: efecte de 
+mișcare, temporizare, efecte sonore 
+(Programe școlare de INFORMATICĂ ȘI TIC, OMEN nr. 3393/28.02.2017) 
+ 
+1. Pentru secvența A, elaborați un test și baremul de evaluare și de notare corespunzător acestuia, 
+test care să fie utilizat în cadrul unei probe scrise sau practice (la alegere), ca instrument de 
+evaluare a competenţelor  specifice indicate pe baza conținuturilor corespunzătoare . Testul 
+cuprinde enunțurile a cinci itemi, iar baremul de evaluare și de notare distribuie 90 de puncte, 
+acordând 10 puncte din oficiu, și cuprinde, pentru fiecare item, răspunsul așteptat, dacă ac esta 
+poate fi redactat pe foaia de examen, sau etapele necesare obținerii răspunsului așteptat, în caz 
+contrar, precum și criterii de evaluare și de notare analitică a acestuia.  
+ (15 puncte) 
+ 
+2. Pentru secvența B, prezentaţi aspecte ale strategiei didacti ce utilizate în procesul de predare -
+învățare corespunzător, utilizând un mijloc de învățământ adecvat, la alegere, având în vedere: 
+- precizarea a două funcții ale unui mijloc de învățământ în procesul didactic; 
+- precizarea mijlocului de învățământ ales și exemplificarea valorificării sale , precizând unele 
+elemente ale proiectării didactice: o metodă didactică utilizată, o formă de organizare a clasei, o 
+activitate de învăţare și scenariul didactic pentru aceasta, detaliind activitatea profesorului şi 
+activitatea elevilor, cu respectarea corectitudinii științifice a informației de specialitate. 
+ (15 puncte) 
+ 

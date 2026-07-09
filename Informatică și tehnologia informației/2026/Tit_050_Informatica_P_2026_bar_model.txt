@@ -1,0 +1,87 @@
+
+--- PAGE 1 ---
+Ministerul Educaţiei și Cercetării 
+Centrul Național pentru Curriculum și Evaluare 
+Probă scrisă la informatică și tehnologia informației  MODEL 
+Barem de evaluare și de notare 
+Pagina 1 din 2 
+CONCURSUL NAŢIONAL DE OCUPARE A POSTURILOR DIDACTICE/CATEDRELOR 
+VACANTE/REZERVATE DIN ÎNVĂŢĂMÂNTUL PREUNIVERSITAR 
+21 iulie 2026 
+ 
+Probă scrisă 
+INFORMATICĂ ȘI TEHNOLOGIA INFORMAȚIEI 
+ 
+BAREM DE EVALUARE ŞI DE NOTARE  
+MODEL 
+• Se punctează orice modalitate de rezolvare corectă a cerinţelor. 
+• Nu se acordă punctaje intermediare, altele decât cele precizate explicit în barem. Nu 
+se acordă fracţiuni de punct. 
+• Se acordă zece puncte din oficiu. Not a finală se calculează prin împărţirea la zece a 
+punctajului total acordat pentru lucrare. 
+ 
+SUBIECTUL I (30 de puncte) 
+1. 15 puncte 
+ - acces la elementele unei cozi, conform cerinței 1p 
+ - descriere a etapelor de realizare a operațiilor specifice, conform cerinței 2 x 2 x 1p = 4p 
+ - exemplificare a etapelor de realizare a operațiilor specifice, conform cerinței 2 x 2 x 1p = 4p 
+ - enunț al unei probleme adecvate exemplificării indicate 1p 
+ - descriere coerentă a soluției problemei enunțate, conform cerinței  2p  
+ - implementare conform cerinței pentru problema enunțată  3p   
+(pentru algoritm care parcurge pașii necesari rezolvării, dar cu detalii care conduc la o rezolvare 
+parţială, se acordă numai 2p) 
+ 
+2. 15 puncte 
+ - integrare în ansamblul arhitectural al unui sistem de calcul, conform cerinței 2p 
+ - componente precizate, conform cerinței 2 x 1p = 2p 
+ - roluri ale componentelor, conform cerinței 2 x 1p = 2p 
+ - parametri precizați, conform cerinței 3 x 1p = 3p 
+ - moduri în care parametrii influențează performanța, conform cerinței 3 x 1p = 3p 
+ - exemple de valori ale parametrilor, conform cerinței 3 x 1p = 3p   
+SUBIECTUL al II-lea (30 de puncte) 
+1. 15 puncte 
+ - antet al subprogramului, conform cerinței 1p 
+ - afişare a valorilor în formatul indicat, conform cerinței, în cadrul subprogramului 5p 
+ (pentru algoritm care parcurge pașii necesari rezolvării, dar cu detalii care conduc la o rezolvare 
+parţială, se acordă numai 3p) 
+ - citire a datelor, conform cerinței 1p 
+ - determinare a tuturor modalităților de obținere a sumei, conform cerinței 6p 
+(pentru algoritm de bază pentru generarea sistematică a unor combinații de valori, care parcurge 
+pașii necesari rezolvării, dar cu detalii care conduc la o rezolvare parţială, se acordă numai 3p) 
+ - apeluri conform cerinței ale subprogramului indicat, afișare a soluțiilor pe linii separate 1p 
+ - declarări ale variabilelor, corectitudine globală a programului 1p 
+ 
+2. 15 puncte 
+ - operații cu fișiere (declarare, pregătire în vederea citirii), conform cerinței  1p 
+ - citire a datelor, conform cerinței 1p 
+ - determinare a numărului cerut 6p 
+(pentru algoritm care parcurge pașii necesari rezolvării, dar cu detalii care conduc la o rezolvare 
+parţială, se acordă numai 3p) 
+ - utilizare a unui algoritm eficient, conform cerinței 2p 
+ (se acordă punctajul numai pentru un algoritm liniar, conform cerinței) 
+ - afișare a datelor, declarări de variabile, corectitudine globală a programului 1p 
+ - explicare coerentă a metodei de rezolvare, conform cerinței  2p 
+ - justificare a eficienței metodei, conform cerinței  2p 
+ 
+ 
+--- PAGE 2 ---
+Ministerul Educaţiei și Cercetării 
+Centrul Național pentru Curriculum și Evaluare 
+Probă scrisă la informatică și tehnologia informației  MODEL 
+Barem de evaluare și de notare 
+Pagina 2 din 2 
+SUBIECTUL al III-lea (30 de puncte) 
+1. 15 puncte 
+ - enunțuri conform cerinței, corecte din punctul de vedere metodico-științific 5 x 1p = 5p 
+ - răspunsuri așteptate/etape necesare obținerii răspunsurilor așteptate, conform cerinței 5 x 1p = 5p 
+ - criterii de evaluare și notare analitică, conform cerinței 5 x 1p = 5p 
+ 
+2. 15 puncte 
+ - funcții ale unui mijloc de învățământ, conform cerinței 2 x 2p =4p 
+ - mijloc de învățământ precizat, adecvat exemplificării cerute 1p 
+ - metodă didactică precizată, adecvată exemplificării cerute 1p 
+ - formă de organizare precizată, adecvată exemplificării cerute 1p 
+ - activitate de învățare adecvată exemplificării cerute 2p 
+ - activitate a profesorului, detaliată conform cerinței  3p 
+ - activitate a elevilor, detaliată conform cerinței 3p 
+ 

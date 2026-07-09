@@ -1,0 +1,146 @@
+
+--- PAGE 1 ---
+Ministerul Educaţiei și Cercetării 
+Centrul Național pentru Curriculum și Evaluare 
+Probă scrisă la informatică și tehnologia informației  MODEL 
+Pagina 1 din 2 
+EXAMENUL NAŢIONAL PENTRU DEFINITIVARE ÎN ÎNVĂŢĂMÂNTUL PREUNIVERSITAR 
+14 iulie 2026 
+ 
+Probă scrisă 
+ 
+INFORMATICĂ ȘI TEHNOLOGIA INFORMAȚIEI 
+MODEL 
+• Toate subiectele sunt obligatorii. Se acordă zece puncte din oficiu. 
+• Timpul de lucru efectiv este de patru ore. 
+• Programele și subprogramele cerute vor fi scrise folosind unul dintre limbajele de 
+programare Pascal, C sau C++, la alegere. Identificatorii utilizați trebuie să corespundă 
+semnificației asociate acestora, eventual în formă prescurtată. 
+ 
+SUBIECTUL I (60 de puncte) 
+1. Prezentați inserarea unui nod într-o structură de date de tip listă simplu înlănțuită, având în vedere: 
+- noțiuni preliminare: parcurgere a nodurilor într-o listă simplu înlănțuită; 
+- descriere în limbaj natural și exemplificare a etapelor de realizare a operațiilor specifice  pentru 
+inserarea unui nod într-o listă simplu înlănțuită, cu cinci noduri, având în vedere patru poziții distincte 
+ale nodului inserat (înainte de primul nod, după ultimul nod, înainte de un nod intermediar dat, după 
+un nod intermediar dat), utilizând alocarea statică sau alocarea dinamică a memoriei, la alegere; 
+- un exemplu de utilizare a operațiilor specifice pentru inserarea unui nod într-o listă simplu înlănțuită 
+în rezolvarea unei probleme (enunț, descriere în limbaj natural a unei soluții, implementare în limbaj 
+de programare a soluției, utilizând metoda alocării dinamice a memoriei). 
+ (15 puncte) 
+ 
+2. Prezentați virușii informatici și programele antivirus, având în vedere: 
+- noțiuni preliminare: sistem de calcul, sistem de operare, rețele de calculatoare;  
+- trei tipuri/categorii de viruși informatici /amenințări, precizând câte două caracteristici pentru 
+fiecare; 
+- două exemple de acțiuni pe care un program antivirus le poate efectua la detectarea unui fișier infectat; 
+- un exemplu de program antivirus cunoscut. 
+ (15 puncte) 
+ 
+3. Subprogramul eticheta are trei parametri: 
+• s și d, prin care primește câte un număr natural din intervalul [1,104); 
+• n, prin care furnizează un număr natural obținut din s, la care se alipesc, la dreapta, cifrele 
+numărului d, în ordinea în care apar în acesta. 
+Exemplu: dacă s=123, iar d=75, după apel n=12375. 
+Configurația unei săli de spectacole este memorată ca un tablou bidimensional în care liniile corespund 
+rândurilor de scaune, iar coloanele corespund numerelor de ordine ale scaunelor în cadrul rândului. 
+Pentru fiecare scaun se pot genera etichete cu valori obținute astfel: la numărul de ordine al scaunului 
+din cadrul rândului se alipesc, la stânga sau la dreapta, cifrele numărului rândului, în ordinea în care 
+apar în acesta. 
+Exemplu: pentru al 123-lea scaun de pe rândul 45 se pot obține două etichete: 12345 și 45123. 
+Se citesc de la tastatură două numere naturale din intervalul [2,100], m și 
+n, reprezentând numărul de rânduri ale unei săli de spectacole, respectiv 
+numărul de scaune aflate pe fiecare rând, şi se cere să se construiască în 
+memorie un tablou bidimensional cu m linii și n coloane, numerotate începând 
+de la 1, în care fiecare element este egal cu valoarea cea mai mică ce poate 
+fi generată drept etichetă pentru scaunul corespunzător, ca în exemplu. 
+11 12 13 14 
+12 22 23 24 
+13 23 33 34 
+14 24 34 44 
+15 25 35 45 
+ 
+Tabloul obținut se scrie în fișierul def2025.txt, fiecare linie a tabloului pe câte o linie a fișierului, 
+elementele fiecărei linii fiind separate prin câte un spaţiu. 
+Exemplu: pentru m=5 și n=4 se obține tabloul de mai sus. 
+Scrieţi programul Pascal/C/C++ corespunzător cerinţei, care să cuprindă definiția completă a 
+subprogramului precizat mai sus, precum și apeluri utile ale acestuia. Descrieţi în limbaj natural 
+algoritmul utilizat. 
+  (15 puncte) 
+ 
+ 
+ 
+--- PAGE 2 ---
+Ministerul Educaţiei și Cercetării 
+Centrul Național pentru Curriculum și Evaluare 
+Probă scrisă la informatică și tehnologia informației  MODEL 
+Pagina 2 din 2 
+4. Într-o asociație care organizează festivaluri sunt necesare următoarele informații: 
+- date de bază despre un anumit festival: denumire, tematică și, eventual, adresa site-ului oficial; 
+- condiții necesare/norme specifice pentru a organiza orice eveniment de un anumit tip  (concert, 
+expoziție, workshop etc.), referitoare la spațiul în care se poate desfășura, la numărul de participanți, 
+la vârsta publicului țintă, eventuale alte aspecte; 
+- date specifice despre un anumit eveniment din cadrul unui festival dat: tip, denumire, o scurtă 
+descriere, data și ora la care începe și durata acestuia , locul în care se desfășoară, categoria 
+publicului țintă (copii, adulți etc.); 
+- numărul de festivaluri în cadrul cărora s-au desfășurat cel puțin două evenimente de tip workshop; 
+- tipurile de evenimente care nu s-au desfășurat în cadrul niciunui festival în ultimii doi ani. 
+ 
+Proiectați o bază de date relațională care să permită obținerea informațiilor precizate mai sus, având 
+în vedere: 
+- modelul conceptual al bazei de date (precizarea entităților, cu atributele și identificatorii unici ai 
+acestora, a relațiilor între entități), cu respectarea primelor trei forme normale, enumerând 
+eventualele restricții/reguli care trebuie impuse, astfel încât informațiile cerute să fie obținute corect 
+din baza de date proiectată; 
+- modelul fizic al bazei de date (precizarea structurii tabelelor, cu câmpurile de date, cheia primară 
+și eventualele chei străine/externe ale fiecăreia); 
+- descrierea detaliată a etapelor care trebuie parcurse utilizând un sistem de gestiune a bazelor de date 
+sau scrierea comenzilor SQL corespunzătoare în vederea adăugării datelor de bază pentru un nou 
+festival, cu denumirea EduCode 2025 și tematica Inovatie in predarea informaticii. 
+ (15 puncte) 
+ 
+SUBIECTUL al II-lea (30 de puncte) 
+Se consideră secvențele de mai jos, notate cu A și B, extrase din programele școlare de liceu, pentru 
+disciplina INFORMATICĂ, respectiv de gimnaziu, pentru disciplina INFORMATICĂ ȘI TIC: 
+A: 
+Competențe specifice Conținuturi 
+2.1. Analiza problemei în scopul identificării metodei de programare 
+adecvate pentru rezolvarea problemei 
+2.2. Construirea unor soluţii pentru probleme simple care se rezolvă cu 
+ajutorul metodelor de programare 
+2.3. Aplicarea creativă a metodelor de programare pentru rezolvarea unor probleme 
+intradisciplinare sau interdisciplinare, sau a unor probleme cu aplicabilitate practică 
+Metoda de 
+programare 
+Divide et Impera 
+• Prezentare 
+generală 
+• Aplicaţii 
+(Programe școlare de INFORMATICĂ, OMECI nr. 5099/09.09.2009) 
+B: 
+Competențe specifice Conținuturi 
+1.1. Utilizarea eficientă şi 
+în condiţii de siguranţă a 
+dispozitivelor de calcul 
+Dispozitive de stocare a datelor: 
+- exemple de dispozitive de stocare a datelor 
+- unități de măsură pentru capacitatea de stocare […] 
+- comparație între dispozitivele de stocare în funcție de capacitate 
+(Programe școlare de INFORMATICĂ ȘI TIC, OMEN nr. 3393/28.02.2017) 
+ 
+1. Pentru una dintre secvențele A sau B (la alegere), prezentaţi aspecte ale activităţii didactice de 
+predare-învățare corespunzătoare, pentru care alegeți o metodă didactică adecvată, având în vedere: 
+- precizarea metodei didactice alese și a două caracteristici ale acesteia din punctul de vedere al 
+utilizării în activitatea didactică; 
+- exemplificarea valorificării metodei didactice alese, precizând unele elemente ale proiectării 
+didactice: un mijloc de învățământ utilizat, o formă de organizare a clasei, o activitate de învăţare și 
+scenariul didactic pentru aceas ta, detaliind activitatea profesorului şi activitatea elevilor, cu 
+respectarea corectitudinii științifice a informației de specialitate. 
+ (15 puncte) 
+ 
+2. Prezentați proba scrisă, metodă tradițională de evaluare, având în vedere: 
+- precizarea a trei avantaje și a unei limite ale utilizării metodei; 
+- pentru fiecare dintre secvențele A și B, elaborarea a câte unui item, în vederea evaluării 
+competenţelor specifice indicate și utilizând conținuturile corespunzătoare din secvență, în cadrul unei 
+probe scrise; pentru fiecare dintre cei doi itemi precizaţi tipul, enunţul, precum şi răspunsul așteptat. 
+  (15 puncte)  

@@ -1,0 +1,89 @@
+
+--- PAGE 1 ---
+Ministerul Educaţiei și Cercetării 
+Centrul Național pentru Curriculum și Evaluare 
+Probă scrisă la informatică și tehnologia informației  MODEL 
+Barem de evaluare și de notare 
+Pagina 1 din 2 
+EXAMENUL NAŢIONAL PENTRU DEFINITIVARE ÎN ÎNVĂŢĂMÂNTUL PREUNIVERSITAR 
+14 iulie 2026 
+ 
+Probă scrisă 
+INFORMATICĂ ȘI TEHNOLOGIA INFORMAȚIEI 
+ 
+BAREM DE EVALUARE ŞI DE NOTARE  
+MODEL 
+• Se punctează orice modalitate de rezolvare corectă a cerinţelor. 
+• Nu se acordă punctaje intermediare, altele decât cele precizate explicit în barem. Nu 
+se acordă fracţiuni de punct. 
+• Se acordă zece puncte din oficiu. Nota finală se calculează prin împărţirea  la zece a 
+punctajului total acordat pentru lucrare. 
+ 
+SUBIECTUL I (60 de puncte) 
+1. 15 puncte 
+ - noțiuni preliminare, conform cerinței  1p 
+ - descrieri ale etapelor de realizare a operațiilor specifice, conform cerinței 4 x 1p = 4p 
+ - exemplificări ale etapelor de realizare a operațiilor specifice, conform cerinței 4 x 1p = 4p 
+ - enunț al unei probleme adecvate exemplificării, conform cerinței 1p 
+ - descriere coerentă a soluției problemei enunțate, conform cerinței  2p  
+ - implementare conform cerinței pentru problema enunțată  3p   
+ (pentru algoritm care parcurge pașii necesari rezolvării, dar cu detalii care conduc la o rezolvare 
+parţială, se acordă numai 2p) 
+ 
+2. 15 puncte 
+ - noțiuni preliminare, conform cerinței  3 x 1p = 3p 
+ - precizare a tipurilor/categoriilor de viruși informatici/amenințări, conform cerinței 3 x 1p = 3p 
+ - caracteristici pentru tipuri/categorii de viruși informatici/amenințări, conform cerinței 3 x 2 x 1p = 6p 
+ - exemple de acțiuni ale unui program antivirus, conform cerinței 2 x 1p = 2p 
+ - exemplu de program antivirus, conform cerinței 1p 
+ 
+3. 15 puncte 
+ - antet al subprogramului, conform cerinței 1p 
+ - determinare a numărului cerut, în cadrul subprogramului 4p 
+ (pentru algoritm care parcurge pașii necesari rezolvării, dar cu detalii care conduc la o rezolvare 
+parţială, se acordă numai 2p) 
+ - construire în memorie a tabloului, conform cerinței 6p 
+(pentru algoritm care parcurge pașii necesari rezolvării, dar cu detalii care conduc la o rezolvare 
+parţială, se acordă numai 3p) 
+ - apeluri conform cerinței ale subprogramului indicat 1p 
+ - declarări, citire a datelor, corectitudine globală 1p 
+ - operaţii cu fişierul (declarare, deschidere pentru scriere, scriere a datelor) 1p 
+ - descriere coerentă a algoritmului utilizat 1p 
+ 
+4. 15 puncte 
+ - proiectare a entităților în cadrul modelului conceptual al bazei de date, conform cerinței  3p 
+ (pentru precizarea atributelor entităţilor, dar nu şi a identificatorilor unici, se acordă numai 1p) 
+ - proiectare a r elațiilor între entități în cadrul modelului conceptual al bazei de date, conform 
+cerinței  3p 
+ - respectare a formelor normale indicate cu enumerare restricții/reguli, conform cerinței  3 x 1p =3p 
+ - proiectare a tabelelor în cadrul modelului fizic al bazei de date conform cerinței 3p 
+ (pentru precizarea câmpurilor de date ale tabelelor, dar nu şi a cheilor primare/străine, se acordă 
+numai 1p) 
+ - etape sau comenzi SQL corespunzătoare adăugării datelor, conform cerinței 3p 
+ (pentru etape/comenzi corespunzăt oare, dar cu detalii care conduc la o rezolvare parțială, se 
+acordă numai 1p) 
+ 
+ 
+ 
+--- PAGE 2 ---
+Ministerul Educaţiei și Cercetării 
+Centrul Național pentru Curriculum și Evaluare 
+Probă scrisă la informatică și tehnologia informației  MODEL 
+Barem de evaluare și de notare 
+Pagina 2 din 2 
+SUBIECTUL al II-lea (30 de puncte) 
+1. 15 puncte 
+ - metodă didactică precizată, adecvată, conform cerinței 1p 
+ - caracteristici ale metodei didactice, conform cerinței 2 x 2p = 4p 
+ - mijloc de învățământ precizat, adecvat exemplificării cerute 1p 
+ - formă de organizare precizată, adecvată exemplificării cerute 1p 
+ - activitate de învățare adecvată exemplificării cerute 2p 
+ - activitate a profesorului, detaliată conform cerinței  3p 
+ - activitate a elevilor, detaliată conform cerinței 3p 
+ 
+2. 15 puncte 
+ - avantaje ale utilizării metodei indicate, conform cerinței 3 x 2p = 6p 
+ - limită a utilizării metodei indicate, conform cerinței   1p 
+ - enunțuri, conform cerinței 2 x 2p = 4p 
+ - răspunsuri așteptate, conform cerinței 2 x 2p = 4p 
+ 

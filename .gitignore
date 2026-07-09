@@ -1,0 +1,10 @@
+# Ignoră cărțile/manualele voluminoase (PDF/DOC/DOCX din folderul carti)
+Informatică și tehnologia informației/carti/
+
+# Ignoră fișiere temporare ale sistemului de operare sau editoarelor
+.DS_Store
+Thumbs.db
+*.tmp
+*.temp
+.vscode/
+.idea/
