@@ -23,6 +23,8 @@ inf/
     │   ├── rezolvare_definitivat_[An].pdf # PDF Definitivat
     │   ├── rezolvare_titularizare_[An].typ # Sursa Typst pentru Titularizare
     │   └── rezolvare_titularizare_[An].pdf # PDF Titularizare
+    ├── statistici_subiecte.typ            # Sursa Typst pentru analiza statistică și recurență
+    ├── statistici_subiecte.pdf            # PDF cu statistici și matricea de recurență a subiectelor
     ├── proba practica/                    # Subiecte și resurse pentru proba practică
     └── carti/                             # Suport de curs (metodică, pedagogie, programare)*
 ```
