@@ -102,7 +102,7 @@ int main() {
         }
     }
     fin.close();
-    
+
     ofstream fout("def.out");
     if (max_val == -1) fout << "nu exista\n";
     else fout << max_val << "\n";
@@ -114,7 +114,18 @@ int main() {
 ---
 
 === 4. Baze de date: Zboruri
-Proiectare bază de date cu normalizare (similar model 2021).
+- *Entități*:
+  - `CLIENT`: `id_client` (PK), `nume`, `prenume`, `adresa`, `telefon`.
+  - `ZBOR`: `id_zbor` (PK), `aeroport_plecare`, `aeroport_sosire`, `data_ora_plecare`, `data_ora_sosire`.
+  - `BILET`: `id_bilet` (PK), `id_client` (FK), `id_zbor` (FK), `loc`, `mod_plata`, `pret`.
+- *Normalizare*: Datele clientului, datele zborului și datele biletului sunt separate pentru a evita redundanța. Fiecare atribut non-cheie depinde de cheia tabelei sale, iar relațiile se realizează prin chei străine.
+- *SQL exemplu*:
+  ```sql
+  SELECT DISTINCT c.nume, c.prenume
+  FROM CLIENT c
+  JOIN BILET b ON c.id_client = b.id_client
+  WHERE b.mod_plata = 'numerar';
+  ```
 
 ---
 
@@ -278,3 +289,38 @@ end.
   SET marime = marime - 1
   WHERE personaj = 'Cleopatra';
   ```
+
+---
+
+== SUBIECTUL al II-lea - Completare pentru Model 2017 (30 de puncte)
+
+=== 1. Strategie didactică pentru secvența A: tablouri unidimensionale
+*Metodă activ-participativă*: învățarea prin descoperire dirijată.
+
+*Argumente*: Elevii pot observa singuri necesitatea unui tablou atunci când trebuie memorate și prelucrate mai multe valori de același tip; metoda dezvoltă gândirea algoritmică prin trecerea de la exemple concrete la reguli generale de indexare și parcurgere.
+
+*Elemente de proiectare*: activitate de învățare - determinarea maximului dintr-un vector; mijloc - calculator cu mediu de programare și fișă de lucru; formă de organizare - lucru pe perechi.
+
+*Scenariu*: Profesorul propune memorarea notelor unei clase și cere elevilor să explice de ce variabilele separate sunt ineficiente. Elevii descoperă utilizarea vectorului `v[1..n]`, apoi implementează parcurgerea pentru determinarea maximului. Profesorul ghidează verificarea pe exemple și fixează rolul indicelui, al lungimii vectorului și al inițializării.
+
+=== 2. Itemi de completare
+*Caracteristici*: răspuns scurt; spațiu liber integrat într-un enunț; verifică noțiuni precise; se corectează obiectiv; nu trebuie să permită mai multe răspunsuri ambigue.
+
+*Reguli*: formulare clară; un singur spațiu important per cerință; răspunsul așteptat trebuie să fie unic sau foarte bine delimitat.
+
+- *Secvența A*: Într-un tablou unidimensional, elementul aflat pe poziția `i` se accesează prin notația [spațiu liber]. *Răspuns*: `v[i]`.
+- *Secvența B*: În aplicația Paint, instrumentul folosit pentru umplerea unei zone cu o culoare se numește [spațiu liber]. *Răspuns*: Umplere cu culoare / Fill.
+
+== SUBIECTUL al II-lea - Completare pentru Varianta 3 2017 (30 de puncte)
+
+=== 1. Strategie didactică pentru secvența A: Divide et Impera
+*Metodă*: problematizarea. Elevii primesc sarcina de a determina maximul dintr-un vector foarte mare și sunt ghidați să observe că problema poate fi împărțită în două subprobleme similare.
+
+*Activitate*: determinarea maximului prin împărțirea recursivă a intervalului. *Mijloc*: mediu de programare și schemă pe tablă a arborelui apelurilor. *Formă*: frontal pentru formularea ideii, apoi individual.
+
+*Scenariu*: Profesorul pornește de la soluția iterativă, cere o alternativă recursivă, desenează împărțirea intervalului `[st, dr]`, iar elevii implementează funcția `maxim(st, dr)`. Elevii testează cazurile de bază și explică etapa de combinare prin `max(max_stanga, max_dreapta)`.
+
+=== 2. Itemi de completare pentru Divide et Impera și animații
+- *Caracteristici și reguli*: itemul cere completarea unei informații lipsă, are răspuns scurt, se corectează obiectiv; spațiul liber nu se plasează la începutul enunțului, nu se cer termeni irelevanți, iar contextul trebuie să indice clar răspunsul.
+- *Item A*: Metoda Divide et Impera presupune împărțirea problemei în subprobleme de același tip, rezolvarea lor și [spațiu liber] rezultatelor. *Răspuns*: combinarea.
+- *Item B*: Într-o prezentare, un efect care stabilește apariția unui obiect pe diapozitiv este un efect de [spațiu liber]. *Răspuns*: intrare.

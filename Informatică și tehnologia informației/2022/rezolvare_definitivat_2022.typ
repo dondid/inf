@@ -138,7 +138,7 @@ int main() {
     ifstream fin("def2022.in"); // în cazul în care datele vin din fișier
     // dar enunțul model spune: se citesc de la tastatură x și y, se scrie în def2022.out
     if (!(cin >> x >> y)) return 0;
-    
+
     ofstream fout("def2022.out");
     auto it = lower_bound(vals.begin(), vals.end(), x);
     if (it != vals.end() && *it <= y) {
@@ -197,7 +197,7 @@ begin
   gen(1);
   gen(2);
   QuickSort(1, count);
-  
+
   st := 1; dr := count; pos := -1;
   while st <= dr do
   begin
@@ -209,7 +209,7 @@ begin
     end
     else st := mid + 1;
   end;
-  
+
   assign(fout, 'def2022.out');
   rewrite(fout);
   if (pos <> -1) and (vals[pos] <= y) then
@@ -239,19 +239,221 @@ end.
 
 = II. Rezolvare Definitivat Varianta 3 (20 iulie 2022)
 
-[Subiect PDF](file:///wsl.localhost/Debian/home/daniel/projects/inf/Informatică și tehnologia informației/2022/Def_050_Informatica_P_2022_var_03_LRO.pdf) | [Barem PDF](file:///wsl.localhost/Debian/home/daniel/projects/inf/Informatică și tehnologia informației/2022/Def_050_Informatica_P_2022_bar_03_LRO.pdf)
+== SUBIECTUL I (60 de puncte)
 
-*(Notă: Acest subiect este identic cu cel din Definitivat 2023 Model).*
+=== 1. Algoritmul de sortare prin Inserție (Insertion Sort)
+==== a) Descriere în limbaj natural și exemplificare pe 7 numere
+- *Descriere*: Algoritmul pornește de la al doilea element al tabloului și îl consideră pe rând drept „cheie”. Elementul cheie este comparat cu elementele din stânga sa (deja sortate) și deplasat spre stânga până când își găsește poziția corectă (când se întâlnește un element mai mic sau egal cu el).
+- *Exemplificare pentru tabloul:* `[35, 12, 45, 8, 20, 15, 30]` (N = 7)
+  1. *Pasul 1* (cheie = 12): `12 < 35`, deplasăm 35. Tabloul devine: `[12, 35, 45, 8, 20, 15, 30]`.
+  2. *Pasul 2* (cheie = 45): `45 > 35`, rămâne pe loc. Tabloul: `[12, 35, 45, 8, 20, 15, 30]`.
+  3. *Pasul 3* (cheie = 8): `8 < 45`, `8 < 35`, `8 < 12`. Deplasăm toate elementele. Tabloul: `[8, 12, 35, 45, 20, 15, 30]`.
+  4. *Pasul 4* (cheie = 20): `20 < 45`, `20 < 35`, `20 > 12`. Deplasăm 45 și 35. Tabloul: `[8, 12, 20, 35, 45, 15, 30]`.
+  5. *Pasul 5* (cheie = 15): `15 < 45`, `15 < 35`, `15 < 20`, `15 > 12`. Deplasăm 45, 35, 20. Tabloul: `[8, 12, 15, 20, 35, 45, 30]`.
+  6. *Pasul 6* (cheie = 30): `30 < 45`, `30 < 35`, `30 > 20`. Deplasăm 45 și 35. Tabloul final sortat: `[8, 12, 15, 20, 30, 35, 45]`.
 
-== SUBIECTUL I
-=== 1. Sortarea prin inserție
-Vezi Definitivat 2023 (Secțiunea I.1).
+==== b) Complexitatea algoritmului
+- *Cazul cel mai nefavorabil (Worst case)*: Vectorul este sortat descrescător. Pentru fiecare element de la poziția $i$ facem $i$ comparații. Complexitatea este $O(N^2)$.
+- *Cazul cel mai favorabil (Best case)*: Vectorul este deja sortat crescător. Facem o singură comparație pentru fiecare cheie. Complexitatea este $O(N)$.
+- *Cazul mediu (Average case)*: Complexitatea timpului este tot de ordinul $O(N^2)$.
 
-=== 2. Aplicații colaborative
-Vezi Definitivat 2023 (Secțiunea I.2).
+==== c) Problemă completă (Sortare prin inserție)
+- *Enunț*: Să se ordoneze crescător elementele unui vector folosind sortarea prin inserție.
+- *Cod C++*:
+  ```cpp
+  #include <iostream>
+  using namespace std;
+  void insertionSort(int A[], int n) {
+      for (int i = 1; i < n; ++i) {
+          int cheie = A[i];
+          int j = i - 1;
+          while (j >= 0 && A[j] > cheie) {
+              A[j + 1] = A[j];
+              j--;
+          }
+          A[j + 1] = cheie;
+      }
+  }
+  int main() {
+      int A[] = {35, 12, 45, 8, 20, 15, 30};
+      insertionSort(A, 7);
+      for (int x : A) cout << x << " ";
+      return 0;
+  }
+  ```
+- *Cod Pascal*:
+  ```pascal
+  program SortareInsertie;
+  var
+    A: array[1..7] of integer = (35, 12, 45, 8, 20, 15, 30);
+    i, j, cheie: integer;
+  begin
+    for i := 2 to 7 do
+    begin
+      cheie := A[i];
+      j := i - 1;
+      while (j >= 1) and (A[j] > cheie) do
+      begin
+        A[j + 1] := A[j];
+        j := j - 1;
+      end;
+      A[j + 1] := cheie;
+    end;
+    for i := 1 to 7 do write(A[i], ' ');
+  end.
+  ```
+
+---
+
+=== 2. Rețele: Aplicații colaborative
+- *Aplicații colaborative*: Programe ce permit utilizatorilor aflați în locații diferite să lucreze în timp real la același document sau proiect (ex. Microsoft Teams, Google Docs).
+- *Dispozitive periferice utilizate*: Cameră web, microfon, căști/boxe.
+- *Beneficii*: Reducerea costurilor de deplasare, flexibilitatea programului de lucru.
+- *Dezavantaje*: Dependența critică de conexiunea la internet, riscuri crescute privind securitatea datelor.
+
+---
 
 === 3. Programare: Permutare circulară cifre
-Codul C++ și Pascal este identic cu cel din modelul 2023 (Secțiunea I.3).
+
+*Soluție C++:*
+```cpp
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+void circular(long long &n) {
+    long long temp = n;
+    long long p = 1;
+    while (temp >= 10) {
+        p *= 10;
+        temp /= 10;
+    }
+    int last = n % 10;
+    n = last * p + (n / 10);
+}
+
+int main() {
+    ifstream fin("def2022.in");
+    long long x;
+    long long min_odd = -1;
+    int count_min = 0;
+    while (fin >> x) {
+        circular(x);
+        if (x % 2 != 0) {
+            if (min_odd == -1 || x < min_odd) {
+                min_odd = x;
+                count_min = 1;
+            } else if (x == min_odd) {
+                count_min++;
+            }
+        }
+    }
+    fin.close();
+
+    if (min_odd == -1) cout << "nu exista\n";
+    else cout << min_odd << " " << count_min << "\n";
+
+    return 0;
+}
+```
+
+*Soluție Pascal:*
+```pascal
+program PermutareCifre;
+var
+  fin: text;
+  x, min_odd: int64;
+  count_min: integer;
+
+procedure circular(var n: int64);
+var
+  temp, p: int64;
+  last: integer;
+begin
+  temp := n;
+  p := 1;
+  while temp >= 10 do
+  begin
+    p := p * 10;
+    temp := temp div 10;
+  end;
+  last := n mod 10;
+  n := last * p + (n div 10);
+end;
+
+begin
+  assign(fin, 'def2022.in');
+  reset(fin);
+  min_odd := -1;
+  count_min := 0;
+  while not eof(fin) do
+  begin
+    read(fin, x);
+    circular(x);
+    if x mod 2 <> 0 then
+    begin
+      if (min_odd = -1) or (x < min_odd) then
+      begin
+        min_odd := x;
+        count_min := 1;
+      end
+      else if x = min_odd then
+        count_min := count_min + 1;
+    end;
+  end;
+  close(fin);
+
+  if min_odd = -1 then writeln('nu exista')
+  else writeln(min_odd, ' ', count_min);
+end.
+```
+
+---
 
 === 4. Baze de date: Curse de cai
-Vezi Definitivat 2023 (Secțiunea I.4).
+- *Entități*:
+  - `CAL`: `id_cal` (PK), `nume`, `varsta`, `proprietar_contact`.
+  - `CURSA`: `id_cursa` (PK), `tip_cursa`, `data_ora`.
+  - `INSCRIERE`: `id_cal` (FK), `id_cursa` (FK), `loc_clasare` (NULL), PK este `(id_cal, id_cursa)`.
+- *SQL*:
+  ```sql
+  DELETE FROM CAL
+  WHERE id_cal NOT IN (
+      SELECT DISTINCT i.id_cal
+      FROM INSCRIERE i
+      JOIN CURSA c ON i.id_cursa = c.id_cursa
+      WHERE c.data_ora >= DATE_SUB(CURDATE(), INTERVAL 2 YEAR)
+  );
+  ```
+
+---
+
+== SUBIECTUL al II-lea - Completare pentru Model 2022 (30 de puncte)
+
+=== 1. Strategie didactică pentru grafuri neorientate
+*Mijloc*: aplicație de reprezentare a grafurilor. *Caracteristică*: vizualizează noduri, muchii și lanțuri. *Avantaj*: sprijină transpunerea unei probleme din limbaj natural în model de graf.
+
+*Metodă*: învățarea prin descoperire. *Formă*: grupe mici. *Activitate*: construirea grafului unei rețele de drumuri și identificarea componentelor conexe.
+
+*Scenariu*: Profesorul prezintă o hartă simplificată, elevii transformă localitățile în noduri și drumurile în muchii, apoi identifică lanțuri și subgrafuri.
+
+=== 2. Itemi cu alegere multiplă
+*Caracteristici*: enunț clar, variante plauzibile, un singur răspuns corect. *Reguli*: distractori omogeni, fără răspunsuri de tip „toate”, fără ambiguitate.
+
+- *Item A*: O muchie într-un graf neorientat leagă: A. două noduri B. două fișiere C. două variabile D. două tabele SQL. *Răspuns*: A.
+- *Item B*: Care dispozitiv este de intrare? A. Monitor B. Tastatură C. Imprimantă D. Videoproiector. *Răspuns*: B.
+
+== SUBIECTUL al II-lea - Completare pentru Varianta 3 2022 (30 de puncte)
+
+=== 1. Strategie didactică pentru structuri de date
+*Metodă*: exercițiul dirijat. *Avantaje*: dezvoltă deprinderi de parcurgere/inserare/ștergere; permite corectarea rapidă a erorilor de pointeri sau indici.
+
+*Mijloc*: tablă interactivă și mediu de programare. *Formă*: frontal, apoi individual. *Activitate*: inserarea unui element într-o listă simplu înlănțuită.
+
+*Scenariu*: Profesorul desenează nodurile și legăturile, elevii indică ordinea corectă a actualizării pointerilor, apoi implementează procedura.
+
+=== 2. Itemi de completare
+*Caracteristici și reguli*: răspuns scurt, obiectiv, cerință clară; se evită formulările cu mai multe completări posibile.
+
+- *Item A*: Într-o listă simplu înlănțuită, fiecare nod conține informația utilă și adresa nodului [spațiu liber]. *Răspuns*: următor.
+- *Item B*: Memoria care își pierde conținutul la oprirea calculatorului se numește [spațiu liber]. *Răspuns*: RAM / memorie volatilă.

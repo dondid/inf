@@ -107,14 +107,14 @@ int rezerva(const string &s1, const string &s2) {
 int main() {
     string text;
     if (!getline(cin, text)) return 0;
-    
+
     stringstream ss(text);
     string cuvant;
     vector<string> cuvinte;
     while (ss >> cuvant) {
         cuvinte.push_back(cuvant);
     }
-    
+
     int gasit = 0;
     int n = cuvinte.size();
     for (int i = 0; i < n; ++i) {
@@ -125,7 +125,7 @@ int main() {
             }
         }
     }
-    
+
     if (!gasit) cout << "nu exista\n";
     return 0;
 }
@@ -181,7 +181,7 @@ begin
       end;
     end;
   end;
-  
+
   gasit := 0;
   for i := 1 to nr_cuvinte do
   begin
@@ -194,7 +194,7 @@ begin
       end;
     end;
   end;
-  
+
   if gasit = 0 then
     writeln('nu exista');
 end.
@@ -215,10 +215,10 @@ int main() {
     ifstream fin("titu2019.in");
     long long prev_val, curr_val;
     if (!(fin >> prev_val)) return 0;
-    
+
     long long k_prev = prev_val;
     long long max_sum = -2e18;
-    
+
     while (fin >> curr_val) {
         long long m_curr = max(prev_val + curr_val, k_prev + curr_val);
         max_sum = max(max_sum, m_curr);
@@ -226,7 +226,7 @@ int main() {
         prev_val = curr_val;
     }
     fin.close();
-    
+
     cout << max_sum << endl;
     return 0;
 }
@@ -243,31 +243,48 @@ begin
   reset(fin);
   if eof(fin) then exit;
   read(fin, prev_val);
-  
+
   k_prev := prev_val;
   max_sum := -999999999999999999;
-  
+
   while not eof(fin) do
   begin
     read(fin, curr_val);
-    
+
     if prev_val + curr_val > k_prev + curr_val then
       m_curr := prev_val + curr_val
     else
       m_curr := k_prev + curr_val;
-      
+
     if m_curr > max_sum then
       max_sum := m_curr;
-      
+
     if curr_val > k_prev + curr_val then
       k_prev := curr_val
     else
       k_prev := k_prev + curr_val;
-      
+
     prev_val := curr_val;
   end;
   close(fin);
-  
+
   writeln(max_sum);
 end.
 ```
+
+---
+
+== SUBIECTUL al III-lea (30 de puncte)
+
+=== 1. Itemi cu alegere duală
+*Caracteristici*: răspuns A/F, corectare obiectivă, verificare punctuală. *Reguli*: enunț clar, fără negații multiple, afirmații integral adevărate sau false.
+
+- *Secvența A*: O înregistrare poate grupa câmpuri de tipuri diferite. (A/F) *Răspuns*: Adevărat.
+- *Secvența B*: Operațiile bancare prin Internet trebuie efectuate fără verificarea conexiunii securizate. (A/F) *Răspuns*: Fals.
+
+=== 2. Software educațional pentru operații bancare prin Internet
+*Mijloc*: simulator educațional de internet banking. *Caracteristici*: mediu controlat, feedback imediat. *Argument*: elevii exersează pașii fără risc real.
+
+*Metodă*: studiul de caz. *Formă*: grupe. *Activitate*: identificarea pașilor siguri pentru autentificare și verificarea tranzacției.
+
+*Scenariu*: Profesorul prezintă un caz de plată online; elevii identifică elemente de siguranță, completează pașii în simulator și discută riscurile phishingului.

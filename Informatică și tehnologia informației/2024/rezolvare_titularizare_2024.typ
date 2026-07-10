@@ -115,13 +115,13 @@ string to_lower_str(string s) {
 int main() {
     string text;
     if (!getline(cin, text)) return 0;
-    
+
     stringstream ss(text);
     string word;
     vector<string> words;
     int max_overall_n = 0;
     vector<string> best_words;
-    
+
     while (ss >> word) {
         words.push_back(word);
         string lower_w = to_lower_str(word);
@@ -134,7 +134,7 @@ int main() {
             best_words.push_back(word);
         }
     }
-    
+
     if (max_overall_n > 0) {
         cout << max_overall_n << endl;
         for (int i = 0; i < best_words.size(); ++i) {
@@ -144,7 +144,7 @@ int main() {
     } else {
         cout << "NU" << endl;
     }
-    
+
     return 0;
 }
 ```
@@ -182,7 +182,7 @@ begin
   wordCount := 0;
   bestWordCount := 0;
   max_overall_n := 0;
-  
+
   // Împărțire în cuvinte
   currWord := '';
   for i := 1 to length(textInput) do
@@ -201,7 +201,7 @@ begin
     wordCount := wordCount + 1;
     words[wordCount] := currWord;
   end;
-  
+
   for i := 1 to wordCount do
   begin
     n := ouroboros(lowercase(words[i]));
@@ -217,7 +217,7 @@ begin
       best_words[bestWordCount] := words[i];
     end;
   end;
-  
+
   if max_overall_n > 0 then
   begin
     writeln(max_overall_n);
@@ -293,28 +293,243 @@ end.
 
 = II. Rezolvare Titularizare Varianta 3 (17 iulie 2024)
 
-[Subiect PDF](file:///wsl.localhost/Debian/home/daniel/projects/inf/Informatică și tehnologia informației/2024/Tit_050_Informatica_P_2024_var_03_LRO.pdf) | [Barem PDF](file:///wsl.localhost/Debian/home/daniel/projects/inf/Informatică și tehnologia informației/2024/Tit_050_Informatica_P_2024_bar_03_LRO.pdf)
+== SUBIECTUL I (30 de puncte)
 
-*(Notă: Acest subiect este identic cu cel din Titularizare 2025 Model).*
-
-== SUBIECTUL I
 === 1. Structura de date: Arbori
-Vezi Titularizare 2025 (Secțiunea I.1).
+- *Graf neorientat*: Pereche ordonată $G = (V, E)$, unde $V$ este mulțimea nodurilor și $E$ mulțimea muchiilor.
+- *Lanț*: Succesiune de noduri interconectate prin muchii distincte.
+- *Ciclu*: Un lanț simplu în care nodul de pornire coincide cu cel de sosire.
+- *Proprietăți arbore*:
+  1. Conex și fără cicluri.
+  2. Fără cicluri și are $N-1$ muchii.
+  3. Conex și are $N-1$ muchii.
+  4. Între oricare două noduri există un lanț simplu unic.
+  5. Dacă se elimină o muchie, devine neconex; dacă se adaugă o muchie, se formează exact un ciclu.
+
+- *Problemă (Parcurgerea în lățime a unui arbore)*:
+  - *C++*:
+    ```cpp
+    #include <iostream>
+    #include <vector>
+    #include <queue>
+    using namespace std;
+    vector<int> adj[100];
+    bool viz[100];
+    void BFS(int start) {
+        queue<int> Q;
+        Q.push(start);
+        viz[start] = true;
+        while(!Q.empty()) {
+            int u = Q.front(); Q.pop();
+            cout << u << " ";
+            for(int v : adj[u])
+                if(!viz[v]) { viz[v] = true; Q.push(v); }
+        }
+    }
+    ```
+  - *Pascal*:
+    ```pascal
+    // Parcurgerea în lățime cu coadă pe tablou de adiacență.
+    ```
 
 === 2. Ergonomia postului de lucru
-Vezi Titularizare 2025 (Secțiunea I.2).
+- *Dispozitive periferice cu impact asupra sănătății*:
+  1. *Monitorul*: Poate cauza oboseală oculară (astenopie) sau dureri de cap. Recomandare: Distanța ecran-ochi de 50-70 cm și utilizarea filtrelor de lumină albastră.
+  2. *Tastatura/Mouse-ul*: Pot genera sindromul de tunel carpian. Recomandare: Utilizarea suporturilor ergonomice pentru încheieturi.
 
-== SUBIECTUL al II-lea
+== SUBIECTUL al II-lea (30 de puncte)
+
 === 1. Programare: Lanț muntos (Creastă)
-Codul C++ și Pascal este identic cu cel din Titularizare 2025 (Secțiunea II.1).
+
+*Soluție C++:*
+```cpp
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int varf(int n, int a[50][50], int k) {
+    int r = k - 1;
+    int max_val = a[r][0];
+    int max_pos = 0;
+    for (int j = 1; j < n; ++j) {
+        if (a[r][j] > max_val) {
+            max_val = a[r][j];
+            max_pos = j;
+        }
+    }
+    for (int j = 0; j < n; ++j) {
+        if (j != max_pos && a[r][j] == max_val) return 0;
+    }
+    for (int j = 0; j < max_pos; ++j) {
+        if (a[r][j] >= a[r][j+1]) return 0;
+    }
+    for (int j = max_pos; j < n - 1; ++j) {
+        if (a[r][j] <= a[r][j+1]) return 0;
+    }
+    return max_pos + 1;
+}
+
+int main() {
+    int n, a[50][50];
+    if (!(cin >> n)) return 0;
+    for (int i = 0; i < n; ++i)
+        for (int j = 0; j < n; ++j)
+            cin >> a[i][j];
+
+    bool e_creasta = true;
+    int prev_p = varf(n, a, 1);
+    if (prev_p == 0) e_creasta = false;
+
+    for (int k = 2; k <= n && e_creasta; ++k) {
+        int curr_p = varf(n, a, k);
+        if (curr_p == 0 || abs(curr_p - prev_p) > 1) {
+            e_creasta = false;
+        }
+        prev_p = curr_p;
+    }
+
+    if (e_creasta) cout << "DA" << endl;
+    else cout << "NU" << endl;
+
+    return 0;
+}
+```
+
+*Soluție Pascal:*
+```pascal
+program LantMuntos;
+type
+  TMatrice = array[1..50, 1..50] of integer;
+var
+  n, i, j, prev_p, curr_p: integer;
+  a: TMatrice;
+  e_creasta: boolean;
+
+function varf(n: integer; var a: TMatrice; k: integer): integer;
+var
+  max_val, max_pos, col: integer;
+  is_mountain: boolean;
+begin
+  max_val := a[k, 1];
+  max_pos := 1;
+  for col := 2 to n do
+    if a[k, col] > max_val then
+    begin
+      max_val := a[k, col];
+      max_pos := col;
+    end;
+
+  is_mountain := true;
+  for col := 1 to n do
+    if (col <> max_pos) and (a[k, col] = max_val) then
+      is_mountain := false;
+
+  for col := 1 to max_pos - 1 do
+    if a[k, col] >= a[k, col + 1] then
+      is_mountain := false;
+
+  for col := max_pos to n - 1 do
+    if a[k, col] <= a[k, col + 1] then
+      is_mountain := false;
+
+  if is_mountain then varf := max_pos
+  else varf := 0;
+end;
+
+begin
+  readln(n);
+  for i := 1 to n do
+    for j := 1 to n do
+      read(a[i, j]);
+
+  e_creasta := true;
+  prev_p := varf(n, a, 1);
+  if prev_p = 0 then e_creasta := false;
+
+  i := 2;
+  while (i <= n) and e_creasta do
+  begin
+    curr_p := varf(n, a, i);
+    if (curr_p = 0) or (abs(curr_p - prev_p) > 1) then
+      e_creasta := false;
+    prev_p := curr_p;
+    i := i + 1;
+  end;
+
+  if e_creasta then writeln('DA')
+  else writeln('NU');
+end.
+```
 
 === 2. Algoritm eficient: Tije discuri
-Codul C++ și Pascal de rezolvare a discurilor pe tije prin căutare binară în $O(N log N)$ (folosind datele din `titu2024.txt`).
-*(Codul este identic cu cel din 2025, diferența fiind denumirea fișierului de intrare: `titu2024.txt`).*
+- *Algoritmul*: Rămâne o listă a diametrelor din vârful fiecărei tije ocupate. Această listă este întotdeauna sortată crescător. Căutăm binar prima tijă adecvată. Complexitate: $O(N log N)$ timp și $O(N)$ spațiu.
 
-== SUBIECTUL al III-lea
-=== 1. Didactică: Formatarea textului
-Vezi Titularizare 2025 (Secțiunea III.1).
+*Soluție C++:*
+```cpp
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <algorithm>
+using namespace std;
 
-=== 2. Evaluare: Itemi obiectivi
-Vezi Titularizare 2025 (Secțiunea III.2).
+int main() {
+    ifstream fin("titu2024.txt");
+    if (!fin) return 1;
+    vector<int> R;
+    int d;
+    while (fin >> d) {
+        auto it = lower_bound(R.begin(), R.end(), d);
+        if (it == R.end()) R.push_back(d);
+        else *it = d;
+    }
+    fin.close();
+    cout << R.size() << endl;
+    return 0;
+}
+```
+
+*Soluție Pascal:*
+```pascal
+program TijeDiscuri;
+var
+  fin: text;
+  R: array[1..100000] of integer;
+  num_rods, d, pos, st, dr, mid: integer;
+begin
+  assign(fin, 'titu2024.txt'); reset(fin);
+  num_rods := 0;
+  while not eof(fin) do
+  begin
+    read(fin, d);
+    st := 1; dr := num_rods; pos := -1;
+    while st <= dr do
+    begin
+      mid := (st + dr) div 2;
+      if R[mid] >= d then
+      begin
+        pos := mid; dr := mid - 1;
+      end
+      else st := mid + 1;
+    end;
+    if pos = -1 then
+    begin
+      num_rods := num_rods + 1;
+      R[num_rods] := d;
+    end
+    else R[pos] := d;
+  end;
+  close(fin);
+  writeln(num_rods);
+end.
+```
+
+== SUBIECTUL al III-lea (30 de puncte)
+
+=== 1. Proiectarea unei strategii didactice: Formatarea textului (Secvența B)
+- *Tip lecție*: Lecție de formare a priceperilor și deprinderilor practice.
+- *Strategia*: Elevii primesc un text neformatat. Folosind instrucțiunile profesorului, aplică pe rând stiluri (bold, italic, subliniat), mărind și micșorând fontul pentru a crea un afiș publicitar.
+
+=== 2. Evaluare: Itemi obiectivi (Alegere multiplă)
+- *Item pentru Backtracking (Secvența A)*: Care este structura spațiului stărilor pentru generarea permutărilor?
+  A. Produs cartezian. | B. Vector de lungime constantă. | C. Arbore de căutare. | D. Graf conex.
+  Răspuns: C.

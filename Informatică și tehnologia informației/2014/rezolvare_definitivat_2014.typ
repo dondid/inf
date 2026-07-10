@@ -121,10 +121,10 @@ int main() {
         max_len = max(max_len, current_len);
     }
     fin.close();
-    
+
     if (max_len < 2) cout << "Nu exista\n";
     else cout << max_len << "\n";
-    
+
     return 0;
 }
 ```
@@ -136,7 +136,7 @@ var
   fin: text;
   x: int64;
   max_len, curr_len: integer;
-  
+
 function distinct(n: int64): integer;
 var
   ap: array[0..9] of boolean;
@@ -188,8 +188,95 @@ begin
     if curr_len > max_len then max_len := curr_len;
   end;
   close(fin);
-  
+
   if max_len < 2 then writeln('Nu exista')
   else writeln(max_len);
 end.
 ```
+
+---
+
+== SUBIECTUL al II-lea (30 de puncte)
+
+=== 1. Aspecte ale proiectării didactice pentru conținutul A: Structuri repetitive
+
+==== a) Tipuri de lecție și momente ale lecției
+*Tipuri de lecție*:
+1. Lecție de comunicare/însușire de noi cunoștințe.
+2. Lecție de formare de priceperi și deprinderi.
+3. Lecție de recapitulare și sistematizare.
+
+*Momente esențiale ale lecției*:
+1. Organizarea clasei și captarea atenției.
+2. Anunțarea temei și a obiectivelor.
+3. Dirijarea învățării prin explicații, exemple și exerciții.
+4. Fixarea, evaluarea și formularea temei pentru acasă.
+
+==== b) Activități de învățare
+Pentru capitolul *Structuri repetitive*, pot fi folosite următoarele activități:
+1. Identificarea situațiilor în care este necesară repetarea unui bloc de instrucțiuni.
+2. Compararea structurilor `while`, `do...while` și `for`.
+3. Implementarea unui algoritm de calcul al sumei cifrelor unui număr.
+4. Testarea programului pentru cazuri limită: număr cu o singură cifră, număr terminat în zero, număr mare.
+
+*Scenariu pentru activitatea 3*:
+- Profesorul propune problema: „Se citește un număr natural. Să se determine suma cifrelor sale.”
+- Profesorul întreabă ce operații permit extragerea ultimei cifre și eliminarea acesteia. Elevii identifică `n mod 10` și `n div 10`.
+- Profesorul construiește împreună cu elevii structura repetitivă: cât timp `n > 0`, se adaugă ultima cifră la sumă și se elimină cifra.
+- Elevii implementează algoritmul, rulează exemple și verifică manual rezultatele.
+
+*Soluție C++*:
+```cpp
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n, s = 0;
+    cin >> n;
+    while (n > 0) {
+        s += n % 10;
+        n /= 10;
+    }
+    cout << s;
+    return 0;
+}
+```
+
+=== 2. Test oral pentru conținutul A: Structuri repetitive
+
+#table(
+  columns: (1.2fr, 2.6fr, 2.2fr),
+  inset: 5pt,
+  [*Item*], [*Enunț*], [*Răspuns așteptat*],
+  [1], [Ce este o structură repetitivă?], [O instrucțiune care execută repetat un bloc cât timp o condiție este îndeplinită sau pentru un număr determinat de pași.],
+  [2], [Când este recomandată folosirea instrucțiunii `for`?], [Când numărul de repetări este cunoscut sau determinabil înaintea buclei.],
+  [3], [Ce diferență există între `while` și `do...while`?], [`while` testează condiția înainte de execuție, `do...while` după execuție, deci execută blocul cel puțin o dată.],
+  [4], [Ce se întâmplă dacă într-o buclă `while` condiția nu devine niciodată falsă?], [Apare o buclă infinită.],
+  [5], [Dați un exemplu de problemă rezolvată cu repetare.], [Suma cifrelor unui număr, numărarea divizorilor, parcurgerea unui vector etc.]
+)
+
+---
+
+== SUBIECTUL al III-lea (30 de puncte)
+
+=== Învățarea: concept, condiții interne și condiții externe
+
+*Concept*: Învățarea este procesul psihopedagogic prin care individul dobândește cunoștințe, deprinderi, capacități, atitudini și comportamente noi, pe baza experienței și exercițiului. În școală, învățarea este organizată, dirijată și evaluată, având ca scop dezvoltarea competențelor elevilor.
+
+*Condiții interne ale învățării*:
+- motivația elevului și interesul pentru sarcină;
+- nivelul de dezvoltare intelectuală și cunoștințele anterioare;
+- atenția, memoria, capacitatea de concentrare;
+- stilul de învățare și încrederea în propriile posibilități;
+- starea afectivă și disponibilitatea pentru efort.
+
+La informatică, un elev care stăpânește operațiile aritmetice de bază și are motivație pentru rezolvarea problemelor va înțelege mai ușor structurile repetitive.
+
+*Condiții externe ale învățării*:
+- calitatea explicației profesorului;
+- metodele didactice folosite;
+- organizarea clasei și climatul educațional;
+- mijloacele de învățământ: calculator, proiector, fișe de lucru, platforme online;
+- timpul alocat exersării și feedbackul primit.
+
+Învățarea eficientă apare prin corelarea condițiilor interne cu cele externe. Profesorul adaptează sarcinile la nivelul elevilor, oferă exemple gradate, creează situații de exersare și verifică permanent înțelegerea.

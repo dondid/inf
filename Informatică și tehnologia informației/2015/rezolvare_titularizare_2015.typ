@@ -102,20 +102,20 @@ void mijlociu(const string &s, string &sm) {
 int main() {
     string text;
     if (!getline(cin, text)) return 0;
-    
+
     stringstream ss(text);
     string cuvant;
     vector<string> cuvinte;
     while (ss >> cuvant) {
         cuvinte.push_back(cuvant);
     }
-    
+
     int n = cuvinte.size();
     vector<string> transformed(n);
     for (int i = 0; i < n; ++i) {
         mijlociu(cuvinte[i], transformed[i]);
     }
-    
+
     int count = 0;
     for (int i = 0; i < n; ++i) {
         for (int j = i + 1; j < n; ++j) {
@@ -124,7 +124,7 @@ int main() {
             }
         }
     }
-    
+
     cout << count << endl;
     return 0;
 }
@@ -185,7 +185,7 @@ begin
       end;
     end;
   end;
-  
+
   count := 0;
   for i := 1 to nr_cuvinte do
   begin
@@ -215,7 +215,7 @@ int main() {
     ifstream fin("titu.in");
     int na, nb;
     if (!(fin >> na >> nb)) return 0;
-    
+
     vector<long long> A, B;
     for (int i = 0; i < na; ++i) {
         long long val;
@@ -225,7 +225,7 @@ int main() {
         }
     }
     reverse(A.begin(), A.end());
-    
+
     for (int i = 0; i < nb; ++i) {
         long long val;
         fin >> val;
@@ -234,7 +234,7 @@ int main() {
         }
     }
     fin.close();
-    
+
     int i = 0, j = 0;
     vector<long long> rez;
     while (i < A.size() && j < B.size()) {
@@ -252,7 +252,7 @@ int main() {
     }
     while (i < A.size()) rez.push_back(A[i++]);
     while (j < B.size()) rez.push_back(B[j++]);
-    
+
     if (rez.empty()) {
         cout << "nu exista\n";
     } else {
@@ -290,7 +290,7 @@ begin
     end;
   end;
   for i := 1 to count_a do A[i] := A_desc[count_a - i + 1];
-  
+
   count_b := 0;
   for i := 1 to nb do
   begin
@@ -304,7 +304,7 @@ begin
     end;
   end;
   close(fin);
-  
+
   i := 1; j := 1; count_rez := 0;
   while (i <= count_a) and (j <= count_b) do
   begin
@@ -325,7 +325,7 @@ begin
   end;
   while i <= count_a do begin count_rez := count_rez + 1; rez[count_rez] := A[i]; i := i + 1; end;
   while j <= count_b do begin count_rez := count_rez + 1; rez[count_rez] := B[j]; j := j + 1; end;
-  
+
   if count_rez = 0 then writeln('nu exista')
   else
   begin
@@ -337,3 +337,21 @@ begin
   end;
 end.
 ```
+
+---
+
+== SUBIECTUL al III-lea (30 de puncte)
+
+=== 1. Exercițiul ca metodă didactică pentru algoritmi elementari
+*Caracteristici*: presupune repetarea conștientă a unor operații; fixează deprinderi algoritmice; permite gradarea dificultății. *Tipuri*: exerciții de recunoaștere, exerciții de aplicare, exerciții de creație.
+
+*Activitatea 1*: calculul unei sume de expresii simple. Profesorul prezintă modelul, elevii rezolvă exemple cu date diferite, apoi verifică prin pseudocod.
+
+*Activitatea 2*: determinarea produsului numerelor pare dintr-o secvență. Profesorul discută inițializarea produsului cu `1`; elevii implementează și testează cazuri fără valori pare.
+
+=== 2. Portofoliu pentru secvența B: baze de date
+*Scop*: evaluarea progresului elevului în proiectarea și utilizarea unei baze de date simple.
+
+*Elemente*: schema conceptuală, tabelele create, capturi cu cheia primară/indexul, set de înregistrări, interogări și reflecție personală.
+
+*Criterii produs*: corectitudinea structurii tabelelor; definirea cheii primare; validitatea datelor. *Criterii atitudinale*: consecvența în lucru; capacitatea de autoevaluare și îmbunătățire.

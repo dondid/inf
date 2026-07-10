@@ -98,7 +98,7 @@ int main() {
         cout << "nu exista\n";
         return 0;
     }
-    
+
     int last_val = vals.back();
     Nod *p = nullptr, *u = nullptr;
     for (int x : vals) {
@@ -106,7 +106,7 @@ int main() {
         if (p == nullptr) { p = nou; u = nou; }
         else { u->urm = nou; u = nou; }
     }
-    
+
     Nod* curr = p;
     while (curr != nullptr) {
         Nod* urm = curr->urm;
@@ -115,7 +115,7 @@ int main() {
         }
         curr = urm;
     }
-    
+
     if (p == nullptr) {
         cout << "nu exista\n";
     } else {
@@ -161,13 +161,13 @@ begin
     vals[count] := val;
     read(val);
   end;
-  
+
   if count = 0 then
   begin
     writeln('nu exista');
     exit;
   end;
-  
+
   last_val := vals[count];
   p := nil; u := nil;
   for i := 1 to count do
@@ -186,7 +186,7 @@ begin
       u := nou;
     end;
   end;
-  
+
   curr := p;
   while curr <> nil do
   begin
@@ -195,7 +195,7 @@ begin
       elimin(p, curr);
     curr := urm_nod;
   end;
-  
+
   if p = nil then
     writeln('nu exista')
   else
@@ -236,15 +236,15 @@ int main() {
         else odd.push_back(val);
     }
     fin.close();
-    
+
     sort(even.rbegin(), even.rend());
     sort(odd.begin(), odd.end());
-    
+
     int num_even = even.size();
     int num_odd = odd.size();
     vector<long long> pref_odd(num_odd + 1, 0);
     for (int i = 0; i < num_odd; ++i) pref_odd[i+1] = pref_odd[i] + odd[i];
-    
+
     int max_total = 0;
     long long sum_even = 0;
     int limit = min(k, num_even);
@@ -278,7 +278,7 @@ var
   num_even, num_odd: integer;
   sum_even: int64;
   max_total, e_val, st, dr, mid, best_j: integer;
-  
+
 procedure QuickSortEven(l, r: integer);
 var i_idx, j_idx: integer; pivot, tmp: int64;
 begin
@@ -330,13 +330,13 @@ begin
     end;
   end;
   close(fin);
-  
+
   if num_even > 0 then QuickSortEven(1, num_even);
   if num_odd > 0 then QuickSortOdd(1, num_odd);
-  
+
   pref_odd[0] := 0;
   for i := 1 to num_odd do pref_odd[i] := pref_odd[i - 1] + odd[i];
-  
+
   max_total := 0; sum_even := 0;
   if k < num_even then limit := k else limit := num_even;
   for e_val := 1 to limit do
@@ -357,3 +357,19 @@ begin
   writeln(max_total);
 end.
 ```
+
+---
+
+== SUBIECTUL al III-lea (30 de puncte)
+
+=== 1. Itemi pentru secvența A: proprietăți ale secvențelor de valori
+- *Obiectiv*: Alegere multiplă. Un număr perfect este un număr egal cu: A. suma cifrelor sale B. suma divizorilor proprii C. produsul divizorilor D. numărul de cifre. *Răspuns*: B.
+- *Semiobiectiv*: Completați: pentru a verifica dacă toate elementele unei secvențe au proprietatea `P`, inițializăm un indicator cu valoarea [spațiu liber]. *Răspuns*: adevărat/true.
+- *Subiectiv*: Scrieți un algoritm care verifică dacă toate elementele unui vector sunt numere perfecte. *Răspuns*: parcurgere, calcul sumă divizori proprii, oprire la primul contraexemplu.
+
+=== 2. Metodă didactică pentru secvența B: tabele în editorul de texte
+*Metodă*: demonstrația practică urmată de exercițiu. *Caracteristici*: profesorul arată procedura; elevii reproduc și adaptează; feedbackul este imediat. *Argumente*: conținutul este practic și cere deprinderi de operare.
+
+*Activități*: inserarea unui tabel pentru orar; formatarea tabelelor prin borduri, îmbinare celule și aliniere.
+
+*Scenariu*: Profesorul demonstrează inserarea tabelului, elevii creează propriul tabel, apoi aplică operații de formatare. Profesorul verifică lizibilitatea și corectitudinea operațiilor.

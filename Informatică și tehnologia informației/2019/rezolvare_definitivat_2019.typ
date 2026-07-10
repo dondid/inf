@@ -84,7 +84,7 @@ int main() {
     string s, t;
     if (!(fin >> s >> t)) return 0;
     fin.close();
-    
+
     // Verificăm dacă t este subșir în s duplicat (s + s)
     string dublat = s + s;
     ofstream fout("def2019.out");
@@ -160,16 +160,16 @@ int nrAp(long long n, int c) {
 int main() {
     long long n;
     if (!(cin >> n)) return 0;
-    
+
     int freq[10];
     for (int i = 0; i < 10; ++i) freq[i] = nrAp(n, i);
-    
+
     long long smallest = 0;
     int first_non_zero = -1;
     for (int i = 1; i <= 9; ++i) {
         if (freq[i] > 0) { first_non_zero = i; break; }
     }
-    
+
     if (first_non_zero == -1) {
         smallest = 0;
     } else {
@@ -180,12 +180,12 @@ int main() {
         }
         freq[first_non_zero]++;
     }
-    
+
     long long largest = 0;
     for (int i = 9; i >= 0; --i) {
         for (int j = 0; j < freq[i]; ++j) largest = largest * 10 + i;
     }
-    
+
     ofstream fout("def2019.out");
     if (smallest == largest) {
         fout << "nu exista\n";
@@ -209,3 +209,33 @@ int main() {
   JOIN DISTRIBUTIE d ON s.id_solist = d.id_solist
   WHERE d.an_distributie = YEAR(CURDATE());
   ```
+
+---
+
+== SUBIECTUL al II-lea - Completare pentru Model 2019 (30 de puncte)
+
+=== 1. Strategie didactică pentru tablouri bidimensionale
+*Mijloc*: calculator cu mediu de programare și proiector. *Argumente*: permite reprezentarea vizuală a matricei și testarea imediată a parcurgerilor; sprijină formarea competenței de prelucrare a datelor structurate.
+
+*Metodă*: exercițiul dirijat. *Formă*: lucru individual la calculator. *Activitate*: citirea unei matrice și afișarea elementelor de pe fiecare coloană.
+
+*Scenariu*: Profesorul demonstrează buclele imbricate, elevii modifică ordinea parcurgerii pentru linii/coloane, apoi explică rolul fiecărui indice.
+
+=== 2. Itemi cu răspuns scurt
+- *Caracteristici*: răspuns concis, corectare obiectivă, verificare punctuală. *Reguli*: cerință clară, răspuns unic, vocabular adecvat nivelului elevilor.
+- *Item A*: Ce structură de control se folosește uzual pentru parcurgerea unei matrice? *Răspuns*: două structuri repetitive imbricate.
+- *Item B*: Ce înseamnă FTP? *Răspuns*: File Transfer Protocol, serviciu/protocol pentru transfer de fișiere.
+
+== SUBIECTUL al II-lea - Completare pentru Varianta 3 2019 (30 de puncte)
+
+=== 1. Itemi semiobiectivi pentru secvența A: căutare secvențială și binară
+- *Item de completare*: Căutarea binară se aplică eficient pe un tablou [spațiu liber]. *Răspuns*: sortat.
+- *Item cu răspuns scurt*: Care este complexitatea căutării secvențiale în cazul cel mai nefavorabil? *Răspuns*: $O(n)$.
+- *Întrebare structurată*: Se dă vectorul sortat `[2, 5, 9, 12, 20]` și valoarea `12`. 1. Indicați mijlocul inițial. 2. Precizați intervalul de căutare după prima comparație. 3. Indicați poziția valorii. *Răspuns*: mijloc inițial poziția 3 / valoarea 9; se caută în dreapta; valoarea este pe poziția 4.
+
+=== 2. Studiu de caz pentru secvența B: viruși și antiviruși
+*Caracteristici*: pornește de la o situație reală; cere analiză și decizie argumentată. *Avantaj*: formează comportamente responsabile de securitate informatică.
+
+*Activitate*: analiza unui caz în care un elev primește un atașament suspect prin e-mail. *Mijloc*: fișă de caz și calculator cu capturi de ecran. *Formă*: grupe mici.
+
+*Scenariu*: Profesorul prezintă cazul, elevii identifică riscurile, propun acțiuni: nu deschid fișierul, verifică expeditorul, scanează cu antivirus, anunță profesorul/administratorul. Profesorul fixează diferența dintre prevenire, detecție și remediere.

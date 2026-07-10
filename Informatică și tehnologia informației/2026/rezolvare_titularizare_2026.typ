@@ -98,11 +98,11 @@ Fie coada în care se inserează succesiv valorile `A`, `B`, `C`, `D`, apoi se r
   int lee(int xs, int ys, int xf, int yf) {
       dist[xs][ys] = 1;
       Q[rearIdx++] = {xs, ys};
-      
+
       while (frontIdx < rearIdx) {
           Coordonate c = Q[frontIdx++];
           if (c.x == xf && c.y == yf) return dist[xf][yf] - 1;
-          
+
           for (int i = 0; i < 4; ++i) {
               int nx = c.x + dx[i];
               int ny = c.y + dy[i];
@@ -150,7 +150,7 @@ Fie coada în care se inserează succesiv valorile `A`, `B`, `C`, `D`, apoi se r
     dist[xs, ys] := 1;
     Q[rearIdx].x := xs; Q[rearIdx].y := ys;
     rearIdx := rearIdx + 1;
-    
+
     while frontIdx < rearIdx do
     begin
       c := Q[frontIdx];

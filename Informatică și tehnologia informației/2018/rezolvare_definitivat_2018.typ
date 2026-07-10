@@ -105,7 +105,7 @@ long long termen(long long n) {
 int main() {
     long long n;
     if (!(cin >> n)) return 0;
-    
+
     vector<long long> F;
     F.push_back(1);
     F.push_back(2);
@@ -114,7 +114,7 @@ int main() {
         if (next_val > 1000000000LL) break;
         F.push_back(next_val);
     }
-    
+
     vector<long long> rez;
     long long sum = n;
     for (int i = F.size() - 1; i >= 0; --i) {
@@ -127,13 +127,13 @@ int main() {
             sum -= F[i];
         }
     }
-    
+
     ofstream fout("def.out");
     for (int i = 0; i < rez.size(); ++i) {
         fout << rez[i] << (i == rez.size() - 1 ? "" : " ");
     }
     fout.close();
-    
+
     return 0;
 }
 ```
@@ -181,7 +181,7 @@ begin
     if F[f_count + 1] > 1000000000 then break;
     f_count := f_count + 1;
   end;
-  
+
   sum_val := n;
   rez_count := 0;
   for i := f_count downto 1 do
@@ -199,7 +199,7 @@ begin
       sum_val := sum_val - F[i];
     end;
   end;
-  
+
   assign(fout, 'def.out');
   rewrite(fout);
   for i := 1 to rez_count do
@@ -224,3 +224,24 @@ end.
   FROM TIP_FLOARE
   WHERE anotimp_specific = 'vara';
   ```
+
+---
+
+== SUBIECTUL al II-lea (30 de puncte)
+
+=== 1. Strategie didactică pentru secvența A: tablouri bidimensionale
+*Mijloc de învățământ*: calculatorul cu mediu de programare și proiector pentru urmărirea parcurgerii unei matrice.
+
+*Argumente*: Tablourile bidimensionale se înțeleg mai ușor prin reprezentare vizuală pe linii și coloane; rularea programului permite elevilor să observe legătura dintre indicii `i`, `j` și elementele matricei.
+
+*Elemente de proiectare*: metodă - demonstrația combinată cu exercițiul; formă de organizare - frontal și individual; activitate - parcurgerea matricei pe linii și calculul sumei fiecărei linii.
+
+*Scenariu*: Profesorul afișează o matrice `3 x 4`, marchează indicii de linie și coloană și construiește două bucle imbricate. Elevii implementează citirea matricei și calculul sumelor pe linii. Profesorul verifică rezultatele și discută diferența dintre parcurgerea pe linii și pe coloane.
+
+=== 2. Itemi cu răspuns scurt
+*Caracteristici*: solicită un răspuns concis; verifică o achiziție punctuală; se corectează rapid și obiectiv.
+
+*Reguli*: enunț clar, răspuns unic sau bine delimitat, evitarea formulărilor negative inutile.
+
+- *Item A*: Cum se accesează elementul de pe linia `i` și coloana `j` într-o matrice `a`? *Răspuns*: `a[i][j]` în C/C++ sau `a[i,j]` în Pascal.
+- *Item B*: Ce reprezintă serviciul FTP? *Răspuns*: un serviciu/protocol pentru transferul fișierelor între calculatoare prin rețea.

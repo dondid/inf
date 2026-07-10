@@ -81,7 +81,7 @@ int main() {
     long long p;
     int n;
     if (!(cin >> p >> n)) return 0;
-    
+
     long long limit = tprim(n);
     if (p <= limit && isPrime(p)) {
         cout << "DA\n";
@@ -213,12 +213,12 @@ int main() {
         }
     }
     fin.close();
-    
+
     vector<vector<long long>> dp(n, vector<long long>(n, 0));
     for (int j = 0; j < n; ++j) {
         dp[0][j] = A[0][j];
     }
-    
+
     for (int i = 1; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
             long long prev_max = dp[i-1][j];
@@ -227,12 +227,12 @@ int main() {
             dp[i][j] = A[i][j] + prev_max;
         }
     }
-    
+
     long long ans = dp[n-1][0];
     for (int j = 1; j < n; ++j) {
         ans = max(ans, dp[n-1][j]);
     }
-    
+
     cout << ans << endl;
     return 0;
 }
@@ -254,9 +254,9 @@ begin
     for j := 1 to n do
       read(fin, A[i, j]);
   close(fin);
-  
+
   for j := 1 to n do dp[1, j] := A[1, j];
-  
+
   for i := 2 to n do
   begin
     for j := 1 to n do
@@ -273,7 +273,7 @@ begin
       dp[i, j] := A[i, j] + prev_max;
     end;
   end;
-  
+
   ans := dp[n, 1];
   for j := 2 to n do
   begin
@@ -282,3 +282,22 @@ begin
   writeln(ans);
 end.
 ```
+
+---
+
+== SUBIECTUL al III-lea (30 de puncte)
+
+=== Test scris sumativ - Informatică, clasa a IX-a
+*Capitole*: algoritmi elementari, structuri de control, tablouri unidimensionale. *Timp de lucru*: 50 de minute. Se acordă 90 de puncte și 10 puncte din oficiu.
+
+#table(
+  columns: (1.3fr, 2.6fr, 2.1fr),
+  inset: 5pt,
+  [*Item*], [*Enunț*], [*Răspuns / barem*],
+  [Pereche 1 (10p)], [Asociați operația cu rolul ei: `n mod 10`, `n div 10`, `i++`.], [`n mod 10` - ultima cifră; `n div 10` - elimină ultima cifră; `i++` - incrementare.],
+  [Pereche 2 (10p)], [Asociați structura cu situația: `if`, `while`, `for`.], [`if` - decizie; `while` - repetare cu număr necunoscut de pași; `for` - număr cunoscut de pași.],
+  [Răspuns scurt 1 (10p)], [Ce afișează algoritmul care însumează cifrele lui `123`?], [`6`.],
+  [Completare 2 (10p)], [Într-un vector `v`, elementul de pe poziția `i` se notează [spațiu liber].], [`v[i]` sau `v[i]` în C/C++, `v[i]`/`v[i]` după convenția predată.],
+  [Întrebare structurată (20p)], [Pentru vectorul `4 7 2 9`: precizați maximul, poziția sa și descrieți algoritmul.], [Maxim `9`, poziția 4; parcurgere liniară cu variabilă `max`.],
+  [Problemă (30p)], [Scrieți un algoritm care citește `n` și `n` valori și afișează câte sunt pare.], [Citire corectă 5p, parcurgere 10p, test paritate 10p, afișare 5p.]
+)

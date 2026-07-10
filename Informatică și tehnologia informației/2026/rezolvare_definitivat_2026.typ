@@ -276,7 +276,7 @@ void eticheta(int s, int d, int &n) {
 int main() {
     int m, n;
     if (!(cin >> m >> n)) return 0;
-    
+
     int A[101][101];
     for (int i = 1; i <= m; ++i) {
         for (int j = 1; j <= n; ++j) {
@@ -286,7 +286,7 @@ int main() {
             A[i][j] = min(val1, val2);
         }
     }
-    
+
     ofstream fout("def2025.txt");
     for (int i = 1; i <= m; ++i) {
         for (int j = 1; j <= n; ++j) {
@@ -295,7 +295,7 @@ int main() {
         fout << "\n";
     }
     fout.close();
-    
+
     return 0;
 }
 ```
@@ -326,7 +326,7 @@ end;
 
 begin
   readln(m, n);
-  
+
   for i := 1 to m do
   begin
     for j := 1 to n do
@@ -336,7 +336,7 @@ begin
       A[i, j] := min(val1, val2);
     end;
   end;
-  
+
   assign(fout, 'def2025.txt');
   rewrite(fout);
   for i := 1 to m do
@@ -388,7 +388,7 @@ Forme Normale (3NF):
 
 === c) Adăugarea datelor de bază (Comenzi SQL)
 ```sql
-INSERT INTO FESTIVAL (denumire, tematica, site_oficial) 
+INSERT INTO FESTIVAL (denumire, tematica, site_oficial)
 VALUES ('EduCode 2025', 'Inovatie in predarea informaticii', NULL);
 ```
 

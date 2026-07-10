@@ -33,7 +33,6 @@
 
 [Subiect PDF](file:///wsl.localhost/Debian/home/daniel/projects/inf/Informatică și tehnologia informației/2020/Def_050_Informatica_P_2020_var_03_LRO.pdf) | [Barem PDF](file:///wsl.localhost/Debian/home/daniel/projects/inf/Informatică și tehnologia informației/2020/Def_050_Informatica_P_2020_bar_03_LRO.pdf)
 
-*(Notă: Acest subiect este identic cu cel din Definitivat 2026 Model).*
 
 == SUBIECTUL I (60 de puncte)
 
@@ -106,7 +105,7 @@ int main() {
     ifstream fin("def2020.in");
     long long x;
     int baze[11] = {0}; // contoare pentru baze de la 2 la 10
-    
+
     while (fin >> x) {
         int mx = cMax(x);
         // Numărul poate fi scris în orice bază b > mx
@@ -115,12 +114,12 @@ int main() {
         }
     }
     fin.close();
-    
+
     for (int b = 2; b <= 10; ++b) {
         cout << baze[b] << (b == 10 ? "" : " ");
     }
     cout << endl;
-    
+
     return 0;
 }
 ```
@@ -151,7 +150,7 @@ begin
   for b := 2 to 10 do baze[b] := 0;
   assign(fin, 'def2020.in');
   reset(fin);
-  
+
   while not eof(fin) do
   begin
     read(fin, x);
@@ -163,7 +162,7 @@ begin
     end;
   end;
   close(fin);
-  
+
   for b := 2 to 10 do
   begin
     write(baze[b]);
@@ -185,3 +184,23 @@ end.
   INSERT INTO STIL_DANS (nume_stil, categoria, descriere)
   VALUES ('tango argentinian', 'clasic', 'Dans inclus pe lista patrimoniului UNESCO');
   ```
+
+---
+
+== SUBIECTUL al II-lea (30 de puncte)
+
+=== 1. Activitate didactică pentru secvența A: pseudocod și structură repetitivă
+*Momente esențiale ale lecției*: organizarea clasei; actualizarea cunoștințelor despre structuri de bază; predarea/dirijarea învățării; fixarea și evaluarea formativă.
+
+*Activități de învățare*:
+1. Identificarea pașilor de rezolvare pentru calculul sumei cifrelor unui număr.
+2. Reprezentarea algoritmului în pseudocod folosind structura repetitivă `cât timp`.
+
+*Metodă*: conversația euristică și exercițiul. Profesorul pornește de la un exemplu numeric, cere elevilor să extragă ultima cifră prin `n mod 10`, apoi să elimine cifra prin `n div 10`. Elevii scriu pseudocodul, îl testează manual și corectează condiția de oprire `n > 0`.
+
+=== 2. Itemi de tip eseu
+*Caracteristici*: permit răspunsuri dezvoltate; evaluează argumentarea și organizarea ideilor; pot avea barem analitic. *Regulă*: cerința trebuie să precizeze clar tema, reperele și criteriile de evaluare. *Categorii*: eseu structurat și eseu liber.
+
+*Item A*: Redactați un eseu structurat despre rolul pseudocodului în reprezentarea algoritmilor, având în vedere: claritatea pașilor, independența față de limbajul de programare, utilizarea structurii repetitive. *Criterii*: corectitudine 5p, exemple 5p, organizare 5p.
+
+*Item B*: Redactați un eseu despre avantajele lucrului în rețea, referindu-vă la partajarea resurselor, comunicare și tipuri de rețele. *Criterii*: concepte corecte 6p, exemple 5p, coerența argumentării 4p.

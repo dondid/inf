@@ -151,23 +151,23 @@ void consonatic(const string &s, string &sc) {
 int main() {
     string text;
     if (!getline(cin, text)) return 0;
-    
+
     stringstream ss(text);
     string cuvant;
     map<string, int> frecventa;
-    
+
     while (ss >> cuvant) {
         string sc;
         consonatic(cuvant, sc);
         frecventa[sc]++;
     }
-    
+
     long long perechi = 0;
     for (auto &pair : frecventa) {
         long long count = pair.second;
         perechi += count * (count - 1) / 2;
     }
-    
+
     cout << perechi << endl;
     return 0;
 }
@@ -215,13 +215,13 @@ begin
       end;
     end;
   end;
-  
+
   for i := 1 to nr_cuvinte do
   begin
     frecv[i] := 0;
     deja_numarat[i] := false;
   end;
-  
+
   perechi := 0;
   for i := 1 to nr_cuvinte do
   begin
@@ -239,7 +239,7 @@ begin
       perechi := perechi + (frecv[i] * (frecv[i] - 1)) div 2;
     end;
   end;
-  
+
   writeln(perechi);
 end.
 ```
@@ -271,7 +271,7 @@ int main() {
         }
     }
     fin.close();
-    
+
     cout << tail.size() << endl;
     return 0;
 }
@@ -288,7 +288,7 @@ begin
   assign(fin, 'titu2020.in');
   reset(fin);
   n_tail := 0;
-  
+
   while not eof(fin) do
   begin
     read(fin, x);
@@ -308,7 +308,7 @@ begin
         else
           st := mid + 1;
       end;
-      
+
       if pos = -1 then
       begin
         n_tail := n_tail + 1;
@@ -319,7 +319,23 @@ begin
     end;
   end;
   close(fin);
-  
+
   writeln(n_tail);
 end.
 ```
+
+---
+
+== SUBIECTUL al III-lea (30 de puncte)
+
+=== 1. Expunerea sistematică pentru matricea drumurilor
+*Caracteristici*: prezentare logică și graduală; utilizarea unui exemplu demonstrativ. *Avantaj*: algoritmii de grafuri cer introducerea riguroasă a terminologiei și a pașilor.
+
+*Mijloc*: tablă/proiector cu matrice de adiacență. *Formă*: frontal. *Activitate*: construirea matricei drumurilor pentru un graf orientat.
+
+*Scenariu*: Profesorul definește matricea, arată actualizarea prin nod intermediar, elevii completează câteva celule și justifică existența drumurilor.
+
+=== 2. Observarea sistematică pentru comportamentul în Internet
+*Caracteristici*: urmărește comportamente reale; se realizează pe o perioadă de timp. *Instrument*: fișă de observație.
+
+*Comportamente temperamentale*: respectă regulile de comunicare, reacționează calm la opinii diferite, manifestă răbdare în lucru colaborativ. *Comportamente cognitive*: recunoaște mesaje nepoliticoase/nesigure, aplică reguli de citare și respectare a legislației.

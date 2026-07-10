@@ -103,17 +103,17 @@ void vocalic(const string &s, string &sv) {
 int main() {
     string text;
     if (!getline(cin, text)) return 0;
-    
+
     stringstream ss(text);
     string cuvant;
     map<string, int> frecventa;
-    
+
     while (ss >> cuvant) {
         string sv;
         vocalic(cuvant, sv);
         frecventa[sv]++;
     }
-    
+
     bool gasit = false;
     for (auto &pair : frecventa) {
         if (pair.second >= 2) {
@@ -121,7 +121,7 @@ int main() {
             break;
         }
     }
-    
+
     if (gasit) cout << "DA\n";
     else cout << "NU\n";
     return 0;
@@ -168,7 +168,7 @@ begin
       end;
     end;
   end;
-  
+
   gasit := false;
   for i := 1 to nr_cuvinte do
   begin
@@ -182,7 +182,7 @@ begin
     end;
     if gasit then break;
   end;
-  
+
   if gasit then writeln('DA')
   else writeln('NU');
 end.
@@ -218,9 +218,9 @@ int main() {
         fin >> intervals[i].st >> intervals[i].dr;
     }
     fin.close();
-    
+
     sort(intervals.begin(), intervals.end(), cmp);
-    
+
     int count = 0;
     if (n > 0) {
         int current_st = intervals[0].st;
@@ -253,7 +253,7 @@ var
   intervals: array[1..10000] of Interval;
   n, i, count: integer;
   curr_st, curr_dr: integer;
-  
+
 procedure QuickSort(l, r: integer);
 var
   i_idx, j_idx: integer;
@@ -279,9 +279,9 @@ begin
   read(fin, n);
   for i := 1 to n do read(fin, intervals[i].st, intervals[i].dr);
   close(fin);
-  
+
   QuickSort(1, n);
-  
+
   count := 0;
   if n > 0 then
   begin
@@ -305,3 +305,21 @@ begin
   writeln(count);
 end.
 ```
+
+---
+
+== SUBIECTUL al III-lea (30 de puncte)
+
+=== 1. Problematizarea pentru prelucrarea cifrelor
+*Caracteristici*: pornește de la o situație-problemă; stimulează formularea de ipoteze; cere verificarea soluției. *Etape*: sesizarea problemei, formularea ipotezelor, rezolvarea, verificarea și generalizarea.
+
+*Activitatea 1*: testarea proprietății de palindrom pentru un număr. Profesorul cere elevilor să compare numărul cu inversul său; elevii descoperă algoritmul de construire a inversului.
+
+*Activitatea 2*: suma cifrelor pare. Profesorul întreabă cum se izolează o cifră; elevii folosesc `mod 10` și `div 10`, apoi scriu pseudocodul.
+
+=== 2. Proiect/referat pentru secvența B: ergonomia paginii tipărite
+*Temă*: realizarea unui referat despre reguli de compoziție pe pagina tipărită. *Obiective*: aplicarea raportului text-imagine, echilibru, proporții și lizibilitate.
+
+*Cerințe*: minimum două pagini, titlu și subtitluri, imagini integrate corect, bibliografie, respectarea regulilor de paginare.
+
+*Criterii produs*: structură 10p, estetică 10p, aplicarea regulilor de compoziție 15p. *Criterii activitate*: documentare 10p, respectarea termenului 5p.

@@ -99,7 +99,7 @@ void sumap(long long n, long long &s) {
 int main() {
     int n;
     if (!(cin >> n)) return 0;
-    
+
     ofstream fout("DATE.TXT");
     int count = 0;
     long long x = 2;
@@ -170,3 +170,74 @@ begin
   close(fout);
 end.
 ```
+
+---
+
+== SUBIECTUL al II-lea (30 de puncte)
+
+=== 1. Mijloc de învățământ pentru conținutul A: Subprograme recursive
+
+*Mijloc ales*: mediu de programare cu depanator pas cu pas și vizualizare a stivei apelurilor.
+
+==== a) Caracteristici și avantaje
+- Permite rularea instrucțiunilor pas cu pas, astfel încât elevii pot observa intrarea în subprogram, valorile parametrilor și revenirea din apel.
+- Vizualizează stiva apelurilor, ceea ce face concretă ideea de apel recursiv și condiție de oprire.
+
+Avantaje față de o prezentare exclusiv verbală:
+- Elevii văd efectiv cum se acumulează apelurile recursive și unde se întorc rezultatele.
+- Erorile tipice, precum lipsa condiției de oprire sau modificarea greșită a parametrului, pot fi observate imediat prin rulare.
+
+==== b) Exemplu de valorificare didactică
+- *Activitate de învățare*: calculul recursiv al factorialului.
+- *Metodă*: demonstrația combinată cu conversația euristică.
+- *Formă de organizare*: frontal pentru prima rulare, apoi individual la calculator.
+
+*Scenariu*:
+- Profesorul pornește de la relația matematică $n! = n * (n-1)!$ și cere elevilor să identifice valoarea de oprire.
+- Profesorul scrie subprogramul `fact(n)` și rulează pas cu pas pentru `n=4`, oprindu-se la fiecare apel pentru a evidenția parametrul curent.
+- Elevii notează succesiunea apelurilor `fact(4)`, `fact(3)`, `fact(2)`, `fact(1)` și revenirea valorilor `1`, `2`, `6`, `24`.
+- Elevii modifică programul pentru suma primelor `n` numere naturale, aplicând aceeași schemă recursivă.
+
+*Exemplu C++*:
+```cpp
+int fact(int n) {
+    if (n <= 1) return 1;
+    return n * fact(n - 1);
+}
+```
+
+=== 2. Test practic pentru conținutul A: Subprograme recursive
+
+Testul urmărește competențele de înțelegere, urmărire și implementare a subprogramelor recursive.
+
+#table(
+  columns: (1.2fr, 2.6fr, 2.2fr),
+  inset: 5pt,
+  [*Item*], [*Enunț*], [*Răspuns așteptat / etape*],
+  [1], [Precizați condiția de oprire pentru un subprogram recursiv care calculează suma cifrelor unui număr natural.], [`n = 0`, când nu mai există cifre de prelucrat.],
+  [2], [Urmăriți apelurile pentru `f(4)`, unde `f(n)=n+f(n-1)`, `f(0)=0`.], [`f(4)=4+3+2+1+0=10`.],
+  [3], [Scrieți un subprogram recursiv care calculează suma primelor `n` numere naturale.], [Antet corect, caz de bază `n=0`, apel `n + suma(n-1)`.],
+  [4], [Transformați recursivitatea de la itemul 3 într-o variantă iterativă.], [Buclă de la 1 la `n`, acumulare într-o variabilă `s`.],
+  [5], [Explicați de ce un subprogram recursiv fără caz de bază este incorect.], [Produce apeluri infinite până la epuizarea stivei; programul nu se termină normal.]
+)
+
+---
+
+== SUBIECTUL al III-lea (30 de puncte)
+
+=== Finalitățile educației
+
+*Finalitățile educației* reprezintă orientările valorice și proiective ale activității educaționale. Ele indică direcția formării personalității și răspund la întrebarea: ce tip de om și ce tip de competențe urmărește sistemul educațional să formeze?
+
+*Clasificare*:
+- finalități macrostructurale: idealul educațional;
+- finalități intermediare: scopurile educației;
+- finalități operaționale: obiectivele educaționale formulate pentru lecții sau secvențe concrete.
+
+*Idealul educațional* exprimă modelul de personalitate dorit de societate: o persoană autonomă, responsabilă, capabilă de integrare socială, profesională și culturală. Are caracter general, orientativ și stabil pe termen lung.
+
+*Scopurile educaționale* concretizează idealul pe trepte de școlaritate, discipline sau arii curriculare. De exemplu, la informatică, un scop este formarea gândirii algoritmice și a capacității de utilizare responsabilă a tehnologiei.
+
+*Obiectivele educaționale* sunt enunțuri concrete privind achizițiile elevilor. Ele pot fi cognitive, afective sau psihomotorii. Un obiectiv bine formulat precizează comportamentul observabil, condițiile de realizare și criteriul de performanță.
+
+*Proceduri de operaționalizare*: Pentru a transforma un scop general într-un obiectiv operațional se folosesc verbe observabile: „definește”, „identifică”, „implementează”, „compară”, „argumentează”. Exemplu: „La finalul lecției, elevul va implementa în C++ un subprogram recursiv pentru calculul factorialului, folosind corect condiția de oprire și apelul recursiv.”

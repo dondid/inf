@@ -107,20 +107,20 @@ void insertSorted(Nod* &p, int x) {
 int main() {
     int n;
     if (!(cin >> n)) return 0;
-    
+
     Nod* p = nullptr;
     for (int i = 0; i < n; ++i) {
         int val;
         cin >> val;
         insertSorted(p, val);
     }
-    
+
     // Afișare listă
     for (Nod* curr = p; curr != nullptr; curr = curr->urm) {
         cout << curr->info << (curr->urm == nullptr ? "" : " ");
     }
     cout << endl;
-    
+
     return 0;
 }
 ```
@@ -180,7 +180,7 @@ begin
     read(val);
     insertSorted(p, val);
   end;
-  
+
   curr := p;
   while curr <> nil do
   begin
@@ -212,7 +212,7 @@ int main() {
     for (int i = 0; i < m; ++i) fin >> A[i];
     for (int i = 0; i < n; ++i) fin >> B[i];
     fin.close();
-    
+
     vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
     for (int i = 1; i <= m; ++i) {
         for (int j = 1; j <= n; ++j) {
@@ -223,7 +223,7 @@ int main() {
             }
         }
     }
-    
+
     cout << dp[m][n] << endl;
     return 0;
 }
@@ -243,11 +243,11 @@ begin
   for i := 1 to m do read(fin, A[i]);
   for i := 1 to n do read(fin, B[i]);
   close(fin);
-  
+
   for i := 0 to m do
     for j := 0 to n do
       dp[i, j] := 0;
-      
+
   for i := 1 to m do
   begin
     for j := 1 to n do
@@ -266,3 +266,26 @@ begin
   writeln(dp[m, n]);
 end.
 ```
+
+---
+
+== SUBIECTUL al III-lea (30 de puncte)
+
+=== 1. Test pentru secvența A: pseudocod și structură liniară
+Testul are cinci itemi, 90 de puncte și 10 puncte din oficiu.
+
+#table(
+  columns: (1.2fr, 2.5fr, 2.2fr),
+  inset: 5pt,
+  [*Item*], [*Enunț*], [*Barem*],
+  [1 (15p)], [Precizați datele de intrare/ieșire pentru calculul ariei unui dreptunghi.], [Intrare `L,l`; ieșire `A`.],
+  [2 (15p)], [Scrieți pseudocodul pentru suma a două numere.], [Citire, calcul, afișare.],
+  [3 (20p)], [Evaluați expresia `2+3*4`.], [`14`, cu respectarea priorității.],
+  [4 (20p)], [Corectați o secvență liniară cu atribuire greșită.], [Identificare eroare 10p, corectare 10p.],
+  [5 (20p)], [Scrieți algoritmul pentru media aritmetică a trei numere.], [Citire 5p, formulă 10p, afișare 5p.]
+)
+
+=== 2. Modelarea pentru secvența B: dispozitive de ieșire
+*Caracteristici*: folosește reprezentări simplificate; evidențiază relații funcționale; ajută la înțelegerea componentelor hardware. *Mijloc*: imagini/diagrama unui sistem de calcul. *Formă*: frontal și pe grupe.
+
+*Scenariu*: Profesorul prezintă modelul intrare-prelucrare-ieșire, elevii identifică monitorul, imprimanta și boxele ca dispozitive de ieșire, apoi explică tipul de informație transmisă de fiecare.
