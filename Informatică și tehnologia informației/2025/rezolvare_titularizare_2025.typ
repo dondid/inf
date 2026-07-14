@@ -67,13 +67,48 @@
     ```
   - *Pascal*:
     ```pascal
-    // Parcurgerea în lățime cu coadă pe tablou de adiacență.
+    program BFSArbore;
+    const NMAX = 100;
+    var
+      n, i, x, y, start, st, dr, u, v: integer;
+      a: array[1..NMAX, 1..NMAX] of integer;
+      grad, q: array[1..NMAX] of integer;
+      viz: array[1..NMAX] of boolean;
+    begin
+      read(n);
+      for i := 1 to n - 1 do
+      begin
+        read(x, y);
+        grad[x] := grad[x] + 1; a[x, grad[x]] := y;
+        grad[y] := grad[y] + 1; a[y, grad[y]] := x;
+      end;
+      read(start);
+      st := 1; dr := 1; q[1] := start; viz[start] := true;
+      while st <= dr do
+      begin
+        u := q[st]; st := st + 1;
+        write(u, ' ');
+        for i := 1 to grad[u] do
+        begin
+          v := a[u, i];
+          if not viz[v] then
+          begin
+            dr := dr + 1; q[dr] := v; viz[v] := true;
+          end;
+        end;
+      end;
+    end.
     ```
 
 === 2. Ergonomia postului de lucru
+- *Noțiuni preliminare*: Sistemul de calcul este ansamblul hardware-software care prelucrează automat date. Dispozitivele periferice sunt echipamente de intrare, ieșire sau intrare/ieșire care asigură comunicarea dintre utilizator și calculator.
 - *Dispozitive periferice cu impact asupra sănătății*:
-  1. *Monitorul*: Poate cauza oboseală oculară (astenopie) sau dureri de cap. Recomandare: Distanța ecran-ochi de 50-70 cm și utilizarea filtrelor de lumină albastră.
-  2. *Tastatura/Mouse-ul*: Pot genera sindromul de tunel carpian. Recomandare: Utilizarea suporturilor ergonomice pentru încheieturi.
+  1. *Monitorul*: are funcția de afișare a informațiilor. Poziționarea greșită, reflexiile, luminozitatea nepotrivită sau distanța prea mică pot cauza oboseală oculară, dureri de cap și postură incorectă.
+  2. *Tastatura și mouse-ul*: permit introducerea datelor și controlul interfeței. Utilizarea lor îndelungată, cu încheieturile tensionate, poate produce dureri musculare, suprasolicitare și sindrom de tunel carpian.
+- *Măsuri ergonomice*:
+  1. Monitorul se poziționează la 50-70 cm de ochi, cu partea superioară aproximativ la nivelul privirii.
+  2. Scaunul și masa se reglează astfel încât spatele să fie sprijinit, iar coatele și genunchii să formeze un unghi apropiat de 90 de grade.
+  3. Se fac pauze scurte și regulate; privirea se mută periodic de la ecran, iar mâinile și umerii se relaxează.
 
 == SUBIECTUL al II-lea (30 de puncte)
 
@@ -265,12 +300,22 @@ end.
 
 === 1. Proiectarea unei strategii didactice: Formatarea textului (Secvența B)
 - *Tip lecție*: Lecție de formare a priceperilor și deprinderilor practice.
-- *Strategia*: Elevii primesc un text neformatat. Folosind instrucțiunile profesorului, aplică pe rând stiluri (bold, italic, subliniat), mărind și micșorând fontul pentru a crea un afiș publicitar.
+- *Caracteristici*: accent pe exersare directă în aplicație; feedback imediat prin observarea modificărilor pe ecran; sarcini gradate de la operații simple la produs final.
+- *Mijloc de învățământ*: calculator cu procesor de text și videoproiector.
+- *Metodă*: exercițiul practic dirijat.
+- *Formă de organizare*: activitate individuală la calculator, cu momente frontale de demonstrație.
+- *Activitate*: formatarea unui text brut pentru a obține un afiș/anunț lizibil.
+- *Scenariu*: Profesorul proiectează un text neformatat și demonstrează selectarea textului, schimbarea fontului, aplicarea stilurilor bold/italic/subliniat și alinierea. Elevii primesc același text, aplică cerințe graduale și compară variantele obținute. Profesorul corectează folosirea excesivă a formatărilor și fixează ideea că formatarea trebuie să crească lizibilitatea.
 
 === 2. Evaluare: Itemi obiectivi (Alegere multiplă)
+- *Avantaje*: corectare rapidă și obiectivă; acoperirea unui volum mare de conținut; posibilitatea utilizării în teste standardizate.
+- *Limită*: itemii obiectivi evaluează mai greu argumentarea și construcția completă a unei soluții.
+- *Reguli de proiectare*: enunț clar, un singur răspuns corect, distractori plauzibili și omogeni.
 - *Item pentru Backtracking (Secvența A)*: Care este structura spațiului stărilor pentru generarea permutărilor?
   A. Produs cartezian. | B. Vector de lungime constantă. | C. Arbore de căutare. | D. Graf conex.
   Răspuns: C.
+- *Item pentru formatarea textului (Secvența B)*: Afirmația „Comanda Bold modifică dimensiunea caracterelor selectate” este adevărată sau falsă?
+  Răspuns: Fals. Bold modifică grosimea caracterelor, nu dimensiunea lor.
 
 #pagebreak()
 
@@ -443,10 +488,11 @@ Fie coada în care se inserează succesiv valorile `A`, `B`, `C`, `D`, apoi se r
 
 == 1. Programare Backtracking: Combinări bancnote
 
+Păstrăm cupiurile în ordinea în care au fost citite în tabloul `c`, deoarece subprogramul `tipar` trebuie să afișeze bancnotele utilizate în această ordine.
+
 *Soluție C++:*
 ```cpp
 #include <iostream>
-#include <algorithm>
 using namespace std;
 
 int n;
@@ -476,7 +522,6 @@ int main() {
     int s;
     cin >> s >> n;
     for (int i = 0; i < n; ++i) { cin >> c[i]; b[i] = 0; }
-    sort(c, c + n);
     back(n - 1, s);
     return 0;
 }
@@ -486,7 +531,7 @@ int main() {
 ```pascal
 program CombinariBancnote;
 var
-  s, i, j, temp: integer;
+  s, i: integer;
   n: integer;
   c, b: array[0..9] of integer;
 
@@ -521,17 +566,15 @@ end;
 begin
   read(s, n);
   for i := 0 to n - 1 do begin read(c[i]); b[i] := 0; end;
-  for i := 0 to n - 2 do
-    for j := i + 1 to n - 1 do
-      if c[i] > c[j] then
-      begin
-        temp := c[i]; c[i] := c[j]; c[j] := temp;
-      end;
   back(n - 1, s);
 end.
 ```
 
 == 2. Algoritmi eficienți: Suprapunere Programări Cabinet Medic
+
+*Metoda*: Programările sunt parcurse în ordinea din fișier. Reținem ora programării curente păstrate. Dacă următoarea programare are aceeași oră, ea se suprapune și trebuie actualizată, deci creștem contorul. Dacă ora este diferită, actualizăm ora curentă păstrată. Algoritmul presupune ordinea cronologică a programărilor din fișier; pentru date nesortate se poate folosi un tabel de frecvențe pe minutele zilei.
+
+*Eficiență*: Parcurgem fișierul o singură dată, deci timpul este $O(n)$, iar memoria suplimentară este $O(1)$.
 
 *Soluție C++:*
 ```cpp

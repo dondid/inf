@@ -97,26 +97,17 @@ void sumap(long long n, long long &s) {
 }
 
 int main() {
-    int n;
-    if (!(cin >> n)) return 0;
+    ifstream fin("DATE.TXT");
+    long long a, b, sa, sb;
+    fin >> a >> b;
+    fin.close();
 
-    ofstream fout("DATE.TXT");
-    int count = 0;
-    long long x = 2;
-    while (count < n) {
-        long long y;
-        sumap(x, y);
-        if (y > x) {
-            long long x2;
-            sumap(y, x2);
-            if (x2 == x) {
-                fout << x << " " << y << "\n";
-                count++;
-            }
-        }
-        x++;
-    }
-    fout.close();
+    sumap(a, sa);
+    sumap(b, sb);
+    if (sa == b && sb == a)
+        cout << a << " " << b;
+    else
+        cout << "Nu";
     return 0;
 }
 ```
@@ -125,9 +116,8 @@ int main() {
 ```pascal
 program NumerePrietene;
 var
-  n, count: integer;
-  x, y, x2: int64;
-  fout: text;
+  a, b, sa, sb: int64;
+  fin: text;
 
 procedure sumap(n_val: int64; var s: int64);
 var
@@ -148,26 +138,17 @@ begin
 end;
 
 begin
-  readln(n);
-  assign(fout, 'DATE.TXT');
-  rewrite(fout);
-  count := 0;
-  x := 2;
-  while count < n do
-  begin
-    sumap(x, y);
-    if y > x then
-    begin
-      sumap(y, x2);
-      if x2 = x then
-      begin
-        writeln(fout, x, ' ', y);
-        count := count + 1;
-      end;
-    end;
-    x := x + 1;
-  end;
-  close(fout);
+  assign(fin, 'DATE.TXT');
+  reset(fin);
+  read(fin, a, b);
+  close(fin);
+
+  sumap(a, sa);
+  sumap(b, sb);
+  if (sa = b) and (sb = a) then
+    writeln(a, ' ', b)
+  else
+    writeln('Nu');
 end.
 ```
 
@@ -241,3 +222,133 @@ Testul urmărește competențele de înțelegere, urmărire și implementare a s
 *Obiectivele educaționale* sunt enunțuri concrete privind achizițiile elevilor. Ele pot fi cognitive, afective sau psihomotorii. Un obiectiv bine formulat precizează comportamentul observabil, condițiile de realizare și criteriul de performanță.
 
 *Proceduri de operaționalizare*: Pentru a transforma un scop general într-un obiectiv operațional se folosesc verbe observabile: „definește”, „identifică”, „implementează”, „compară”, „argumentează”. Exemplu: „La finalul lecției, elevul va implementa în C++ un subprogram recursiv pentru calculul factorialului, folosind corect condiția de oprire și apelul recursiv.”
+
+#pagebreak()
+
+= II. Rezolvare Definitivat Informatică de gestiune Varianta 3 (18 iulie 2013)
+
+[Subiect PDF](file:///wsl.localhost/Debian/home/daniel/projects/inf/Informatică și tehnologia informației/2013/Def_MET_055_Informatica_gestiune_P_2013_var_03_LRO.pdf) | [Barem PDF](file:///wsl.localhost/Debian/home/daniel/projects/inf/Informatică și tehnologia informației/2013/Def_MET_055_Informatica_gestiune_P_2013_bar_03_LRO.pdf)
+
+== SUBIECTUL I (30 de puncte)
+
+=== 1. Formulare în produse pentru gestiunea bazelor de date
+
+Formularul este un obiect al bazei de date folosit pentru introducerea, modificarea și vizualizarea datelor într-o interfață prietenoasă. El nu înlocuiește tabelul, ci oferă o vedere controlată asupra datelor din tabele sau interogări.
+
+Informația dintr-un formular este organizată în antet, zonă de detaliu și subsol. Pot apărea controale precum: casete text, etichete, liste derulante, butoane de comandă, casete de validare și subformulare.
+
+Proiectarea se poate modifica în modul Design/Layout: se schimbă sursa de date, poziția controalelor, etichetele, validările sau evenimentele asociate. Două modalități de creare sunt: folosirea unui asistent, care generează formularul pe baza câmpurilor selectate, și proiectarea manuală, care permite control complet asupra structurii și aspectului.
+
+=== 2. Unitatea centrală de procesare
+
+UCP include unitatea de comandă-control, unitatea aritmetico-logică și registrele interne. Funcții importante:
+- preia și decodifică instrucțiunile din memorie;
+- execută operații aritmetice și logice;
+- coordonează transferul datelor între memorie, magistrale și dispozitivele sistemului.
+
+=== 3. Subprogramul `sumap` și verificarea numerelor prietene
+
+Antet C++:
+```cpp
+void sumap(long long n, long long &s);
+```
+
+Program C++:
+```cpp
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+void sumap(long long n, long long &s) {
+    s = 1;
+    for (long long d = 2; d * d <= n; ++d)
+        if (n % d == 0) {
+            s += d;
+            if (d * d != n) s += n / d;
+        }
+}
+
+int main() {
+    ifstream fin("DATE.TXT");
+    long long a, b, sa, sb;
+    fin >> a >> b;
+    fin.close();
+
+    sumap(a, sa);
+    sumap(b, sb);
+    if (sa == b && sb == a)
+        cout << a << " " << b;
+    else
+        cout << "Nu";
+    return 0;
+}
+```
+
+=== 4. Bază de date pentru companie de automobile
+
+Tabele:
+- `CLIENT(id_client, nume, prenume, adresa)`;
+- `MODEL_AUTO(id_model, denumire_model, pret, putere_motor, tip_combustibil)`;
+- `AUTOMOBIL(serie_motor, id_model)`;
+- `VANZARE(id_vanzare, id_client, serie_motor, data_vanzare)`.
+
+Relații:
+- `MODEL_AUTO` 1:M `AUTOMOBIL`;
+- `CLIENT` 1:M `VANZARE`;
+- `AUTOMOBIL` 1:1 `VANZARE` dacă fiecare automobil se vinde o singură dată.
+
+Restricții: `serie_motor` este unică, prețul și puterea sunt pozitive, `id_model` și `id_client` sunt chei străine valide, iar aceeași serie de motor nu poate fi asociată mai multor vânzări active.
+
+Interogări utile:
+```sql
+-- clienții care au cumpărat un anumit model
+SELECT c.prenume, c.nume, c.adresa, a.serie_motor
+FROM CLIENT c
+JOIN VANZARE v ON v.id_client = c.id_client
+JOIN AUTOMOBIL a ON a.serie_motor = v.serie_motor
+WHERE a.id_model = :id_model;
+
+-- modele nevândute
+SELECT m.*
+FROM MODEL_AUTO m
+LEFT JOIN AUTOMOBIL a ON a.id_model = m.id_model
+LEFT JOIN VANZARE v ON v.serie_motor = a.serie_motor
+WHERE v.id_vanzare IS NULL;
+```
+
+== SUBIECTUL al II-lea (30 de puncte)
+
+=== 1. Mijloc de învățământ pentru subprograme recursive
+
+Mijloc ales: calculator cu mediu de programare și depanator.
+
+Caracteristici:
+- permite rularea pas cu pas a programului;
+- afișează valorile variabilelor și succesiunea apelurilor.
+
+Avantaje:
+- elevii observă concret stiva apelurilor recursive;
+- erorile de oprire sau de transmitere a parametrilor se identifică imediat.
+
+Exemplu de secvență: pentru conținutul *Subprograme recursive*, activitatea de învățare este calculul sumei cifrelor unui număr prin recursivitate. Profesorul scrie funcția, rulează exemplul `suma(253)`, oprește execuția la fiecare apel și cere elevilor să noteze valorile parametrului. Elevii implementează apoi recursiv calculul produsului cifrelor nenule și compară soluția cu varianta iterativă.
+
+=== 2. Test practic pentru subprograme recursive
+
+#table(
+  columns: (1.2fr, 2.7fr, 2.1fr),
+  inset: 5pt,
+  [*Item*], [*Enunț*], [*Răspuns așteptat / etape*],
+  [1], [Identificați cazul de bază pentru calculul recursiv al factorialului.], [`n <= 1`, rezultat `1`.],
+  [2], [Urmăriți apelurile funcției `f(n)=n+f(n-1)`, `f(0)=0`, pentru `n=3`.], [`3+2+1+0=6`.],
+  [3], [Scrieți o funcție recursivă pentru suma cifrelor unui număr.], [Caz de bază `n=0`; apel `n%10 + suma(n/10)`.],
+  [4], [Modificați funcția pentru a număra cifrele pare.], [Test pe ultima cifră și apel pe `n/10`.],
+  [5], [Explicați de ce lipsește terminarea dacă parametrul nu se apropie de cazul de bază.], [Apar apeluri infinite și epuizarea stivei.]
+)
+
+== SUBIECTUL al III-lea (30 de puncte)
+
+Finalitățile educației sunt orientările care dau sens procesului educativ și stabilesc ce tip de personalitate, competențe și valori urmărește școala să formeze.
+
+*Clasificare*: ideal educațional, scopuri educaționale și obiective educaționale. Idealul are nivelul cel mai general și exprimă modelul de personalitate dorit social. Scopurile concretizează idealul pentru niveluri, discipline sau cicluri de învățământ. Obiectivele sunt formulări operaționale pentru lecții și activități.
+
+*Operaționalizare*: un obiectiv corect precizează comportamentul observabil, condițiile de realizare și criteriul de reușită. Exemplu: „La finalul lecției, elevul va scrie corect o funcție recursivă pentru calculul sumei cifrelor unui număr natural, folosind caz de bază și apel recursiv.”

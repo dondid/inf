@@ -223,11 +223,50 @@ end.
 ---
 
 === 4. Baze de date: Companie Aviatică
-- *Entități*:
-  - `CLIENT`: `id_client` (PK), `nume`, `prenume`, `adresa`.
-  - `ZBOR`: `id_zbor` (PK), `aeroport_sursa`, `aeroport_destinatie`, `data_ora_plecare`, `data_ora_sosire`.
-  - `BILET`: `id_bilet` (PK), `id_client` (FK), `id_zbor` (FK), `mod_plata`, `data_achizitie`.
-- *SQL*:
+*Model conceptual*:
+- `CLIENT`: #underline[`id_client`], `nume`, `prenume`, `telefon`, `email`.
+- `ZBOR`: #underline[`id_zbor`], `aeroport_sursa`, `aeroport_destinatie`, `data_ora_plecare`, `data_ora_sosire`.
+- `BILET`: #underline[`id_bilet`], `id_client`, `id_zbor`, `mod_plata`, `data_achizitie`, `pret`.
+
+*Relații și reguli*:
+- `CLIENT` 1:M `BILET`; un client poate cumpăra mai multe bilete.
+- `ZBOR` 1:M `BILET`; un zbor poate avea mai multe bilete.
+- *1NF*: date atomice, fără liste de zboruri sau plăți într-un câmp.
+- *2NF*: atributele biletului depind de `id_bilet`; nu există dependențe parțiale.
+- *3NF*: datele clientului și ale zborului sunt separate de datele biletului.
+- `data_ora_sosire > data_ora_plecare`, `pret >= 0`, `mod_plata` are valori controlate (`numerar`, `card`, `transfer` etc.).
+
+*Model fizic*:
+```sql
+CREATE TABLE CLIENT (
+  id_client INT PRIMARY KEY AUTO_INCREMENT,
+  nume VARCHAR(80) NOT NULL,
+  prenume VARCHAR(80) NOT NULL,
+  telefon VARCHAR(30),
+  email VARCHAR(120)
+);
+
+CREATE TABLE ZBOR (
+  id_zbor INT PRIMARY KEY AUTO_INCREMENT,
+  aeroport_sursa VARCHAR(80) NOT NULL,
+  aeroport_destinatie VARCHAR(80) NOT NULL,
+  data_ora_plecare DATETIME NOT NULL,
+  data_ora_sosire DATETIME NOT NULL
+);
+
+CREATE TABLE BILET (
+  id_bilet INT PRIMARY KEY AUTO_INCREMENT,
+  id_client INT NOT NULL,
+  id_zbor INT NOT NULL,
+  mod_plata VARCHAR(30) NOT NULL,
+  data_achizitie DATE NOT NULL,
+  pret DECIMAL(10,2) CHECK (pret >= 0),
+  FOREIGN KEY (id_client) REFERENCES CLIENT(id_client),
+  FOREIGN KEY (id_zbor) REFERENCES ZBOR(id_zbor)
+);
+```
+
+*SQL pentru clienții distincți care au plătit numerar*:
   ```sql
   SELECT DISTINCT c.prenume, c.nume
   FROM CLIENT c
@@ -411,11 +450,48 @@ end.
 ---
 
 === 4. Baze de date: Curse de cai
-- *Entități*:
-  - `CAL`: `id_cal` (PK), `nume`, `varsta`, `proprietar_contact`.
-  - `CURSA`: `id_cursa` (PK), `tip_cursa`, `data_ora`.
-  - `INSCRIERE`: `id_cal` (FK), `id_cursa` (FK), `loc_clasare` (NULL), PK este `(id_cal, id_cursa)`.
-- *SQL*:
+*Model conceptual*:
+- `CAL`: #underline[`id_cal`], `nume`, `varsta`, `nume_proprietar`, `telefon_proprietar`, `email_proprietar`.
+- `CURSA`: #underline[`id_cursa`], `tip_cursa`, `data_ora`, `status`.
+- `INSCRIERE`: #underline[`id_cal`, `id_cursa`], `a_participat`, `loc_clasare`.
+
+*Relații și reguli*:
+- `CAL` M:N `CURSA`, realizată prin `INSCRIERE`.
+- *1NF*: fiecare atribut are valori atomice.
+- *2NF*: în `INSCRIERE`, `loc_clasare` depinde de perechea `(id_cal, id_cursa)`.
+- *3NF*: datele proprietarului sunt stocate la cal, nu repetate la fiecare cursă.
+- `loc_clasare` este NULL dacă un cal nu a participat; `varsta > 0`.
+
+*Model fizic*:
+```sql
+CREATE TABLE CAL (
+  id_cal INT PRIMARY KEY AUTO_INCREMENT,
+  nume VARCHAR(100) NOT NULL,
+  varsta INT CHECK (varsta > 0),
+  nume_proprietar VARCHAR(120),
+  telefon_proprietar VARCHAR(30),
+  email_proprietar VARCHAR(120)
+);
+
+CREATE TABLE CURSA (
+  id_cursa INT PRIMARY KEY AUTO_INCREMENT,
+  tip_cursa VARCHAR(50) NOT NULL,
+  data_ora DATETIME NOT NULL,
+  status VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE INSCRIERE (
+  id_cal INT,
+  id_cursa INT,
+  a_participat BOOLEAN DEFAULT FALSE,
+  loc_clasare INT NULL,
+  PRIMARY KEY (id_cal, id_cursa),
+  FOREIGN KEY (id_cal) REFERENCES CAL(id_cal),
+  FOREIGN KEY (id_cursa) REFERENCES CURSA(id_cursa)
+);
+```
+
+*SQL pentru ștergerea cailor neînscriși în ultimii doi ani*:
   ```sql
   DELETE FROM CAL
   WHERE id_cal NOT IN (

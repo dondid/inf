@@ -37,11 +37,17 @@
 
 === 1. Structura de date: Arbori Binari de Căutare (ABC)
 - *Definire*: Un arbore binar este arbore de căutare dacă cheia fiecărui nod este strict mai mare decât cheile tuturor nodurilor din subarborele stâng și strict mai mică sau egală cu cheile tuturor nodurilor din subarborele drept.
-- *Operații*:
-  - *Căutare/Inserare*: Pornind de la rădăcină, comparăm cheia. Dacă este mai mică mergem la stânga, dacă este mai mare mergem la dreapta.
-  - *Ștergere*: Cazul în care nodul este frunză (se elimină direct), are un singur fiu (se înlocuiește cu fiul său) sau are doi fii (se înlocuiește cu cel mai mare element din subarborele stâng sau cel mai mic din subarborele drept).
-  - *Parcurgeri*: Inordine (sortat crescător), Preordine, Postordine.
+- *Exemplu cu 7 noduri*: Inserăm în ordine cheile `50, 30, 70, 20, 40, 60, 80`. Rădăcina este `50`; în stânga se află subarborele cu `30, 20, 40`, iar în dreapta subarborele cu `70, 60, 80`.
+- *Operații specifice pe exemplu*:
+  - *Inserare*: cheia `35` se compară cu `50` (merge stânga), cu `30` (merge dreapta), cu `40` (merge stânga) și se inserează ca fiu stâng al lui `40`.
+  - *Căutare*: pentru cheia `60`, traseul este `50 -> 70 -> 60`, deci cheia există.
+  - *Ștergere*: dacă se șterge nodul `70`, care are doi fii, poate fi înlocuit cu succesorul în inordine `80` sau cu predecesorul `60`, apoi se repară legătura subarborelui din care a fost preluată cheia.
+  - *Parcurgere*: inordine produce cheile sortate crescător: `20 30 40 50 60 70 80`; preordine vizitează rădăcina înaintea subarborilor; postordine vizitează rădăcina după subarbori.
 - *Problemă (Gestiune dicționar)*:
+  *Enunț*: Se citesc `n` chei distincte. Să se construiască un arbore binar de căutare prin alocare dinamică și să se afișeze cheile în ordine crescătoare.
+
+  *Descriere*: Fiecare cheie citită este inserată în ABC prin comparații succesive cu nodul curent. Afișarea inordine a unui ABC dă valorile în ordine crescătoare, deoarece se vizitează mai întâi subarborele stâng, apoi nodul, apoi subarborele drept.
+
   - *C++*:
     ```cpp
     #include <iostream>
@@ -62,12 +68,17 @@
             inordine(rad->dr);
         }
     }
-    int main() {
-        Nod* rad = nullptr;
-        inserare(rad, 10); inserare(rad, 5); inserare(rad, 15);
-        inordine(rad);
-        return 0;
+int main() {
+    Nod* rad = nullptr;
+    int n, x;
+    cin >> n;
+    for (int i = 1; i <= n; ++i) {
+        cin >> x;
+        inserare(rad, x);
     }
+    inordine(rad);
+    return 0;
+}
     ```
 
 ---
@@ -81,6 +92,8 @@
 ---
 
 === 3. Programare: Reprezentare sumă termeni recurență
+
+*Descrierea algoritmului*: Subprogramul `termen(n)` determină cel mai mare termen al șirului care nu depășește valoarea curentă `n`. Programul principal aplică o strategie greedy: cât timp suma rămasă este pozitivă, alege `termen(sum)`, îl scrie în lista rezultatului și îl scade din sumă. Termenii sunt obținuți direct prin apeluri utile ale subprogramului cerut, iar valorile apar în ordine descrescătoare. Pentru șirul dat, această alegere nu folosește niciun termen de mai mult de două ori.
 
 *Soluție C++:*
 ```cpp
@@ -106,26 +119,12 @@ int main() {
     long long n;
     if (!(cin >> n)) return 0;
 
-    vector<long long> F;
-    F.push_back(1);
-    F.push_back(2);
-    while (true) {
-        long long next_val = 1 + 3 * F.back() - 2 * F[F.size() - 2];
-        if (next_val > 1000000000LL) break;
-        F.push_back(next_val);
-    }
-
     vector<long long> rez;
     long long sum = n;
-    for (int i = F.size() - 1; i >= 0; --i) {
-        if (sum >= F[i]) {
-            rez.push_back(F[i]);
-            sum -= F[i];
-        }
-        if (sum >= F[i]) {
-            rez.push_back(F[i]);
-            sum -= F[i];
-        }
+    while (sum > 0) {
+        long long t = termen(sum);
+        rez.push_back(t);
+        sum -= t;
     }
 
     ofstream fout("def.out");
@@ -143,9 +142,8 @@ int main() {
 program SumaTermeni;
 var
   n, sum_val: int64;
-  F: array[1..40] of int64;
   rez: array[1..80] of int64;
-  f_count, rez_count, i, j: integer;
+  rez_count, i: integer;
   fout: text;
 
 function termen(n_val: int64): int64;
@@ -173,31 +171,13 @@ end;
 
 begin
   readln(n);
-  F[1] := 1; F[2] := 2;
-  f_count := 2;
-  while true do
-  begin
-    F[f_count + 1] := 1 + 3 * F[f_count] - 2 * F[f_count - 1];
-    if F[f_count + 1] > 1000000000 then break;
-    f_count := f_count + 1;
-  end;
-
   sum_val := n;
   rez_count := 0;
-  for i := f_count downto 1 do
+  while sum_val > 0 do
   begin
-    if sum_val >= F[i] then
-    begin
-      rez_count := rez_count + 1;
-      rez[rez_count] := F[i];
-      sum_val := sum_val - F[i];
-    end;
-    if sum_val >= F[i] then
-    begin
-      rez_count := rez_count + 1;
-      rez[rez_count] := F[i];
-      sum_val := sum_val - F[i];
-    end;
+    rez_count := rez_count + 1;
+    rez[rez_count] := termen(sum_val);
+    sum_val := sum_val - rez[rez_count];
   end;
 
   assign(fout, 'def.out');
@@ -214,11 +194,42 @@ end.
 ---
 
 === 4. Baze de date: Florărie
-- *Entități*:
+*Model conceptual*:
   - `CLIENT`: `id_client` (PK), `nume`, `prenume`, `adresa`, `telefon`.
   - `TIP_FLOARE`: `id_floare` (PK), `denumire_stiintifica`, `pret_unitar`, `anotimp_specific`.
   - `COMANDA`: `id_client` (FK), `id_floare` (FK), `data_comanda`, `cantitate`, PK este `(id_client, id_floare, data_comanda)`.
-- *SQL*:
+
+*Relații și normalizare*: `CLIENT` și `TIP_FLOARE` sunt legate prin `COMANDA`, care reține data și cantitatea. Cheia compusă `(id_client, id_floare, data_comanda)` identifică o comandă pentru un anumit client, tip de floare și dată. Modelul respectă 1NF prin câmpuri atomice, 2NF prin separarea atributelor clientului/florii de comandă, și 3NF prin evitarea repetării prețului sau sezonului în comenzile clienților. Restricții utile: `cantitate > 0`, `pret_unitar >= 0`, chei străine valide.
+
+*Model fizic*:
+```sql
+CREATE TABLE CLIENT (
+  id_client INT PRIMARY KEY,
+  nume VARCHAR(50) NOT NULL,
+  prenume VARCHAR(50) NOT NULL,
+  adresa VARCHAR(150),
+  telefon VARCHAR(20)
+);
+
+CREATE TABLE TIP_FLOARE (
+  id_floare INT PRIMARY KEY,
+  denumire_stiintifica VARCHAR(100) NOT NULL,
+  pret_unitar DECIMAL(8,2) NOT NULL CHECK (pret_unitar >= 0),
+  anotimp_specific VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE COMANDA (
+  id_client INT NOT NULL,
+  id_floare INT NOT NULL,
+  data_comanda DATE NOT NULL,
+  cantitate INT NOT NULL CHECK (cantitate > 0),
+  PRIMARY KEY (id_client, id_floare, data_comanda),
+  FOREIGN KEY (id_client) REFERENCES CLIENT(id_client),
+  FOREIGN KEY (id_floare) REFERENCES TIP_FLOARE(id_floare)
+);
+```
+
+*SQL pentru tipurile de flori specifice verii*:
   ```sql
   SELECT denumire_stiintifica, pret_unitar
   FROM TIP_FLOARE

@@ -171,6 +171,10 @@ end.
 
 === 2. Algoritm eficient: Termeni recurență în interval
 
+*Metoda*: Termenii șirului sunt calculați cu formula $a_n = n^2 + n + 1$ și sunt strict crescători. Generăm termenii în această ordine, până când termenul depășește `y`; fiecare termen aflat în intervalul `[x, y]` este memorat. La final îi afișăm în ordine inversă, pentru a obține ordinea descrescătoare cerută.
+
+*Eficiență*: Algoritmul face doar $O(sqrt(y))$ pași, deoarece $n^2+n+1 <= y$ implică `n` de ordinul radicalului lui `y`. Nu este necesară parcurgerea tuturor valorilor din intervalul `[x, y]`. Memoria este proporțională cu numărul termenilor selectați.
+
 *Soluție C++:*
 ```cpp
 #include <iostream>
@@ -515,11 +519,25 @@ end.
 == SUBIECTUL al III-lea - Completare pentru Varianta 3 2023 (30 de puncte)
 
 === 1. Exercițiul pentru grafuri hamiltoniene
-*Caracteristici*: repetare conștientă, feedback imediat, gradare. *Tipuri*: exerciții de recunoaștere și exerciții aplicative.
+*Caracteristici*: repetare conștientă, feedback imediat, gradare de la sarcini simple la sarcini complexe.
+*Tipuri*: exerciții de recunoaștere (identificarea unui graf hamiltonian) și exerciții aplicative (construirea/verificarea unui ciclu hamiltonian).
 
-*Activitate*: identificarea unui ciclu hamiltonian într-un graf dat. Profesorul explică definiția, elevii propun cicluri și verifică dacă fiecare nod apare o singură dată.
+*Mijloc de învățământ*: fișă cu grafuri și tablă/proiector pentru reprezentarea muchiilor.
+*Formă de organizare*: frontal pentru fixarea definiției, apoi lucru pe perechi.
+*Activitate*: identificarea unui ciclu hamiltonian într-un graf dat.
+*Scenariu*: Profesorul reamintește că un ciclu hamiltonian trece o singură dată prin fiecare vârf și revine în vârful inițial. Elevii primesc trei grafuri, propun succesiuni de vârfuri și verifică existența muchiilor consecutive. Profesorul cere justificarea respingerii unei succesiuni dacă lipsește o muchie sau dacă un vârf se repetă. Elevii formulează la final criteriul de verificare.
 
 === 2. Test pentru dispozitive de intrare
-1. *Alegere multiplă (30p)*: Dispozitiv de intrare este: A. monitor B. tastatură C. imprimantă D. boxe. *Răspuns*: B.
-2. *Răspuns scurt (30p)*: Precizați rolul mouse-ului. *Răspuns*: introducerea comenzilor prin indicare/selectare.
-3. *Întrebare structurată (30p)*: Dați două exemple de dispozitive de intrare și câte o situație de utilizare. *Răspuns*: tastatură - introducere text; scanner - digitizare document etc.
+*Test scris - 90 puncte + 10 puncte din oficiu*
+
+1. *Alegere multiplă (30p)*: Dispozitiv de intrare este: A. monitor B. tastatură C. imprimantă D. boxe.
+   - *Răspuns*: B.
+   - *Criterii*: selectarea variantei corecte 25p; nealegerea variantelor de ieșire 5p.
+
+2. *Răspuns scurt (30p)*: Precizați rolul mouse-ului în utilizarea calculatorului personal.
+   - *Răspuns*: permite introducerea comenzilor prin indicare, selectare, glisare și activare a elementelor de interfață.
+   - *Criterii*: identificarea rolului de dispozitiv de intrare 10p; menționarea selectării/indicării 10p; formulare clară 10p.
+
+3. *Întrebare structurată (30p)*: Dați două exemple de dispozitive de intrare și câte o situație de utilizare pentru fiecare.
+   - *Răspuns*: tastatură - introducere text; scanner - digitizarea unui document; microfon - înregistrarea vocii.
+   - *Criterii*: două dispozitive corecte 10p; două situații de utilizare adecvate 14p; corelarea dispozitiv-situație și claritate 6p.

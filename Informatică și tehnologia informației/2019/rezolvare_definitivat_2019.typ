@@ -41,6 +41,8 @@
   3. `st = 4`, `dr = 4`, `mij = 4`. `V[4] = 16 == 16`. Elementul a fost găsit pe poziția 4.
 - *Complexitate*: $O(log N)$ în cel mai rău și mediu caz, $O(1)$ în cel mai bun caz.
 - *Problemă (Căutare Binară)*:
+
+  *Cod C++*:
   ```cpp
   #include <iostream>
   using namespace std;
@@ -59,6 +61,39 @@
       cout << cautareBinara(A, 7, 16) << endl;
       return 0;
   }
+  ```
+
+  *Cod Pascal*:
+  ```pascal
+  program CautareBinaraDemo;
+  var
+    A: array[0..6] of integer = (2, 5, 8, 12, 16, 23, 38);
+
+  function cautareBinara(n, x: integer): integer;
+  var
+    st, dr, m: integer;
+  begin
+    st := 0;
+    dr := n - 1;
+    while st <= dr do
+    begin
+      m := st + (dr - st) div 2;
+      if A[m] = x then
+      begin
+        cautareBinara := m;
+        exit;
+      end;
+      if A[m] < x then
+        st := m + 1
+      else
+        dr := m - 1;
+    end;
+    cautareBinara := -1;
+  end;
+
+  begin
+    writeln(cautareBinara(7, 16));
+  end.
   ```
 
 ---
@@ -98,6 +133,28 @@ int main() {
 }
 ```
 
+*Soluție Pascal:*
+```pascal
+program SubsirCircular;
+var
+  fin, fout: text;
+  s, t, dublat: string;
+begin
+  assign(fin, 'def2019.in'); reset(fin);
+  readln(fin, s);
+  readln(fin, t);
+  close(fin);
+
+  dublat := s + s;
+  assign(fout, 'def2019.out'); rewrite(fout);
+  if pos(t, dublat) > 0 then
+    writeln(fout, 'DA')
+  else
+    writeln(fout, 'NU');
+  close(fout);
+end.
+```
+
 ---
 
 === 4. Baze de date: Cabinet Medical
@@ -105,6 +162,7 @@ int main() {
   - `PACIENT`: `id_pacient` (PK), `nume`, `prenume`, `data_nasterii`.
   - `MEDIC`: `id_medic` (PK), `nume`, `prenume`, `specializare`.
   - `CONSULTATIE`: `id_consultatie` (PK), `id_pacient` (FK), `id_medic` (FK), `data_ora`, `diagnostic`.
+- *Relații și normalizare*: `PACIENT` 1:M `CONSULTATIE`, `MEDIC` 1:M `CONSULTATIE`. Tabela `CONSULTATIE` separă evenimentul medical de datele stabile ale pacientului și medicului. Atributele sunt atomice (1NF), depind de cheia tabelei lor (2NF), iar specializarea medicului nu se repetă în consultații (3NF). Restricții utile: `data_ora` obligatorie, `id_pacient` și `id_medic` chei străine valide.
 
 ---
 
@@ -118,6 +176,8 @@ int main() {
 - *Trace pe graf cu 10 noduri*: Exemplificarea marcării nodurilor vizitate.
 - *Complexitate*: $O(V + E)$ (noduri + muchii) pentru liste de adiacență, $O(V^2)$ pentru matrice de adiacență.
 - *Problemă (DFS)*:
+
+  *Cod C++*:
   ```cpp
   #include <iostream>
   #include <vector>
@@ -129,6 +189,26 @@ int main() {
           if (!viz[vecin]) dfs(vecin, adj, viz);
       }
   }
+  ```
+
+  *Cod Pascal*:
+  ```pascal
+  type
+    Graf = array[1..100, 1..100] of boolean;
+    VectorViz = array[1..100] of boolean;
+
+  procedure dfs(nod, n: integer; var adj: Graf; var viz: VectorViz);
+  var
+    vecin: integer;
+  begin
+    viz[nod] := true;
+    write(nod, ' ');
+    for vecin := 1 to n do
+    begin
+      if adj[nod, vecin] and (not viz[vecin]) then
+        dfs(vecin, n, adj, viz);
+    end;
+  end;
   ```
 
 === 2. Structura sistemelor de calcul: Tastatura
@@ -197,6 +277,85 @@ int main() {
 }
 ```
 
+*Soluție Pascal:*
+```pascal
+program CifreMinMax;
+var
+  n, smallest, largest: int64;
+  freq: array[0..9] of integer;
+  i, j, first_non_zero: integer;
+  fout: text;
+
+function nrAp(val: int64; c: integer): integer;
+var
+  count: integer;
+  temp: int64;
+begin
+  if (val = 0) and (c = 0) then
+  begin
+    nrAp := 1;
+    exit;
+  end;
+  count := 0;
+  temp := val;
+  while temp > 0 do
+  begin
+    if temp mod 10 = c then
+      count := count + 1;
+    temp := temp div 10;
+  end;
+  nrAp := count;
+end;
+
+begin
+  if not SeekEof then
+  begin
+    read(n);
+    
+    for i := 0 to 9 do
+      freq[i] := nrAp(n, i);
+      
+    first_non_zero := -1;
+    for i := 1 to 9 do
+    begin
+      if freq[i] > 0 then
+      begin
+        first_non_zero := i;
+        break;
+      end;
+    end;
+    
+    if first_non_zero = -1 then
+      smallest := 0
+    else
+    begin
+      smallest := first_non_zero;
+      freq[first_non_zero] := freq[first_non_zero] - 1;
+      for i := 0 to 9 do
+      begin
+        for j := 1 to freq[i] do
+          smallest := smallest * 10 + i;
+      end;
+      freq[first_non_zero] := freq[first_non_zero] + 1;
+    end;
+    
+    largest := 0;
+    for i := 9 downto 0 do
+    begin
+      for j := 1 to freq[i] do
+        largest := largest * 10 + i;
+    end;
+    
+    assign(fout, 'def2019.out'); rewrite(fout);
+    if smallest = largest then
+      writeln(fout, 'nu exista')
+    else
+      writeln(fout, smallest, ' ', largest);
+    close(fout);
+  end;
+end.
+```
+
 === 4. Baze de date: Agenție de impresariat muzical
 - *Entități*:
   - `SOLIST`: `id_solist` (PK), `nume`, `prenume`, `data_nasterii`.
@@ -209,6 +368,7 @@ int main() {
   JOIN DISTRIBUTIE d ON s.id_solist = d.id_solist
   WHERE d.an_distributie = YEAR(CURDATE());
   ```
+- *Relații și normalizare*: `SOLIST` și `ROL` sunt în relație M:N prin `DISTRIBUTIE`, deoarece un solist poate interpreta mai multe roluri, iar un rol poate fi distribuit în ani diferiți. Cheia compusă `(id_solist, id_rol, an_distributie)` previne dublurile. Modelul respectă 1NF, 2NF și 3NF prin separarea datelor solistului, ale rolului și ale distribuției anuale.
 
 ---
 

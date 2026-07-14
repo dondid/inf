@@ -60,8 +60,49 @@
 ---
 
 === 2. Proiectare baze de date: Normalizare
-- *Model conceptual*: Entități, instanțe, atribute, identificatori unici.
-- *Forme normale*: 1FN (atomicitate), 2FN (fără dependențe parțiale), 3FN (fără dependențe tranzitive).
+
+==== a) Noțiuni preliminare în modelarea conceptuală
+1. *Model conceptual*: O reprezentare abstractă, formală și independentă de implementarea hardware sau software a datelor dintr-o problemă din lumea reală, axată pe entități și asocieri logice.
+2. *Entitate*: O clasă de obiecte, concepte, persoane sau evenimente distincte din lumea reală despre care dorim să stocăm date (ex. `STUDENT`, `CURS`).
+3. *Instanță*: Un element individual concret, o înregistrare specifică aparținând unei entități (ex. studentul cu numele "Popescu Ion").
+4. *Atribut*: O proprietate sau caracteristică individuală care descrie o entitate (ex. `nume`, `data_nasterii`, `pret`).
+5. *Identificator unic (Cheie primară - PK)*: Un atribut sau grup de atribute ale cărui valori identifică în mod unic și neambiguu fiecare instanță a unei entități (ex. `CNP` sau `id_student`).
+6. *Relație*: O legătură sau asociere logică stabilită între două sau mai multe entități (ex. relația `înscris la` între `STUDENT` și `CURS`), caracterizată prin cardinalitate (1:1, 1:M, M:N).
+
+==== b) Cele trei Forme Normale (1FN, 2FN, 3FN)
+
+===== 1. Prima Formă Normală (1FN)
+- *Descriere*: O entitate/tabelă este în 1FN dacă și numai dacă toate atributele sale conțin exclusiv valori atomice (inseparabile), iar tabela nu conține grupuri repetitive de atribute sau liste de valori.
+- *Exemplu de încălcare a 1FN*:
+  Tabela `ANGAJAT` conține atributele: `(id_angajat, nume, proiecte_alocate)`.
+  Instanța: `(1, 'Popescu Ion', 'Proiect A, Proiect B, Proiect C')`. Câmpul `proiecte_alocate` conține valori neatomice (o listă de proiecte).
+- *Soluție de normalizare (respectare 1FN)*:
+  Fiecare intersecție rând-coloană trebuie să conțină o singură valoare atomică. Putem crea o structură în care fiecare proiect are rândul său:
+  `ANGAJAT_PROIECT(id_angajat, nume, proiect_alocat)`
+  Instanțe:
+  - `(1, 'Popescu Ion', 'Proiect A')`
+  - `(1, 'Popescu Ion', 'Proiect B')`
+  - `(1, 'Popescu Ion', 'Proiect C')`
+
+===== 2. A Doua Formă Normală (2FN)
+- *Descriere*: O entitate este în 2FN dacă este în 1FN și toate atributele non-cheie sunt complet dependente funcțional de întreaga cheie primară (nu doar de o parte a acesteia, în cazul cheilor primare compuse). 2FN elimină dependențele parțiale.
+- *Exemplu de încălcare a 2FN*:
+  Fie tabela `PROIECT_STUDENT` cu cheia primară compusă `(id_student, id_proiect)` și atributele: `(id_student, id_proiect, nota_obtinuta, denumire_proiect)`.
+  Aici, `nota_obtinuta` depinde de întreaga cheie `(student + proiect)`. Însă, `denumire_proiect` depinde funcțional doar de `id_proiect` (dependență parțială de o parte a cheii).
+- *Soluție de normalizare (respectare 2FN)*:
+  Se separă atributele dependente parțial în tabele distincte:
+  - `EVALUARE_STUDENT(id_student, id_proiect, nota_obtinuta)` - unde cheia primară este `(id_student, id_proiect)`.
+  - `PROIECT(id_proiect, denumire_proiect)` - unde cheia primară este `id_proiect`.
+
+===== 3. A Treia Formă Normală (3FN)
+- *Descriere*: O entitate este în 3FN dacă este în 2FN și nu conține dependențe tranzitive ale atributelor non-cheie față de cheia primară. Altfel spus, niciun atribut non-cheie nu trebuie să depindă de cheia primară prin intermediul unui alt atribut non-cheie.
+- *Exemplu de încălcare a 3FN*:
+  Fie tabela `ANGAJAT` cu cheia primară `id_angajat` și atributele: `(id_angajat, nume, id_departament, nume_departament)`.
+  Aici, `id_angajat` determină `id_departament`, iar `id_departament` determină `nume_departament`. Avem o dependență tranzitivă: `id_angajat -> id_departament -> nume_departament`.
+- *Soluție de normalizare (respectare 3FN)*:
+  Se izolează atributele cu dependență tranzitivă în tabele separate:
+  - `ANGAJAT(id_angajat, nume, id_departament)` - unde `id_departament` devine cheie străină (FK).
+  - `DEPARTAMENT(id_departament, nume_departament)` - unde cheia primară este `id_departament`.
 
 ---
 

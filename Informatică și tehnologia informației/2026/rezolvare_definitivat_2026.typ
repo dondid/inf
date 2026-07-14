@@ -494,8 +494,8 @@ int main() {
     for (int i = 1; i <= m; ++i) {
         for (int j = 1; j <= n; ++j) {
             int val1, val2;
-            eticheta(j, i, val1); // j rândul (s), i coloana (d) -> alipește rândul la dreapta coloanei
-            eticheta(i, j, val2); // i rândul (s), j coloana (d) -> alipește coloana la dreapta rândului
+            eticheta(j, i, val1); // scaunul j urmat de rândul i
+            eticheta(i, j, val2); // rândul i urmat de scaunul j
             A[i][j] = min(val1, val2);
         }
     }
@@ -731,6 +731,35 @@ VALUES ('EduCode 2025', 'Inovatie in predarea informaticii', NULL);
    - Faceți click dreapta pe tabela `FESTIVAL` și selectați "Select Rows - Limit 1000".
    - În grila de date afișată, introduceți direct în rândul nou valorile: denumire = `EduCode 2025`, tematica = `Inovatie in predarea informaticii`, site_oficial = `NULL` (sau lăsați gol).
    - Apăsați butonul "Apply" din colțul din dreapta jos pentru a executa inserarea în baza de date.
+
+=== e) Interogări SQL pentru extragerea informațiilor de sinteză
+
+Pentru a demonstra utilitatea modelului fizic propus, iată interogările SQL corespunzătoare cerințelor de sinteză din enunț:
+
+1. *Numărul de festivaluri în cadrul cărora s-au desfășurat cel puțin două evenimente de tip workshop*:
+```sql
+SELECT COUNT(*) AS nr_festivaluri
+FROM (
+    SELECT e.id_festival
+    FROM EVENIMENT e
+    JOIN TIP_EVENIMENT t ON e.id_tip = t.id_tip
+    WHERE t.denumire_tip = 'workshop'
+    GROUP BY e.id_festival
+    HAVING COUNT(e.id_eveniment) >= 2
+) AS subquery;
+```
+
+2. *Tipurile de evenimente care nu s-au desfășurat în cadrul niciunui festival în ultimii doi ani*:
+```sql
+-- Varianta bazată pe subinterogare cu NOT IN
+SELECT id_tip, denumire_tip
+FROM TIP_EVENIMENT
+WHERE id_tip NOT IN (
+    SELECT DISTINCT id_tip
+    FROM EVENIMENT
+    WHERE data_ora_inceput >= DATE_SUB(CURDATE(), INTERVAL 2 YEAR)
+);
+```
 
 ---
 

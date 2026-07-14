@@ -171,6 +171,10 @@ end.
 
 === 2. Algoritm eficient: Termeni recurență în interval
 
+*Metoda*: Termenii au forma $a_n = n^2 + n + 1$, deci cresc strict odată cu `n`. Generăm succesiv termenii începând cu `n=0`, ne oprim când valoarea depășește limita superioară `y` și păstrăm numai termenii aflați în intervalul `[x, y]`. Deoarece cerința solicită afișarea în ordine descrescătoare, memorăm termenii găsiți și îi scriem invers.
+
+*Eficiență*: Nu parcurgem toate numerele din interval, ci numai indicii `n` pentru care $n^2+n+1 <= y$. Numărul acestor termeni este de ordin $O(sqrt(y))$, iar generarea fiecăruia se face în timp constant. Memoria este $O(k)$, unde `k` este numărul termenilor afișați; se poate reduce la $O(1)$ dacă se determină mai întâi cel mai mare `n` valid și se coboară.
+
 *Soluție C++:*
 ```cpp
 #include <iostream>

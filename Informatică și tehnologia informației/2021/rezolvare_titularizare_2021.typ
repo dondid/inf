@@ -305,7 +305,56 @@ O partiție a unei mulțimi cu $n$ elemente este o descompunere în submulțimi 
 
 Algoritmul construiește recursiv vectorul: pentru elementul curent `k`, se încearcă blocurile deja existente `1..nrBlocuri` și, suplimentar, un bloc nou `nrBlocuri+1`. La final, când `k=n+1`, vectorul descrie o partiție validă. Pentru a evita duplicarea, blocurile sunt introduse în ordinea apariției lor. Complexitatea este proporțională cu numărul partițiilor generate, adică numărul Bell $B_n$, iar memoria auxiliară este $O(n)$.
 
-*Exemplu pentru `{1,2,3}`*: `{1}{2}{3}`, `{1,2}{3}`, `{1,3}{2}`, `{1}{2,3}`, `{1,2,3}`.
+*Exemplu pentru `{1,2,3,4}`*: primele partiții generate pot fi `{1,2,3,4}`, `{1,2,3}{4}`, `{1,2,4}{3}`, `{1,2}{3,4}`, `{1,2}{3}{4}`, `{1,3,4}{2}` etc. Pentru `n=4` există $B_4 = 15$ partiții.
+
+*Problemă*: Se citește `n`. Să se afișeze toate partițiile mulțimii `{1, 2, ..., n}`.
+
+*Soluție C++*:
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int n, p[20];
+
+void afisare(int nrBlocuri) {
+    for (int b = 1; b <= nrBlocuri; ++b) {
+        cout << "{";
+        bool primul = true;
+        for (int i = 1; i <= n; ++i) {
+            if (p[i] == b) {
+                if (!primul) cout << ",";
+                cout << i;
+                primul = false;
+            }
+        }
+        cout << "}";
+    }
+    cout << "\n";
+}
+
+void gen(int k, int nrBlocuri) {
+    if (k > n) {
+        afisare(nrBlocuri);
+        return;
+    }
+    for (int b = 1; b <= nrBlocuri; ++b) {
+        p[k] = b;
+        gen(k + 1, nrBlocuri);
+    }
+    p[k] = nrBlocuri + 1;
+    gen(k + 1, nrBlocuri + 1);
+}
+
+int main() {
+    cin >> n;
+    p[1] = 1;
+    gen(2, 1);
+    return 0;
+}
+```
+
+*Descrierea soluției*: Elementul `1` este pus în primul bloc pentru a fixa o reprezentare unică. Pentru fiecare element următor, fie îl plasăm într-un bloc existent, fie deschidem un bloc nou. Astfel se generează toate partițiile fără permutări duplicate ale blocurilor.
 
 === 2. TIC: Grafice și ilustrații într-un document
 Într-un procesor de text, ilustrațiile pot fi imagini, forme automate, diagrame, capturi de ecran, SmartArt sau grafice. Inserarea se face din meniul dedicat obiectelor grafice, apoi obiectul se poate redimensiona, decupa, roti, alinia, ancora față de paragraf și formata prin bordură, umbră, contrast sau stil.
@@ -420,6 +469,10 @@ end.
 ---
 
 === 2. Algoritm eficient: Intervale disjuncte
+
+*Metoda*: Problema este una de selecție maximă a intervalelor compatibile. Sortăm intervalele crescător după extremitatea dreaptă și alegem greedy primul interval care se termină cel mai devreme. Apoi selectăm următorul interval al cărui capăt stâng este cel puțin capătul drept al ultimului interval selectat. Pentru intervale deschise, `(a,b)` și `(b,c)` au intersecția vidă, deoarece punctul `b` nu aparține niciunuia dintre intervale, deci condiția `st >= last_dr` este corectă.
+
+*Eficiență*: Sortarea are complexitatea $O(n log n)$, iar parcurgerea greedy este $O(n)$. Memoria este $O(n)$ pentru memorarea intervalelor.
 
 *Soluție C++:*
 ```cpp

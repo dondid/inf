@@ -251,3 +251,137 @@ Testul are 90 de puncte, la care se adaugă 10 puncte din oficiu.
 - Educația informală este permanentă și naturală, dar poate transmite și modele greșite dacă nu este filtrată critic.
 
 *Interdependență*: Cele trei forme nu se exclud, ci se completează. De exemplu, la informatică, școala oferă conceptele de bază despre algoritmi, un club de robotică le transformă în proiecte practice, iar experiența personală de utilizare a calculatorului consolidează deprinderile. Profesorul eficient valorifică toate cele trei surse: organizează învățarea formală, recomandă activități nonformale și discută critic experiențele informale ale elevilor.
+
+#pagebreak()
+
+= II. Rezolvare Definitivat Informatică de gestiune Varianta 3 (17 iulie 2012)
+
+[Subiect PDF](file:///wsl.localhost/Debian/home/daniel/projects/inf/Informatică și tehnologia informației/2012/Def_MET_048_Informatica_gestiune_P_2012_var_03_LRO.pdf) | [Barem PDF](file:///wsl.localhost/Debian/home/daniel/projects/inf/Informatică și tehnologia informației/2012/Def_MET_048_Informatica_gestiune_P_2012_bar_03_LRO.pdf)
+
+== SUBIECTUL I (30 de puncte)
+
+=== 1. Produs informatic pentru gestiunea bazelor de date
+
+Un exemplu potrivit este Microsoft Access sau LibreOffice Base. Informația este organizată în tabele, fiecare tabel având câmpuri, înregistrări și chei primare. Relațiile dintre tabele permit evitarea redundanței și interogarea coerentă a datelor.
+
+*Elemente de interfață*:
+- panoul de obiecte, din care se aleg tabele, interogări, formulare și rapoarte;
+- grila de proiectare, folosită pentru definirea câmpurilor, criteriilor sau controalelor.
+
+*Facilități principale*:
+- *crearea tabelelor*: definirea câmpurilor, tipurilor de date, cheilor primare și relațiilor;
+- *interogarea datelor*: selectarea, filtrarea, sortarea și agregarea informațiilor;
+- *raportarea*: generarea de situații tipărite sau exportabile pe baza datelor stocate.
+
+=== 2. Dispozitive periferice
+
+Dispozitivele periferice sunt echipamente hardware conectate la sistemul de calcul, folosite pentru introducerea datelor, afișarea rezultatelor sau stocarea/transferul informațiilor. Exemple: tastatura, mouse-ul, monitorul, imprimanta, scannerul.
+
+=== 3. Subprogramul `suma` și programul cerut
+
+Antet C++:
+```cpp
+int suma(int n);
+```
+
+Soluție C++:
+```cpp
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int suma(int n) {
+    int s = 0;
+    do {
+        s += n % 10;
+        n /= 10;
+    } while (n > 0);
+    return s;
+}
+
+void solutie() {
+    ifstream fin("DATE.TXT");
+    int n;
+    fin >> n;
+    fin.close();
+
+    if (suma(n) % 2 == 1)
+        cout << n;
+    else
+        cout << "Nu este impara";
+}
+```
+
+=== 4. Bază de date pentru companie de excursii
+
+Model conceptual cu 3 tabele:
+- `CLIENT(id_client, nume, prenume, adresa)`;
+- `EXCURSIE(id_excursie, pret, descriere_obiective)`;
+- `CONTRACT(id_contract, id_client, id_excursie, data_semnare)`.
+
+Relații:
+- `CLIENT` 1:M `CONTRACT`;
+- `EXCURSIE` 1:M `CONTRACT`;
+- relația M:N dintre clienți și excursii este rezolvată prin `CONTRACT`.
+
+Restricții:
+- chei primare pentru fiecare tabel;
+- `CONTRACT.id_client` și `CONTRACT.id_excursie` sunt chei străine valide;
+- `pret > 0`;
+- `data_semnare` obligatorie;
+- se poate impune unicitate pe `(id_client, id_excursie, data_semnare)` dacă se dorește evitarea înregistrării aceluiași contract de două ori.
+
+Interogări utile:
+```sql
+-- clienții unei excursii date
+SELECT c.nume, c.prenume, c.adresa, ct.data_semnare
+FROM CLIENT c
+JOIN CONTRACT ct ON ct.id_client = c.id_client
+WHERE ct.id_excursie = :id_excursie;
+
+-- clienții cu cel puțin două contracte
+SELECT c.id_client, c.nume, c.prenume
+FROM CLIENT c
+JOIN CONTRACT ct ON ct.id_client = c.id_client
+GROUP BY c.id_client, c.nume, c.prenume
+HAVING COUNT(*) >= 2;
+
+-- excursii fără contracte
+SELECT e.*
+FROM EXCURSIE e
+LEFT JOIN CONTRACT ct ON ct.id_excursie = e.id_excursie
+WHERE ct.id_contract IS NULL;
+```
+
+== SUBIECTUL al II-lea (30 de puncte)
+
+=== 1. Studiul de caz
+
+*Caracteristici*:
+- pornește de la o situație concretă, apropiată de realitate;
+- solicită analiza, formularea de ipoteze, argumentarea și alegerea unei soluții.
+
+*Etape*: alegerea cazului, prezentarea situației, documentarea, analiza individuală sau pe grupe, dezbaterea soluțiilor și formularea concluziilor.
+
+*Exemplu*: la modulul Baze de date, conținutul „Proiectarea unei baze de date pentru o agenție de turism”.
+
+- *Activitate de învățare*: identificarea entităților și relațiilor dintr-un caz practic.
+- *Mijloc de învățământ*: fișă de caz și calculator cu SGBD.
+- *Scenariu*: profesorul prezintă cazul unei agenții care gestionează clienți, excursii și contracte. Elevii extrag cerințele, propun entități, stabilesc chei primare și relații. Profesorul dirijează discuția spre eliminarea redundanței și validarea modelului. Elevii compară soluțiile și justifică de ce tabela `CONTRACT` este necesară pentru relația M:N.
+
+=== 2. Test de evaluare pentru capitolul Baze de date
+
+#table(
+  columns: (1.4fr, 2.4fr, 2.2fr),
+  inset: 5pt,
+  [*Item*], [*Enunț*], [*Răspuns așteptat / barem*],
+  [Pereche (30p)], [Asociați noțiunile: cheie primară, cheie străină, interogare cu descrierile corespunzătoare.], [3 asocieri corecte x 10p.],
+  [Completare (20p)], [Într-o relație 1:M, cheia primară din tabela de la partea 1 apare ca ____ în tabela de la partea M.], [cheie străină; 20p.],
+  [Problemă/eseu (40p)], [Proiectați tabelele pentru evidența elevilor înscriși la cursuri opționale. Precizați chei și relații.], [Tabele corecte 15p, chei 10p, relații 10p, restricții 5p.]
+)
+
+Se acordă 10 puncte din oficiu.
+
+== SUBIECTUL al III-lea (30 de puncte)
+
+Rezolvarea pentru formele educației este aceeași ca în secțiunea anterioară: educația formală este instituționalizată și certificată, educația nonformală este organizată în afara curriculumului strict, iar educația informală apare spontan în familie, grupuri, media și experiențe cotidiene. Răspunsul complet trebuie să includă definiții, analiză comparativă și interdependența celor trei forme, cu exemple din activitatea de informatică: lecția formală oferă concepte, clubul sau concursul dezvoltă aplicații, iar experiențele personale cu tehnologia consolidează sau influențează comportamentele.

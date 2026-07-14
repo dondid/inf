@@ -46,6 +46,10 @@
 - *Constructori/Destructori*: Metode speciale apelate la crearea, respectiv distrugerea automată a unui obiect.
 
 - *Problemă (Gestiune cont bancar)*:
+  *Enunț*: Se cere modelarea unui cont bancar printr-o clasă care reține titularul și soldul. Soldul nu trebuie modificat direct din exterior, ci numai prin metode care validează operațiile.
+
+  *Descriere*: Clasa `ContBancar` are membrii de date `private`, deci starea obiectului este protejată. Constructorul inițializează titularul și soldul, metoda `depune` modifică soldul numai dacă suma este pozitivă, iar metoda `getSold` permite citirea controlată a valorii. Astfel se respectă principiul încapsulării.
+
   - *C++*:
     ```cpp
     #include <iostream>
@@ -72,6 +76,7 @@
 
 === 2. Structura sistemelor de calcul: Dispozitive periferice
 - *Integrare*: Perifericele permit introducerea de date (intrare) și redarea rezultatelor (ieșire), comunicând cu procesorul prin controlere speciale de I/O și întreruperi software/hardware.
+- *Interacțiune periferic-procesor*: La apăsarea unei taste, controlerul tastaturii codifică semnalul, îl transmite către sistem și poate genera o întrerupere. Procesorul întrerupe temporar execuția curentă, sistemul de operare preia codul tastei prin driver, îl plasează în bufferul de intrare, iar aplicația activă îl citește și îl interpretează. Pentru un dispozitiv de ieșire, cum este imprimanta, procesorul transmite datele către driver, driverul le convertește în comenzi specifice dispozitivului, iar controlerul imprimantei execută tipărirea.
 - *Clasificare*:
   1. *Periferice de intrare*: Mouse, Tastatură (parametru: DPI pentru mouse, polling rate).
   2. *Periferice de ieșire*: Monitor, Imprimantă (parametru: rezoluție PPI/DPI, timp de răspuns).
@@ -175,11 +180,40 @@ end.
 ---
 
 === 4. Baze de date: Școală de dans
-- *Entități*:
+*Model conceptual*:
   - `CURSANT`: `id_cursant` (PK), `nume`, `prenume`, `data_nasterii`.
   - `STIL_DANS`: `id_stil` (PK), `nume_stil`, `categoria`, `descriere`.
   - `INSCRIERE`: `id_cursant` (FK), `id_stil` (FK), `an_inscriere`, PK este `(id_cursant, id_stil, an_inscriere)`.
-- *SQL (Adăugare date)*:
+
+*Relații și normalizare*: `CURSANT` și `STIL_DANS` sunt în relație M:N prin `INSCRIERE`, deoarece un cursant poate urma mai multe stiluri, iar un stil poate avea mai mulți cursanți. Cheia compusă `(id_cursant, id_stil, an_inscriere)` identifică înscrierea pentru un an. Modelul respectă 1NF prin valori atomice, 2NF prin separarea atributelor dependente de cursant/stil, și 3NF prin evitarea dependențelor tranzitive. Cheile străine trebuie să existe înainte de inserarea înscrierilor.
+
+*Model fizic*:
+```sql
+CREATE TABLE CURSANT (
+  id_cursant INT PRIMARY KEY,
+  nume VARCHAR(50) NOT NULL,
+  prenume VARCHAR(50) NOT NULL,
+  data_nasterii DATE NOT NULL
+);
+
+CREATE TABLE STIL_DANS (
+  id_stil INT PRIMARY KEY,
+  nume_stil VARCHAR(60) NOT NULL,
+  categoria VARCHAR(40) NOT NULL,
+  descriere VARCHAR(255)
+);
+
+CREATE TABLE INSCRIERE (
+  id_cursant INT NOT NULL,
+  id_stil INT NOT NULL,
+  an_inscriere INT NOT NULL,
+  PRIMARY KEY (id_cursant, id_stil, an_inscriere),
+  FOREIGN KEY (id_cursant) REFERENCES CURSANT(id_cursant),
+  FOREIGN KEY (id_stil) REFERENCES STIL_DANS(id_stil)
+);
+```
+
+*SQL pentru adăugarea stilului cerut*:
   ```sql
   INSERT INTO STIL_DANS (nume_stil, categoria, descriere)
   VALUES ('tango argentinian', 'clasic', 'Dans inclus pe lista patrimoniului UNESCO');

@@ -270,10 +270,49 @@ end.
 ---
 
 === 4. Baze de date: Organizație de ciclism
-- *Entități*:
-  - `COMPETITIE`: `id_competitie` (PK), `denumire`, `oras_secretariat`, `telefon`, `email`, `site_web`.
-  - `PROBA`: `id_proba` (PK), `id_competitie` (FK), `tip_proba`, `descriere_generala`, `descriere_particulara`, `data_desfasurare`, `categorie_participanti`.
-- *SQL*:
+*Model conceptual*:
+- `COMPETITIE`: #underline[`id_competitie`], `denumire`, `oras_secretariat`, `telefon_contact`, `email_contact`, `site_web`.
+- `TIP_PROBA`: #underline[`id_tip_proba`], `denumire_tip`, `descriere_generala`.
+- `PROBA`: #underline[`id_proba`], `id_competitie`, `id_tip_proba`, `descriere_particulara`, `data_desfasurare`, `categorie_participanti`.
+
+*Relații și reguli*:
+- `COMPETITIE` 1:M `PROBA`; o competiție poate avea mai multe probe.
+- `TIP_PROBA` 1:M `PROBA`; un tip de probă poate apărea în competiții diferite.
+- *1NF*: toate atributele sunt atomice.
+- *2NF*: atributele non-cheie depind complet de cheia primară a tabelei.
+- *3NF*: descrierea generală a tipului de probă este în `TIP_PROBA`, nu repetată în `PROBA`.
+- O competiție poate avea mai multe probe de același tip doar dacă diferă categoria participanților sau data/descrierea particulară, conform regulilor organizației.
+
+*Model fizic*:
+```sql
+CREATE TABLE COMPETITIE (
+  id_competitie INT PRIMARY KEY AUTO_INCREMENT,
+  denumire VARCHAR(150) NOT NULL,
+  oras_secretariat VARCHAR(100) NOT NULL,
+  telefon_contact VARCHAR(30),
+  email_contact VARCHAR(120),
+  site_web VARCHAR(150)
+);
+
+CREATE TABLE TIP_PROBA (
+  id_tip_proba INT PRIMARY KEY AUTO_INCREMENT,
+  denumire_tip VARCHAR(60) NOT NULL UNIQUE,
+  descriere_generala TEXT
+);
+
+CREATE TABLE PROBA (
+  id_proba INT PRIMARY KEY AUTO_INCREMENT,
+  id_competitie INT NOT NULL,
+  id_tip_proba INT NOT NULL,
+  descriere_particulara TEXT,
+  data_desfasurare DATE NOT NULL,
+  categorie_participanti VARCHAR(60) NOT NULL,
+  FOREIGN KEY (id_competitie) REFERENCES COMPETITIE(id_competitie),
+  FOREIGN KEY (id_tip_proba) REFERENCES TIP_PROBA(id_tip_proba)
+);
+```
+
+*SQL pentru competiții cu cel puțin o probă în anul curent*:
   ```sql
   SELECT DISTINCT c.denumire
   FROM COMPETITIE c
@@ -379,8 +418,8 @@ Fie o matrice pătratică `A` cu indicii de linie `i` și coloană `j` (1-indexe
   1. *Stick USB (Flash Drive)*: Stocare pe cipuri de memorie Flash (EEPROM). Conectare prin port USB. Avantaj: Portabilitate extremă.
   2. *SSD Extern*: Stocare pe cipuri NAND Flash. Conectare prin USB-C sau Thunderbolt. Avantaj: Viteze mari de transfer.
 
-=== 3. Programare: Tonomat k-perechi
-- *Descriere*: Subprogramul `codGen` calculează numărul de divizori ai lui `n` în $O(sqrt(n))$. Programul principal citește intervalul, sortează capetele crescător și parcurge elementele consecutiv, contorizând perechile care au numărul de divizori egal cu `k`.
+=== 3. Programare: k-perechi
+- *Descriere*: Subprogramul `nrDiv` calculează numărul de divizori ai lui `n` în $O(sqrt(n))$. Programul principal citește intervalul, ordonează capetele crescător și parcurge elementele consecutive, contorizând perechile pentru care ambele numere au exact `k` divizori.
 
 *Soluție C++:*
 ```cpp
@@ -389,7 +428,7 @@ Fie o matrice pătratică `A` cu indicii de linie `i` și coloană `j` (1-indexe
 #include <algorithm>
 using namespace std;
 
-int codGen(int n) {
+int nrDiv(int n) {
     int cnt = 0;
     for (int d = 1; d * d <= n; ++d) {
         if (n % d == 0) {
@@ -411,9 +450,9 @@ int main() {
 
     int count_pairs = 0;
     if (st < dr) {
-        int prev_divs = codGen(st);
+        int prev_divs = nrDiv(st);
         for (int i = st; i < dr; ++i) {
-            int curr_divs = codGen(i + 1);
+            int curr_divs = nrDiv(i + 1);
             if (prev_divs == k && curr_divs == k) {
                 count_pairs++;
             }
@@ -428,14 +467,14 @@ int main() {
 
 *Soluție Pascal:*
 ```pascal
-program TonomatKPerechi;
+program KPerechi;
 uses math;
 
 var
   fin: text;
   k, x, y, st, dr, i, prev_divs, curr_divs, count_pairs: integer;
 
-function codGen(n: integer): integer;
+function nrDiv(n: integer): integer;
 var
   d, cnt: integer;
 begin
@@ -451,7 +490,7 @@ begin
     end;
     d := d + 1;
   end;
-  codGen := cnt;
+  nrDiv := cnt;
 end;
 
 begin
@@ -466,10 +505,10 @@ begin
 
   if st < dr then
   begin
-    prev_divs := codGen(st);
+    prev_divs := nrDiv(st);
     for i := st to dr - 1 do
     begin
-      curr_divs := codGen(i + 1);
+      curr_divs := nrDiv(i + 1);
       if (prev_divs = k) and (curr_divs = k) then
         count_pairs := count_pairs + 1;
       prev_divs := curr_divs;
@@ -481,27 +520,90 @@ end.
 ```
 
 === 4. Baze de date: Emisiuni Radio
-- *Entități*:
-  - `PIESA`: `id_piesa` (PK), `titlu`, `compozitor`, `solist`, `gen_muzical`, `an_aparitie`, `durata`.
-  - `EMISIUNE`: `id_emisiune` (PK), `denumire`, `frecventa`, `descriere`.
-  - `DIFUZARE`: `id_difuzare` (PK), `id_piesa` (FK), `id_emisiune` (FK), `data_ora`.
-- *SQL Afișare cronologică*:
+*Model conceptual*:
+- `PIESA`: #underline[`id_piesa`], `titlu`, `compozitor`, `interpret`, `gen_muzical`, `an_aparitie`, `durata_secunde`.
+- `EMISIUNE`: #underline[`id_emisiune`], `denumire`, `frecventa`, `data_start_grila`, `data_sfarsit_grila`, `ora_difuzare`, `minut_difuzare`, `descriere`.
+- `DIFUZARE`: #underline[`id_difuzare`], `data_difuzare`, `ora_difuzare`, `minut_difuzare`, leagă o piesă de o emisiune.
+
+*Relații*:
+- O piesă poate fi difuzată de mai multe ori, în cadrul mai multor emisiuni: `PIESA` 1:M `DIFUZARE`.
+- O emisiune poate difuza mai multe piese în timp: `EMISIUNE` 1:M `DIFUZARE`.
+- Relația M:N dintre piese și emisiuni este normalizată prin tabela asociativă `DIFUZARE`.
+
+*Restricții și forme normale*:
+- *1FN*: atribute atomice; ora și minutul sunt câmpuri separate sau o valoare temporală unică, nu liste de ore.
+- *2FN*: toate atributele non-cheie depind de cheia primară a tabelei în care se află.
+- *3FN*: datele piesei nu se repetă în `DIFUZARE`, iar datele emisiunii nu se repetă în `PIESA`.
+- `durata_secunde > 0`, `an_aparitie <= YEAR(CURDATE())`, `id_piesa` și `id_emisiune` din `DIFUZARE` sunt chei străine valide.
+
+*Model fizic*:
+#table(
+  columns: (1.1fr, 1.2fr, 1.1fr, 2.2fr),
+  inset: 5pt,
+  [*Tabel*], [*Câmp*], [*Tip*], [*Rol / restricții*],
+  [PIESA], [id_piesa], [INT], [PK, AUTO_INCREMENT],
+  [], [titlu], [VARCHAR(150)], [NOT NULL],
+  [], [compozitor], [VARCHAR(120)], [NOT NULL],
+  [], [interpret], [VARCHAR(150)], [NOT NULL],
+  [], [gen_muzical], [VARCHAR(60)], [],
+  [], [an_aparitie], [INT], [CHECK],
+  [], [durata_secunde], [INT], [CHECK > 0],
+  [EMISIUNE], [id_emisiune], [INT], [PK, AUTO_INCREMENT],
+  [], [denumire], [VARCHAR(120)], [NOT NULL],
+  [], [frecventa], [VARCHAR(30)], [săptămânală/cotidiană/etc.],
+  [], [data_start_grila], [DATE], [],
+  [], [data_sfarsit_grila], [DATE], [NULL permis],
+  [], [ora_difuzare], [INT], [0..23],
+  [], [minut_difuzare], [INT], [0..59],
+  [], [descriere], [TEXT], [NULL],
+  [DIFUZARE], [id_difuzare], [INT], [PK, AUTO_INCREMENT],
+  [], [id_piesa], [INT], [FK -> PIESA],
+  [], [id_emisiune], [INT], [FK -> EMISIUNE],
+  [], [data_difuzare], [DATE], [NOT NULL],
+  [], [ora_difuzare], [INT], [0..23],
+  [], [minut_difuzare], [INT], [0..59],
+)
+
+*SQL pentru afișarea cronologică cerută*:
   ```sql
-  SELECT d.data_ora
+  SELECT d.data_difuzare, d.ora_difuzare, d.minut_difuzare
   FROM DIFUZARE d
   JOIN PIESA p ON d.id_piesa = p.id_piesa
   WHERE p.titlu = 'Anotimpurile - Vara'
     AND p.compozitor = 'Antonio Vivaldi'
     AND YEAR(d.data_ora) = YEAR(CURDATE())
-  ORDER BY d.data_ora ASC;
+  ORDER BY d.data_difuzare ASC, d.ora_difuzare ASC, d.minut_difuzare ASC;
   ```
 
 == SUBIECTUL al II-lea (30 de puncte)
 
 === 1. Proiectarea unei activități didactice: Asaltul de idei (Brainstorming)
-- *Secvența A (Greedy)*: Profesorul scrie pe tablă o problemă de optimizare (ex: Nunta lui Zamfira sau Problema Rucsacului - varianta continuă). Elevii sunt încurajați să propună orice idei de selectare a elementelor (după profit, după greutate, după raport). Ideile sunt colectate fără critică inițială, urmând a fi analizate și structurate ulterior pentru a defini tehnica Greedy.
+- *Secvența A (Greedy)*.
+- *Caracteristici ale brainstormingului*:
+  1. Separă etapa de generare a ideilor de etapa de evaluare, astfel încât elevii propun liber strategii de alegere.
+  2. Stimulează participarea activă și valorifică răspunsurile multiple, inclusiv soluțiile inițial incomplete.
+  3. Este util pentru compararea metodelor, deoarece ideile elevilor pot fi ulterior testate după corectitudine și eficiență.
+- *Formă de organizare*: activitate pe grupe mici, urmată de discuție frontală.
+- *Mijloc de învățământ*: tablă/proiector și fișă de lucru cu o problemă de optimizare.
+- *Activitate de învățare*: identificarea unei strategii Greedy pentru selecția activităților compatibile.
+- *Scenariu*:
+  - Profesorul prezintă problema: se dau activități cu ore de început/sfârșit, se cere numărul maxim de activități compatibile.
+  - Elevii propun criterii: activitatea cea mai scurtă, cea care începe prima, cea care se termină prima, cea cu durată maximă.
+  - Profesorul notează toate ideile fără validare imediată, apoi cere exemple/contraexemple.
+  - Elevii testează criteriile pe același set de date și observă că alegerea după timpul minim de finalizare conduce la soluție optimă.
+  - Profesorul formalizează regula Greedy și discută complexitatea după sortarea activităților.
 
 === 2. Test practic (Greedy)
-1. *Item 1*: Implementarea funcției de selecție a activităților în C++/Pascal. (30p)
-2. *Item 2*: Argumentarea orală a corectitudinii algoritmului propus. (30p)
-3. *Item 3*: Modificarea structurii de date pentru a obține o complexitate $O(N log N)$. (30p)
+*Test practic - 90 puncte + 10 puncte din oficiu*
+
+1. *Item 1 (30p)*: Se citesc `n` activități, fiecare cu ora de început și ora de sfârșit. Implementați un algoritm Greedy care afișează numărul maxim de activități compatibile.
+   - Răspuns așteptat: sortare după ora de sfârșit, selectarea primei activități compatibile cu ultima aleasă.
+   - Barem: citire date 4p; sortare corectă 8p; selecție Greedy corectă 12p; afișare 3p; corectitudine globală 3p.
+
+2. *Item 2 (30p)*: Pentru problema rucsacului fracționar, calculați valoarea maximă care poate fi transportată pentru o capacitate dată, folosind obiecte cu greutate și profit.
+   - Răspuns așteptat: calcul raport profit/greutate, sortare descrescătoare, preluare integrală sau fracționară.
+   - Barem: calcul raport 6p; sortare 8p; tratarea obiectelor întregi 8p; tratarea fracției finale 5p; afișare 3p.
+
+3. *Item 3 (30p)*: Explicați de ce strategia „aleg activitatea care se termină cel mai devreme” este eficientă pentru selecția activităților și precizați complexitatea.
+   - Răspuns așteptat: alegerea locală lasă interval maxim pentru activitățile următoare; după sortare, parcurgerea este liniară.
+   - Barem: justificare corectă a alegerii Greedy 12p; explicație a pașilor algoritmului 8p; complexitate $O(n log n)$ datorată sortării 6p; claritate 4p.

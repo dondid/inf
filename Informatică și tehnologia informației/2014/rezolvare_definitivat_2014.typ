@@ -39,8 +39,12 @@
 - *Definiții*:
   - *Ciclu hamiltonian*: Un ciclu elementar care conține toate nodurile grafului exact o singură dată.
   - *Graf hamiltonian*: Un graf care conține cel puțin un ciclu hamiltonian.
+- *Exemple*: Ciclul simplu cu nodurile `1-2-3-4-1` este graf hamiltonian, deoarece ciclul trece o singură dată prin toate cele patru noduri. Un arbore cu cel puțin trei noduri nu este hamiltonian, deoarece nu conține niciun ciclu.
 - *Teoremă de caracterizare*: Teorema lui Dirac: Dacă $G$ este un graf neorientat cu $n \ge 3$ noduri, în care gradul fiecărui nod $v$ satisface condiția $d(v) \ge n/2$, atunci $G$ este hamiltonian.
-- *Problemă (Determinare ciclu hamiltonian)*:
+- *Problemă (Determinare ciclu hamiltonian)*: Se dă un graf neorientat cu `n` noduri, prin matricea de adiacență. Să se afișeze toate ciclurile hamiltoniene care pornesc din nodul `1`.
+
+*Descrierea soluției*: Folosim backtracking. Vectorul `x` reține nodurile ciclului parțial, iar `viz` marchează nodurile deja folosite. La pasul `k`, alegem un nod nevizitat adiacent cu nodul pus la pasul anterior. Când am plasat toate cele `n` noduri, verificăm dacă ultimul nod este adiacent cu primul; numai atunci avem ciclu hamiltonian.
+
   - *C++ (Backtracking)*:
     ```cpp
     #include <iostream>
@@ -78,6 +82,10 @@
 ---
 
 === 3. Programare: Secvență de elemente cu cifre egale (distinct = 1)
+
+==== a) Subprogramul `distinct`
+
+Subprogramul marchează cifrele care apar în scrierea lui `n` și returnează numărul de cifre distincte marcate. Pentru `n=0`, singura cifră prezentă este `0`, deci rezultatul este `1`.
 
 *Soluție C++:*
 ```cpp
@@ -196,6 +204,12 @@ end.
 
 ---
 
+==== b) Programul pentru secvența maximă
+
+*Descrierea algoritmului*: Citim valorile din fișier în ordinea apariției. Pentru fiecare număr `x`, calculăm `distinct(x)`. Dacă rezultatul este `1`, numărul are toate cifrele egale și extinde secvența curentă (`curr_len`). Dacă nu, secvența curentă se încheie; actualizăm maximul doar dacă lungimea ei este cel puțin `2`. La final repetăm actualizarea pentru cazul în care cea mai lungă secvență se termină chiar la sfârșitul fișierului.
+
+*Eficiență*: Fiecare număr este citit o singură dată, iar testarea cifrelor are cel mult 10 pași pentru valori până la `10^9`. Algoritmul este liniar în numărul termenilor din fișier și folosește memorie constantă.
+
 == SUBIECTUL al II-lea (30 de puncte)
 
 === 1. Aspecte ale proiectării didactice pentru conținutul A: Structuri repetitive
@@ -280,3 +294,161 @@ La informatică, un elev care stăpânește operațiile aritmetice de bază și 
 - timpul alocat exersării și feedbackul primit.
 
 Învățarea eficientă apare prin corelarea condițiilor interne cu cele externe. Profesorul adaptează sarcinile la nivelul elevilor, oferă exemple gradate, creează situații de exersare și verifică permanent înțelegerea.
+
+#pagebreak()
+
+= II. Rezolvare Definitivat Informatică de gestiune Varianta 1 (14 iulie 2014)
+
+[Subiect PDF](file:///wsl.localhost/Debian/home/daniel/projects/inf/Informatică și tehnologia informației/2014/Def_MET_055_Informatica_gestiune_P_2014_var_01_LRO.pdf) | [Barem PDF](file:///wsl.localhost/Debian/home/daniel/projects/inf/Informatică și tehnologia informației/2014/Def_MET_055_Informatica_gestiune_P_2014_bar_01_LRO.pdf)
+
+== SUBIECTUL I (30 de puncte)
+
+=== 1. Imprimanta în arhitectura sistemului de calcul
+
+Imprimanta este un dispozitiv periferic de ieșire. Ea primește date de la sistemul de calcul și le transpune pe suport fizic, de regulă hârtie. Comunicarea cu sistemul se face prin interfață USB, rețea sau conexiune wireless, iar sistemul de operare o controlează prin driver.
+
+Tipuri de imprimante:
+- *matricială*: tipărește prin lovirea unei benzi tușate cu ace; este robustă, dar zgomotoasă și cu rezoluție redusă;
+- *inkjet*: pulverizează picături fine de cerneală; este potrivită pentru imagini color și documente uzuale;
+- *laser*: folosește toner și tambur fotosensibil; are viteză mare și cost bun pentru volum ridicat.
+
+Parametri de performanță:
+- *rezoluția*, exprimată în dpi, influențează claritatea textului și a imaginilor;
+- *viteza de tipărire*, exprimată în pagini pe minut, determină eficiența la volume mari.
+
+=== 2. Sistemul de operare
+
+Sistemul de operare este ansamblul de programe care administrează resursele hardware și software ale calculatorului și oferă interfață între utilizator, aplicații și echipamente.
+
+Funcții:
+- gestiunea proceselor și alocarea procesorului;
+- gestiunea memoriei interne;
+- administrarea fișierelor și directoarelor;
+- controlul dispozitivelor periferice și al driverelor;
+- asigurarea interfeței cu utilizatorul.
+
+=== 3. Subprogramul `distinct` și programul cerut
+
+Antet C++:
+```cpp
+int distinct(long long n);
+```
+
+Program C++:
+```cpp
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int distinct(long long n) {
+    bool ap[10] = {false};
+    int nr = 0;
+    do {
+        int c = n % 10;
+        if (!ap[c]) {
+            ap[c] = true;
+            nr++;
+        }
+        n /= 10;
+    } while (n > 0);
+    return nr;
+}
+
+int main() {
+    ifstream fin("date.txt");
+    long long x;
+    for (int i = 1; i <= 7; ++i) {
+        fin >> x;
+        if (distinct(x) == 1)
+            cout << x << " ";
+    }
+    fin.close();
+    return 0;
+}
+```
+
+Explicație: un număr are toate cifrele egale exact atunci când numărul cifrelor distincte din scrierea lui este `1`. Se citesc cele 7 valori și se afișează numai cele care îndeplinesc această condiție.
+
+=== 4. Bază de date pentru companie de telefonie
+
+Tabele:
+- `CLIENT(id_client, nume, prenume, adresa)`;
+- `TIP_ABONAMENT(id_tip, denumire, pret, minute_nationale)`;
+- `NUMAR_TELEFON(id_numar, numar, id_client, id_tip, data_activare, data_inchidere)`.
+
+Relații:
+- `CLIENT` 1:M `NUMAR_TELEFON`;
+- `TIP_ABONAMENT` 1:M `NUMAR_TELEFON`.
+
+Restricții:
+- `numar` unic;
+- `pret >= 0`, `minute_nationale >= 0`;
+- `data_inchidere` nulă pentru numere active sau mai mare decât `data_activare`;
+- cheile străine `id_client` și `id_tip` trebuie să existe.
+
+Interogări:
+```sql
+-- clienții care dețin un anumit tip de abonament
+SELECT c.nume, c.prenume, c.adresa, n.numar
+FROM CLIENT c
+JOIN NUMAR_TELEFON n ON n.id_client = c.id_client
+WHERE n.id_tip = :id_tip
+  AND n.data_inchidere IS NULL;
+
+-- clienții care dețin în prezent cel puțin două numere
+SELECT COUNT(*) AS nr_clienti
+FROM (
+  SELECT id_client
+  FROM NUMAR_TELEFON
+  WHERE data_inchidere IS NULL
+  GROUP BY id_client
+  HAVING COUNT(*) >= 2
+) q;
+
+-- abonamente nesolicitate în ultimul an
+SELECT t.*
+FROM TIP_ABONAMENT t
+LEFT JOIN NUMAR_TELEFON n
+  ON n.id_tip = t.id_tip
+ AND n.data_activare >= CURRENT_DATE - INTERVAL '1 year'
+WHERE n.id_numar IS NULL;
+```
+
+== SUBIECTUL al II-lea (30 de puncte)
+
+=== 1. Proiectare didactică pentru structuri repetitive
+
+Tipuri de lecție: lecție de comunicare de cunoștințe, lecție de formare de priceperi și deprinderi, lecție de recapitulare/sistematizare.
+
+Momente esențiale: organizarea clasei, captarea atenției, anunțarea temei și obiectivelor, dirijarea învățării, fixarea și evaluarea.
+
+Activități de învățare pentru capitolul *Structuri repetitive*:
+1. identificarea situațiilor în care este necesară repetarea;
+2. compararea instrucțiunilor `while`, `do...while`, `for`;
+3. implementarea sumei cifrelor unui număr;
+4. testarea programului pentru valori limită.
+
+Scenariu pentru activitatea 3: profesorul propune problema sumei cifrelor, discută operațiile `n % 10` și `n / 10`, construiește cu elevii bucla `while (n > 0)`, apoi elevii implementează și rulează programul. Profesorul verifică rezultatele și discută erorile: inițializare greșită a sumei, condiție de oprire incorectă, uitarea eliminării ultimei cifre.
+
+=== 2. Test oral pentru structuri repetitive
+
+#table(
+  columns: (1.2fr, 2.7fr, 2.1fr),
+  inset: 5pt,
+  [*Item*], [*Enunț*], [*Răspuns așteptat*],
+  [1], [Definiți structura repetitivă.], [Execută repetat un bloc de instrucțiuni în funcție de o condiție sau de un contor.],
+  [2], [Când folosim `for`?], [Când numărul de pași este cunoscut sau determinabil.],
+  [3], [Ce diferență există între `while` și `do...while`?], [`while` testează înainte, `do...while` după execuția blocului.],
+  [4], [Ce produce o condiție mereu adevărată?], [O buclă infinită.],
+  [5], [Dați un exemplu de algoritm cu repetare.], [Suma cifrelor, numărarea divizorilor, parcurgerea unui vector.]
+)
+
+== SUBIECTUL al III-lea (30 de puncte)
+
+Învățarea este procesul prin care elevul dobândește cunoștințe, deprinderi, capacități, atitudini și comportamente, pe baza exercițiului și experienței.
+
+*Condiții interne*: motivația, atenția, memoria, nivelul cunoștințelor anterioare, stilul de învățare, starea afectivă și capacitatea de efort.
+
+*Condiții externe*: calitatea explicației profesorului, metodele didactice, climatul clasei, mijloacele de învățământ, timpul de lucru, feedbackul și organizarea sarcinilor.
+
+În informatică, învățarea eficientă apare când elevul are baza logică necesară și motivație, iar profesorul oferă exemple gradate, activitate practică la calculator, feedback imediat și situații variate de exersare.

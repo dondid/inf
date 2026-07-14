@@ -391,12 +391,11 @@ Avem de generat toate modalitățile de a obține suma $s$ folosind cele $n$ cup
 
 === METODA A: Abordare prin Backtracking Recursiv
 
-- *Descriere*: Sortăm cupiurile crescător. Funcția recursivă `back` încearcă pentru cupiura curentă `idx` toate numerele posibile de bancnote, începând de la numărul maxim posibil `sum / c[idx]` descrescător până la `0`, apelându-se apoi pentru restul de sumă la nivelul inferior.
+- *Descriere*: Păstrăm cupiurile în ordinea în care au fost citite în tabloul `c`, deoarece subprogramul `tipar` trebuie să afișeze bancnotele utilizate în această ordine. Funcția recursivă `back` încearcă pentru cupiura curentă `idx` toate numerele posibile de bancnote, începând de la numărul maxim posibil `sum / c[idx]` descrescător până la `0`, apelându-se apoi pentru restul de sumă la nivelul inferior.
 
 *Cod C++*:
 ```cpp
 #include <iostream>
-#include <algorithm>
 using namespace std;
 
 int n;
@@ -432,7 +431,6 @@ int main() {
         cin >> c[i]; 
         b[i] = 0; 
     }
-    sort(c, c + n);
     back(n - 1, s);
     return 0;
 }
@@ -442,7 +440,7 @@ int main() {
 ```pascal
 program CombinariBancnoteRecursiv;
 var
-  s, i, j, temp: integer;
+  s, i: integer;
   n: integer;
   c, b: array[0..9] of integer;
 
@@ -477,12 +475,6 @@ end;
 begin
   read(s, n);
   for i := 0 to n - 1 do begin read(c[i]); b[i] := 0; end;
-  for i := 0 to n - 2 do
-    for j := i + 1 to n - 1 do
-      if c[i] > c[j] then
-      begin
-        temp := c[i]; c[i] := c[j]; c[j] := temp;
-      end;
   back(n - 1, s);
 end.
 ```
@@ -494,7 +486,6 @@ end.
 *Cod C++*:
 ```cpp
 #include <iostream>
-#include <algorithm>
 using namespace std;
 
 void backIterativ(int s, int n, int c[]) {
@@ -550,7 +541,6 @@ int main() {
     int c[10];
     if (!(cin >> s >> n)) return 0;
     for (int i = 0; i < n; ++i) cin >> c[i];
-    sort(c, c + n);
     backIterativ(s, n, c);
     return 0;
 }
@@ -560,7 +550,7 @@ int main() {
 ```pascal
 program CombinariBancnoteIterativ;
 var
-  s, n, i, j, temp: integer;
+  s, n, i: integer;
   c: array[0..9] of integer;
 
 procedure backIterativ(s, n: integer);
@@ -621,12 +611,6 @@ end;
 begin
   read(s, n);
   for i := 0 to n - 1 do begin read(c[i]); end;
-  for i := 0 to n - 2 do
-    for j := i + 1 to n - 1 do
-      if c[i] > c[j] then
-      begin
-        temp := c[i]; c[i] := c[j]; c[j] := temp;
-      end;
   backIterativ(s, n);
 end.
 ```

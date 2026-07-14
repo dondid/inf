@@ -42,15 +42,97 @@
   - *Lanț*: O succesiune de noduri adiacente.
   - *Conexitate*: Un graf este conex dacă între oricare două noduri există cel puțin un lanț.
   - *Componentă conexă*: Un subgraf conex maximal.
+- *Exemplu și contraexemplu*: Graful cu muchiile `(1,2), (2,3), (3,4)` este conex, deoarece orice două noduri pot fi unite printr-un lanț. Graful cu muchiile `(1,2)` și `(3,4)` nu este conex, deoarece nu există lanț între nodurile 1 și 3.
 - *Aplicații practice*:
   - *Rețele sociale*: Determinarea grupurilor de prieteni interconectați.
   - *Infrastructură*: Verificarea dacă toate orașele sunt legate rutier/feroviar.
-- *Algoritm de determinare*: BFS sau DFS pentru identificarea componentelor conexe prin parcurgeri succesive.
+- *Algoritm de determinare*: Se pornesc parcurgeri BFS/DFS din fiecare nod nevizitat. Toate nodurile atinse într-o astfel de parcurgere formează o componentă conexă; numărul parcurgerilor pornite este numărul componentelor conexe.
+
+*Pseudocod*:
+```text
+citeste n, m
+pentru fiecare muchie (x, y):
+    adauga y in lista[x]
+    adauga x in lista[y]
+pentru i <- 1..n:
+    vizitat[i] <- fals
+nrComp <- 0
+pentru i <- 1..n:
+    daca vizitat[i] = fals atunci
+        nrComp <- nrComp + 1
+        DFS(i, nrComp)
+
+procedura DFS(x, nrComp):
+    vizitat[x] <- adevarat
+    componenta[x] <- nrComp
+    pentru fiecare vecin y al lui x:
+        daca vizitat[y] = fals atunci DFS(y, nrComp)
+```
 
 ---
 
 === 2. Programare: Numere prime (tprim)
-- *Descriere*: Programul determină al $N$-lea număr prim. Pentru optimizare la determinarea apartenenței lui $P$, se generează al $N$-lea prim (limita superioară). Dacă $P \le "tprim"(N)$ și $P$ este prim, atunci $P$ se află în primele $N$ numere prime, altfel nu.
+==== a) Metodă și pseudocod pentru al `n`-lea număr prim
+
+*Descriere*: Numărăm valorile prime întâlnite în ordine crescătoare, pornind de la 2. Pentru fiecare candidat `x`, testăm dacă are divizori între 2 și `sqrt(x)`. Când contorul numerelor prime găsite devine egal cu `n`, valoarea curentă este al `n`-lea termen din șirul numerelor prime.
+
+*Pseudocod*:
+```text
+citeste n
+cnt <- 0
+x <- 1
+cat timp cnt < n executa
+    x <- x + 1
+    prim <- adevarat
+    daca x < 2 atunci prim <- fals
+    d <- 2
+    cat timp d * d <= x si prim = adevarat executa
+        daca x mod d = 0 atunci prim <- fals
+        d <- d + 1
+    daca prim = adevarat atunci cnt <- cnt + 1
+scrie x
+```
+
+==== b) Subprogramul `tprim`
+
+Subprogramul primește un număr natural nenul `n` și returnează al `n`-lea număr prim. Pentru claritate, funcția auxiliară `isPrime` testează primalitatea.
+
+*Soluție C++:*
+```cpp
+#include <iostream>
+using namespace std;
+
+bool isPrime(long long val) {
+    if (val < 2) return false;
+    for (long long d = 2; d * d <= val; ++d) {
+        if (val % d == 0) return false;
+    }
+    return true;
+}
+
+int tprim(int n) {
+    int count = 0;
+    int val = 2;
+    while (true) {
+        if (isPrime(val)) {
+            count++;
+            if (count == n) return val;
+        }
+        val++;
+    }
+}
+
+int main() {
+    int n;
+    cin >> n;
+    cout << tprim(n);
+    return 0;
+}
+```
+
+==== c) Program care verifică dacă `p` se află printre primele `n` numere prime
+
+Metoda cerută folosește apelul `tprim(n)`: dacă `p` este prim și `p <= tprim(n)`, atunci `p` apare în primele `n` numere prime. Dacă `p` este compus sau este mai mare decât al `n`-lea prim, răspunsul este `NU`.
 
 *Soluție C++:*
 ```cpp
@@ -94,7 +176,7 @@ int main() {
 
 *Soluție Pascal:*
 ```pascal
-program NumerePrime;
+program VerificarePrime;
 var
   p: int64;
   n: integer;
@@ -193,6 +275,16 @@ end.
 ---
 
 === 3. Algoritm eficient: Drum de sumă maximă în matrice pătratică (DP)
+
+*Metoda folosită*: Programarea dinamică. Notăm `dp[i][j]` suma maximă a unui șir valid care se termină în elementul de pe linia `i`, coloana `j`. Pentru prima linie, `dp[1][j] = A[1][j]`. Pentru liniile următoare, elementul curent poate veni doar din coloana `j`, `j-1` sau `j+1` de pe linia precedentă, deci:
+
+```text
+dp[i][j] = A[i][j] + max(dp[i-1][j-1], dp[i-1][j], dp[i-1][j+1])
+```
+
+se păstrează doar termenii care există în matrice. Răspunsul este maximul de pe ultima linie a tabloului `dp`.
+
+*Eficiență*: Fiecare element al matricei este prelucrat o singură dată, iar pentru fiecare se fac cel mult trei comparații. Complexitatea este $O(n^2)$ timp și $O(n^2)$ memorie în varianta clară de mai jos; memoria poate fi redusă la $O(n)$ păstrând numai linia precedentă.
 
 *Soluție C++:*
 ```cpp

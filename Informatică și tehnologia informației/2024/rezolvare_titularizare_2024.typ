@@ -329,13 +329,55 @@ end.
     ```
   - *Pascal*:
     ```pascal
-    // Parcurgerea în lățime cu coadă pe tablou de adiacență.
+    program BFSArbore;
+    const NMAX = 100;
+    var
+      n, i, x, y, start, st, dr, u, v: integer;
+      a: array[1..NMAX, 1..NMAX] of integer;
+      grad, q: array[1..NMAX] of integer;
+      viz: array[1..NMAX] of boolean;
+    begin
+      read(n);
+      for i := 1 to n - 1 do
+      begin
+        read(x, y);
+        grad[x] := grad[x] + 1; a[x, grad[x]] := y;
+        grad[y] := grad[y] + 1; a[y, grad[y]] := x;
+      end;
+      read(start);
+      st := 1; dr := 1; q[1] := start; viz[start] := true;
+      while st <= dr do
+      begin
+        u := q[st]; st := st + 1;
+        write(u, ' ');
+        for i := 1 to grad[u] do
+        begin
+          v := a[u, i];
+          if not viz[v] then
+          begin
+            dr := dr + 1; q[dr] := v; viz[v] := true;
+          end;
+        end;
+      end;
+    end.
     ```
 
 === 2. Ergonomia postului de lucru
+- *Noțiuni preliminare*:
+  1. *Sistem de calcul*: ansamblu hardware-software care prelucrează automat date.
+  2. *Dispozitive periferice de intrare*: tastatură, mouse, scanner; permit introducerea datelor/comenzilor.
+  3. *Dispozitive periferice de ieșire*: monitor, imprimantă, boxe; permit prezentarea rezultatelor.
 - *Dispozitive periferice cu impact asupra sănătății*:
-  1. *Monitorul*: Poate cauza oboseală oculară (astenopie) sau dureri de cap. Recomandare: Distanța ecran-ochi de 50-70 cm și utilizarea filtrelor de lumină albastră.
-  2. *Tastatura/Mouse-ul*: Pot genera sindromul de tunel carpian. Recomandare: Utilizarea suporturilor ergonomice pentru încheieturi.
+  1. *Monitorul*:
+     - *Funcție de bază*: afișează informații textuale/grafice.
+     - *Influență asupra sănătății*: poziționarea greșită, luminozitatea excesivă sau reflexiile pot provoca oboseală oculară, cefalee și postură incorectă.
+  2. *Tastatura și mouse-ul*:
+     - *Funcție de bază*: introducerea datelor și controlul interfeței.
+     - *Influență asupra sănătății*: utilizarea îndelungată în poziții forțate poate produce dureri la nivelul încheieturilor, antebrațului și umărului.
+- *Măsuri ergonomice*:
+  1. Monitorul se poziționează la 50-70 cm de ochi, cu partea superioară aproximativ la nivelul privirii.
+  2. Scaunul se reglează astfel încât spatele să fie sprijinit, iar coatele și genunchii să formeze un unghi apropiat de 90 de grade.
+  3. Se fac pauze scurte și regulate, cu relaxarea privirii și mișcări pentru mâini/umeri.
 
 == SUBIECTUL al II-lea (30 de puncte)
 
@@ -527,9 +569,27 @@ end.
 
 === 1. Proiectarea unei strategii didactice: Formatarea textului (Secvența B)
 - *Tip lecție*: Lecție de formare a priceperilor și deprinderilor practice.
-- *Strategia*: Elevii primesc un text neformatat. Folosind instrucțiunile profesorului, aplică pe rând stiluri (bold, italic, subliniat), mărind și micșorând fontul pentru a crea un afiș publicitar.
+- *Caracteristici*:
+  1. Accentul cade pe exersarea directă a operațiilor în aplicație, nu doar pe transmiterea teoretică.
+  2. Feedbackul este imediat: elevul vede pe ecran efectul schimbării dimensiunii, fontului, stilului bold/italic/subliniat.
+- *Mijloc de învățământ*: calculator cu procesor de text (LibreOffice Writer / Microsoft Word) și videoproiector.
+- *Metodă didactică*: exercițiul practic dirijat.
+- *Formă de organizare*: activitate individuală la calculator, cu momente frontale de demonstrație.
+- *Activitate de învățare*: formatarea unui text brut pentru a obține un anunț școlar lizibil.
+- *Scenariu didactic*:
+  - Profesorul proiectează un text neformatat și demonstrează selectarea textului, schimbarea dimensiunii fontului și aplicarea stilurilor bold, italic și subliniat.
+  - Elevii primesc același text și aplică cerințe graduale: titlul cu font mai mare și bold, cuvintele-cheie italic, termenul-limită subliniat.
+  - Profesorul verifică lucrările, corectează folosirea excesivă a stilurilor și discută rolul lizibilității.
+  - Elevii compară două variante ale documentului și justifică alegerea formatării finale.
 
 === 2. Evaluare: Itemi obiectivi (Alegere multiplă)
+- *Avantaje*: corectare rapidă și obiectivă; acoperirea unui volum mare de conținut într-un timp scurt.
+- *Dezavantaj*: evaluează mai greu argumentarea, creativitatea și modul complet de rezolvare a unei probleme.
+- *Tipuri de itemi obiectivi*:
+  1. *Item cu alegere multiplă*: elevul selectează răspunsul corect din mai multe variante; corectarea este foarte clară.
+  2. *Item cu alegere duală*: elevul decide între adevărat/fals sau da/nu; este potrivit pentru verificarea unor noțiuni punctuale.
 - *Item pentru Backtracking (Secvența A)*: Care este structura spațiului stărilor pentru generarea permutărilor?
   A. Produs cartezian. | B. Vector de lungime constantă. | C. Arbore de căutare. | D. Graf conex.
   Răspuns: C.
+- *Item pentru formatarea textului (Secvența B)*: Afirmația „Comanda Bold modifică dimensiunea caracterelor selectate” este adevărată sau falsă?
+  Răspuns: Fals. Bold modifică grosimea/aldinarea caracterelor, nu dimensiunea lor.

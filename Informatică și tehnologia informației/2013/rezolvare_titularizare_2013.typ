@@ -57,6 +57,15 @@ for (int k = 1; k <= n; ++k)
         d[i][j] = d[i][k] + d[k][j];
 ```
 
+*Fragment Pascal*:
+```pascal
+for k := 1 to n do
+  for i := 1 to n do
+    for j := 1 to n do
+      if d[i, k] + d[k, j] < d[i, j] then
+        d[i, j] := d[i, k] + d[k, j];
+```
+
 ==== Secvența B: Inserarea și formatarea tabelelor într-un document
 - *Formă de organizare*: activitate individuală la calculator, urmată de verificare frontală.
 - *Justificare*: competența TIC presupune deprinderi practice de utilizare avansată a editorului de texte. Fiecare elev trebuie să execute operațiile, nu doar să le descrie.

@@ -227,19 +227,64 @@ end.
 ```
 
 === 4. Baze de date: Emisiuni Radio
-- *Entități*:
-  - `PIESA`: `id_piesa` (PK), `titlu`, `compozitor`, `solist`, `gen_muzical`, `an_aparitie`, `durata`.
-  - `EMISIUNE`: `id_emisiune` (PK), `denumire`, `frecventa`, `descriere`.
-  - `DIFUZARE`: `id_difuzare` (PK), `id_piesa` (FK), `id_emisiune` (FK), `data_ora`.
-- *SQL Afișare cronologică*:
+*Model conceptual*:
+- `PIESA`: #underline[`id_piesa`], `titlu`, `compozitor`, `interpret`, `gen_muzical`, `an_aparitie`, `durata_secunde`.
+- `EMISIUNE`: #underline[`id_emisiune`], `denumire`, `frecventa`, `data_start_grila`, `data_sfarsit_grila`, `ora_reper`, `minut_reper`, `descriere`.
+- `DIFUZARE`: #underline[`id_difuzare`], `id_piesa`, `id_emisiune`, `data_difuzare`, `ora_difuzare`, `minut_difuzare`.
+
+*Relații și reguli*:
+- `PIESA` 1:M `DIFUZARE`; o piesă poate fi difuzată de mai multe ori.
+- `EMISIUNE` 1:M `DIFUZARE`; o emisiune poate include mai multe difuzări.
+- Relația M:N dintre piese și emisiuni este normalizată prin `DIFUZARE`.
+- *1NF*: câmpuri atomice, fără liste de difuzări într-un singur atribut.
+- *2NF*: atributele depind complet de cheia primară a tabelei.
+- *3NF*: datele piesei și datele emisiunii nu sunt duplicate în tabela difuzărilor.
+- `durata_secunde > 0`, `ora_difuzare` în `0..23`, `minut_difuzare` în `0..59`.
+
+*Model fizic*:
+```sql
+CREATE TABLE PIESA (
+  id_piesa INT PRIMARY KEY AUTO_INCREMENT,
+  titlu VARCHAR(150) NOT NULL,
+  compozitor VARCHAR(120) NOT NULL,
+  interpret VARCHAR(150) NOT NULL,
+  gen_muzical VARCHAR(60),
+  an_aparitie INT,
+  durata_secunde INT CHECK (durata_secunde > 0)
+);
+
+CREATE TABLE EMISIUNE (
+  id_emisiune INT PRIMARY KEY AUTO_INCREMENT,
+  denumire VARCHAR(120) NOT NULL,
+  frecventa VARCHAR(30) NOT NULL,
+  data_start_grila DATE,
+  data_sfarsit_grila DATE,
+  ora_reper INT CHECK (ora_reper BETWEEN 0 AND 23),
+  minut_reper INT CHECK (minut_reper BETWEEN 0 AND 59),
+  descriere TEXT
+);
+
+CREATE TABLE DIFUZARE (
+  id_difuzare INT PRIMARY KEY AUTO_INCREMENT,
+  id_piesa INT NOT NULL,
+  id_emisiune INT NOT NULL,
+  data_difuzare DATE NOT NULL,
+  ora_difuzare INT CHECK (ora_difuzare BETWEEN 0 AND 23),
+  minut_difuzare INT CHECK (minut_difuzare BETWEEN 0 AND 59),
+  FOREIGN KEY (id_piesa) REFERENCES PIESA(id_piesa),
+  FOREIGN KEY (id_emisiune) REFERENCES EMISIUNE(id_emisiune)
+);
+```
+
+*SQL Afișare cronologică*:
   ```sql
-  SELECT d.data_ora
+  SELECT d.data_difuzare, d.ora_difuzare, d.minut_difuzare
   FROM DIFUZARE d
   JOIN PIESA p ON d.id_piesa = p.id_piesa
   WHERE p.titlu = 'Anotimpurile - Vara'
     AND p.compozitor = 'Antonio Vivaldi'
-    AND YEAR(d.data_ora) = YEAR(CURDATE())
-  ORDER BY d.data_ora ASC;
+    AND YEAR(d.data_difuzare) = YEAR(CURDATE())
+  ORDER BY d.data_difuzare ASC, d.ora_difuzare ASC, d.minut_difuzare ASC;
   ```
 
 == SUBIECTUL al II-lea (30 de puncte)
@@ -617,6 +662,35 @@ Forme Normale (3NF):
 ```sql
 INSERT INTO FESTIVAL (denumire, tematica, site_oficial)
 VALUES ('EduCode 2025', 'Inovatie in predarea informaticii', NULL);
+```
+
+=== d) Interogări SQL pentru extragerea informațiilor de sinteză
+
+Pentru a demonstra utilitatea modelului fizic propus, iată interogările SQL corespunzătoare cerințelor de sinteză din enunț:
+
+1. *Numărul de festivaluri în cadrul cărora s-au desfășurat cel puțin două evenimente de tip workshop*:
+```sql
+SELECT COUNT(*) AS nr_festivaluri
+FROM (
+    SELECT e.id_festival
+    FROM EVENIMENT e
+    JOIN TIP_EVENIMENT t ON e.id_tip = t.id_tip
+    WHERE t.denumire_tip = 'workshop'
+    GROUP BY e.id_festival
+    HAVING COUNT(e.id_eveniment) >= 2
+) AS subquery;
+```
+
+2. *Tipurile de evenimente care nu s-au desfășurat în cadrul niciunui festival în ultimii doi ani*:
+```sql
+-- Varianta bazată pe subinterogare cu NOT IN
+SELECT id_tip, denumire_tip
+FROM TIP_EVENIMENT
+WHERE id_tip NOT IN (
+    SELECT DISTINCT id_tip
+    FROM EVENIMENT
+    WHERE data_ora_inceput >= DATE_SUB(CURDATE(), INTERVAL 2 YEAR)
+);
 ```
 
 ---

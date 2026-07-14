@@ -203,18 +203,61 @@ end.
 ---
 
 === 4. Baze de date: Curse de cai
-- *Entități*:
-  - `CAL`: `id_cal` (PK), `nume`, `varsta`, `proprietar_contact`.
-  - `CURSA`: `id_cursa` (PK), `tip_cursa`, `data_ora`.
-  - `INSCRIERE`: `id_cal` (FK), `id_cursa` (FK), `loc_clasare` (NULL), PK este `(id_cal, id_cursa)`.
-- *SQL*:
+*Model conceptual*:
+- `CAL`: #underline[`id_cal`], `nume`, `varsta`, `nume_proprietar`, `telefon_proprietar`, `email_proprietar`.
+- `CURSA`: #underline[`id_cursa`], `tip_cursa`, `data_start`, `ora_start`, `minut_start`, `status` (`propusa`/`desfasurata`).
+- `INSCRIERE`: asociază un cal cu o cursă și reține `a_participat`, `loc_clasare`.
+
+*Relații*:
+- `CAL` 1:M `INSCRIERE`; un cal poate fi înscris la mai multe curse.
+- `CURSA` 1:M `INSCRIERE`; o cursă poate avea mai mulți cai înscriși.
+- Relația M:N dintre cai și curse este normalizată în tabela `INSCRIERE`.
+
+*Reguli 1NF-3NF și restricții*:
+- *1NF*: datele de contact sunt câmpuri atomice, nu liste într-un singur atribut.
+- *2NF*: în `INSCRIERE`, rezultatul depinde de întreaga cheie `(id_cal, id_cursa)`.
+- *3NF*: datele cursei nu se repetă la fiecare cal, iar datele calului nu se repetă la fiecare cursă.
+- `loc_clasare` poate fi NULL dacă nu a participat; dacă `a_participat = false`, atunci `loc_clasare` trebuie să fie NULL.
+
+*Model fizic*:
+```sql
+CREATE TABLE CAL (
+  id_cal INT PRIMARY KEY AUTO_INCREMENT,
+  nume VARCHAR(100) NOT NULL,
+  varsta INT CHECK (varsta > 0),
+  nume_proprietar VARCHAR(120) NOT NULL,
+  telefon_proprietar VARCHAR(30),
+  email_proprietar VARCHAR(120)
+);
+
+CREATE TABLE CURSA (
+  id_cursa INT PRIMARY KEY AUTO_INCREMENT,
+  tip_cursa VARCHAR(50) NOT NULL,
+  data_start DATE NOT NULL,
+  ora_start INT CHECK (ora_start BETWEEN 0 AND 23),
+  minut_start INT CHECK (minut_start BETWEEN 0 AND 59),
+  status VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE INSCRIERE (
+  id_cal INT,
+  id_cursa INT,
+  a_participat BOOLEAN DEFAULT FALSE,
+  loc_clasare INT NULL,
+  PRIMARY KEY (id_cal, id_cursa),
+  FOREIGN KEY (id_cal) REFERENCES CAL(id_cal),
+  FOREIGN KEY (id_cursa) REFERENCES CURSA(id_cursa)
+);
+```
+
+*SQL pentru ștergerea cailor care nu au mai fost înscriși în ultimii doi ani*:
   ```sql
   DELETE FROM CAL
   WHERE id_cal NOT IN (
       SELECT DISTINCT i.id_cal
       FROM INSCRIERE i
       JOIN CURSA c ON i.id_cursa = c.id_cursa
-      WHERE c.data_ora >= DATE_SUB(CURDATE(), INTERVAL 2 YEAR)
+      WHERE c.data_start >= DATE_SUB(CURDATE(), INTERVAL 2 YEAR)
   );
   ```
 
@@ -461,10 +504,52 @@ end.
 ---
 
 === 4. Baze de date: Organizație de ciclism
-- *Entități*:
-  - `COMPETITIE`: `id_competitie` (PK), `denumire`, `oras_secretariat`, `telefon`, `email`, `site_web`.
-  - `PROBA`: `id_proba` (PK), `id_competitie` (FK), `tip_proba`, `descriere_generala`, `descriere_particulara`, `data_desfasurare`, `categorie_participanti`.
-- *SQL*:
+*Model conceptual*:
+- `COMPETITIE`: #underline[`id_competitie`], `denumire`, `oras_secretariat`, `telefon_contact`, `email_contact`, `site_web`.
+- `TIP_PROBA`: #underline[`id_tip_proba`], `denumire_tip`, `descriere_generala`.
+- `PROBA`: #underline[`id_proba`], `id_competitie`, `id_tip_proba`, `descriere_particulara`, `data_desfasurare`, `categorie_participanti`.
+
+*Relații*:
+- `COMPETITIE` 1:M `PROBA`; o competiție poate conține mai multe probe.
+- `TIP_PROBA` 1:M `PROBA`; un tip de probă poate apărea în mai multe competiții.
+- Separarea `TIP_PROBA` evită repetarea descrierii generale pentru probe de același tip.
+
+*Reguli 1NF-3NF și restricții*:
+- *1NF*: datele de contact, categoria și data sunt valori atomice.
+- *2NF*: toate atributele non-cheie depind complet de cheia primară a tabelei.
+- *3NF*: descrierea generală a tipului de probă depinde de `id_tip_proba`, nu de `id_proba`.
+- `email_contact` trebuie să fie unic sau validat la nivel aplicație; `data_desfasurare` este obligatorie pentru probe planificate/desfășurate.
+
+*Model fizic*:
+```sql
+CREATE TABLE COMPETITIE (
+  id_competitie INT PRIMARY KEY AUTO_INCREMENT,
+  denumire VARCHAR(150) NOT NULL,
+  oras_secretariat VARCHAR(100) NOT NULL,
+  telefon_contact VARCHAR(30),
+  email_contact VARCHAR(120),
+  site_web VARCHAR(150)
+);
+
+CREATE TABLE TIP_PROBA (
+  id_tip_proba INT PRIMARY KEY AUTO_INCREMENT,
+  denumire_tip VARCHAR(60) NOT NULL UNIQUE,
+  descriere_generala TEXT
+);
+
+CREATE TABLE PROBA (
+  id_proba INT PRIMARY KEY AUTO_INCREMENT,
+  id_competitie INT NOT NULL,
+  id_tip_proba INT NOT NULL,
+  descriere_particulara TEXT,
+  data_desfasurare DATE NOT NULL,
+  categorie_participanti VARCHAR(60) NOT NULL,
+  FOREIGN KEY (id_competitie) REFERENCES COMPETITIE(id_competitie),
+  FOREIGN KEY (id_tip_proba) REFERENCES TIP_PROBA(id_tip_proba)
+);
+```
+
+*SQL pentru afișarea denumirilor competițiilor cu cel puțin o probă în anul curent*:
   ```sql
   SELECT DISTINCT c.denumire
   FROM COMPETITIE c

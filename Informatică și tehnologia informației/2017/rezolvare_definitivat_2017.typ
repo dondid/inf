@@ -119,6 +119,7 @@ int main() {
   - `ZBOR`: `id_zbor` (PK), `aeroport_plecare`, `aeroport_sosire`, `data_ora_plecare`, `data_ora_sosire`.
   - `BILET`: `id_bilet` (PK), `id_client` (FK), `id_zbor` (FK), `loc`, `mod_plata`, `pret`.
 - *Normalizare*: Datele clientului, datele zborului și datele biletului sunt separate pentru a evita redundanța. Fiecare atribut non-cheie depinde de cheia tabelei sale, iar relațiile se realizează prin chei străine.
+- *Relații și restricții*: `CLIENT` 1:M `BILET`, `ZBOR` 1:M `BILET`. `BILET` conține datele tranzacției: loc, mod de plată, preț. Modelul respectă 1NF-3NF prin separarea datelor clientului, zborului și achiziției. Restricții utile: `pret >= 0`, `data_ora_sosire > data_ora_plecare`, `loc` unic pentru același zbor.
 - *SQL exemplu*:
   ```sql
   SELECT DISTINCT c.nume, c.prenume
@@ -289,6 +290,7 @@ end.
   SET marime = marime - 1
   WHERE personaj = 'Cleopatra';
   ```
+- *Relații și normalizare*: `CLIENT` și `COSTUM` sunt în relație M:N prin `INCHIRIERE`, deoarece un client poate închiria mai multe costume, iar același costum poate fi închiriat de-a lungul timpului de clienți diferiți. `INCHIRIERE` trebuie să conțină chei străine valide și intervale calendaristice coerente (`data_returnare >= data_inchiriere`). Modelul respectă 1NF prin atribute atomice, 2NF prin separarea atributelor clientului/costumului de închiriere și 3NF prin evitarea dependențelor tranzitive.
 
 ---
 

@@ -156,17 +156,45 @@ end.
 ---
 
 === 4. Baze de date: Zboruri companie
-- *Entități*:
+*Model conceptual*:
   - `CLIENT`: `id_client` (PK), `nume`, `prenume`, `adresa`.
   - `ZBOR`: `id_zbor` (PK), `aeroport_sursa`, `aeroport_destinatie`, `data_ora_plecare`.
   - `BILET`: `id_bilet` (PK), `id_client` (FK), `id_zbor` (FK), `mod_plata`.
-- *SQL*:
+
+*Model fizic*:
+```sql
+CREATE TABLE CLIENT (
+  id_client INT PRIMARY KEY,
+  nume VARCHAR(50) NOT NULL,
+  prenume VARCHAR(50) NOT NULL,
+  adresa VARCHAR(150)
+);
+
+CREATE TABLE ZBOR (
+  id_zbor INT PRIMARY KEY,
+  aeroport_sursa VARCHAR(80) NOT NULL,
+  aeroport_destinatie VARCHAR(80) NOT NULL,
+  data_ora_plecare DATETIME NOT NULL
+);
+
+CREATE TABLE BILET (
+  id_bilet INT PRIMARY KEY,
+  id_client INT NOT NULL,
+  id_zbor INT NOT NULL,
+  mod_plata VARCHAR(30) NOT NULL,
+  FOREIGN KEY (id_client) REFERENCES CLIENT(id_client),
+  FOREIGN KEY (id_zbor) REFERENCES ZBOR(id_zbor)
+);
+```
+
+*SQL pentru clienții care au plătit numerar*:
   ```sql
   SELECT DISTINCT c.prenume, c.nume
   FROM CLIENT c
   JOIN BILET b ON c.id_client = b.id_client
   WHERE b.mod_plata = 'numerar';
   ```
+- *Relații și normalizare*: `CLIENT` 1:M `BILET`, `ZBOR` 1:M `BILET`; tabela `BILET` materializează achizițiile și evită repetarea datelor clientului/zborului. Modelul respectă 1NF prin câmpuri atomice, 2NF prin dependența completă a atributelor de cheia fiecărei tabele și 3NF prin separarea datelor clientului, zborului și plății. Cheile străine `id_client`, `id_zbor` trebuie validate, iar `mod_plata` se recomandă controlat prin domeniu de valori.
 
 ---
 
@@ -265,7 +293,7 @@ end.
 ---
 
 === 3. Programare: Cifre din mulțimea {0, 1, 2}
-- *Descriere*: Subprogramul `cifDistMax` numără cifrele distincte și determină cifra maximă a lui `n`. Programul principal generează recursiv toate numerele formate exclusiv din cifrele `{0, 1, 2}`, le ordonează și utilizează căutarea binară pentru a determina cel mai mic număr din intervalul $[x, y]$.
+- *Descriere*: Subprogramul `cifDistMax` numără cifrele distincte și determină cifra maximă a lui `n`. Programul principal generează recursiv toate numerele formate exclusiv din cifrele `{0, 1, 2}`, le ordonează și utilizează căutarea binară pentru a determina cel mai mic număr din intervalul $[x, y]$. După găsirea candidatului, se apelează `cifDistMax` pentru validarea proprietății cerute: cifra maximă trebuie să fie cel mult `2`.
 
 *Soluție C++:*
 ```cpp
@@ -308,13 +336,13 @@ void genereaza() {
 int main() {
     genereaza();
     long long x, y;
-    ifstream fin("def2021.in"); // în cazul în care datele vin din fișier
-    // dar enunțul model spune: se citesc de la tastatură x și y, se scrie în def.out
     if (!(cin >> x >> y)) return 0;
 
     ofstream fout("def.out");
     auto it = lower_bound(vals.begin(), vals.end(), x);
-    if (it != vals.end() && *it <= y) {
+    int nrd, cma;
+    if (it != vals.end()) cifDistMax(*it, nrd, cma);
+    if (it != vals.end() && *it <= y && cma <= 2) {
         fout << *it << "\n";
     } else {
         fout << "nu exista\n";
@@ -330,7 +358,7 @@ program NumereTernare;
 var
   x, y: int64;
   vals: array[1..60000] of int64;
-  count, i, st, dr, mid, pos: integer;
+  count, i, st, dr, mid, pos, nrd, cma: integer;
   fout: text;
 
 procedure gen(val: int64);
@@ -385,8 +413,14 @@ begin
 
   assign(fout, 'def.out');
   rewrite(fout);
-  if (pos <> -1) and (vals[pos] <= y) then
-    writeln(fout, vals[pos])
+  if pos <> -1 then
+  begin
+    cifDistMax(vals[pos], nrd, cma);
+    if (vals[pos] <= y) and (cma <= 2) then
+      writeln(fout, vals[pos])
+    else
+      writeln(fout, 'nu exista');
+  end
   else
     writeln(fout, 'nu exista');
   close(fout);
@@ -396,14 +430,45 @@ end.
 ---
 
 === 4. Baze de date: Companie Aviatică
-- *Entități*:
+*Model conceptual*:
   - `CLIENT`: `id_client` (PK), `nume`, `prenume`, `adresa`.
   - `ZBOR`: `id_zbor` (PK), `aeroport_sursa`, `aeroport_destinatie`, `data_ora_plecare`, `data_ora_sosire`.
   - `BILET`: `id_bilet` (PK), `id_client` (FK), `id_zbor` (FK), `mod_plata`, `data_achizitie`.
-- *SQL*:
+
+*Model fizic*:
+```sql
+CREATE TABLE CLIENT (
+  id_client INT PRIMARY KEY,
+  nume VARCHAR(50) NOT NULL,
+  prenume VARCHAR(50) NOT NULL,
+  adresa VARCHAR(150)
+);
+
+CREATE TABLE ZBOR (
+  id_zbor INT PRIMARY KEY,
+  aeroport_sursa VARCHAR(80) NOT NULL,
+  aeroport_destinatie VARCHAR(80) NOT NULL,
+  data_ora_plecare DATETIME NOT NULL,
+  data_ora_sosire DATETIME NOT NULL,
+  CHECK (data_ora_sosire > data_ora_plecare)
+);
+
+CREATE TABLE BILET (
+  id_bilet INT PRIMARY KEY,
+  id_client INT NOT NULL,
+  id_zbor INT NOT NULL,
+  mod_plata VARCHAR(30) NOT NULL,
+  data_achizitie DATE NOT NULL,
+  FOREIGN KEY (id_client) REFERENCES CLIENT(id_client),
+  FOREIGN KEY (id_zbor) REFERENCES ZBOR(id_zbor)
+);
+```
+
+*SQL pentru clienții distincți care au plătit numerar*:
   ```sql
   SELECT DISTINCT c.prenume, c.nume
   FROM CLIENT c
   JOIN BILET b ON c.id_client = b.id_client
   WHERE b.mod_plata = 'numerar';
   ```
+- *Relații și normalizare*: `CLIENT` 1:M `BILET`, `ZBOR` 1:M `BILET`; tabela `BILET` păstrează data achiziției și modul de plată pentru fiecare cumpărare. Atributele sunt atomice (1NF), depind de cheia propriei tabele (2NF), iar datele clientului și ale zborului nu sunt duplicate în `BILET` (3NF). Restricții utile: `data_ora_sosire > data_ora_plecare`, `mod_plata` din listă controlată, chei străine obligatorii.

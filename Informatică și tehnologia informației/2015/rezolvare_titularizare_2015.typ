@@ -42,7 +42,32 @@
   - *Inordine* (Stânga-Rădăcină-Dreapta).
   - *Postordine* (Stânga-Dreapta-Rădăcină).
 - *Reprezentare statică* (vectori de tați/fii) vs *Reprezentare dinamică* (pointeri/adrese).
-- *Problemă (Numărare frunze în arbore)*:
+- *Problemă 1 - reprezentare statică*: Se dă un arbore binar cu `n` noduri, memorat prin doi vectori `st[]` și `dr[]`, unde `st[i]` este fiul stâng al nodului `i`, iar `dr[i]` este fiul drept, valoarea `0` indicând lipsa fiului. Să se determine numărul frunzelor.
+
+*Descriere*: Un nod este frunză dacă nu are nici fiu stâng, nici fiu drept. Parcurgem toate nodurile și numărăm pozițiile `i` pentru care `st[i] = 0` și `dr[i] = 0`.
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n, st[101], dr[101], nr = 0;
+    cin >> n;
+    for (int i = 1; i <= n; ++i) {
+        cin >> st[i] >> dr[i];
+    }
+    for (int i = 1; i <= n; ++i) {
+        if (st[i] == 0 && dr[i] == 0) nr++;
+    }
+    cout << nr;
+    return 0;
+}
+```
+
+- *Problemă 2 - reprezentare dinamică*: Se dă rădăcina unui arbore binar memorat prin noduri alocate dinamic. Să se determine recursiv numărul frunzelor.
+
+*Descriere*: Dacă arborele este vid, nu are frunze. Dacă nodul curent nu are descendenți, el contribuie cu o frunză. Altfel, rezultatul este suma frunzelor din subarborele stâng și subarborele drept.
+
   ```cpp
   #include <iostream>
   using namespace std;
@@ -203,6 +228,10 @@ end.
 
 === 2. Algoritm eficient: Diferență simetrică impare (O(Na + Nb) timp)
 
+*Metoda*: Primul șir este descrescător, iar al doilea este crescător. Pentru a obține o parcurgere comună în ordine crescătoare, memorăm numerele impare distincte din primul șir și le inversăm. Din al doilea șir memorăm direct numerele impare distincte, deoarece este deja crescător. Apoi aplicăm interclasarea a două șiruri sortate: valorile mai mici apar numai într-un șir și se afișează, valorile egale se sar deoarece apar în ambele șiruri și nu aparțin diferenței simetrice.
+
+*Eficiență*: Fiecare element din cele două șiruri este citit o singură dată, iar interclasarea avansează cel puțin un indice la fiecare pas. Complexitatea este $O(n_a + n_b)$ timp; memoria folosită este liniară în numărul valorilor impare distincte memorate.
+
 *Soluție C++:*
 ```cpp
 #include <iostream>
@@ -345,13 +374,17 @@ end.
 === 1. Exercițiul ca metodă didactică pentru algoritmi elementari
 *Caracteristici*: presupune repetarea conștientă a unor operații; fixează deprinderi algoritmice; permite gradarea dificultății. *Tipuri*: exerciții de recunoaștere, exerciții de aplicare, exerciții de creație.
 
-*Activitatea 1*: calculul unei sume de expresii simple. Profesorul prezintă modelul, elevii rezolvă exemple cu date diferite, apoi verifică prin pseudocod.
+*Activitatea 1*: calculul unei sume de expresii simple.
 
-*Activitatea 2*: determinarea produsului numerelor pare dintr-o secvență. Profesorul discută inițializarea produsului cu `1`; elevii implementează și testează cazuri fără valori pare.
+*Scenariu didactic*: Profesorul pornește de la expresia `1 + 2 + ... + n`, reactualizează noțiunile de variabilă contor și acumulator, apoi cere elevilor să propună pașii algoritmului în pseudocod. Elevii rezolvă mai întâi manual pentru `n=5`, apoi scriu structura repetitivă `pentru i <- 1..n`. Profesorul verifică inițializarea sumei cu `0`, iar elevii rulează algoritmul pentru valori diferite și compară rezultatul cu formula matematică.
+
+*Activitatea 2*: determinarea produsului numerelor pare dintr-o secvență.
+
+*Scenariu didactic*: Profesorul prezintă o secvență mixtă de valori și cere elevilor să marcheze numai termenii pari. Elevii identifică testul `x mod 2 = 0`, apoi discută de ce produsul se inițializează cu `1`, nu cu `0`. Elevii implementează algoritmul, testează cazul în care nu există numere pare și decid mesajul afișat în această situație. Profesorul insistă asupra corectitudinii inițializărilor și a separării citirii de prelucrare.
 
 === 2. Portofoliu pentru secvența B: baze de date
 *Scop*: evaluarea progresului elevului în proiectarea și utilizarea unei baze de date simple.
 
 *Elemente*: schema conceptuală, tabelele create, capturi cu cheia primară/indexul, set de înregistrări, interogări și reflecție personală.
 
-*Criterii produs*: corectitudinea structurii tabelelor; definirea cheii primare; validitatea datelor. *Criterii atitudinale*: consecvența în lucru; capacitatea de autoevaluare și îmbunătățire.
+*Criterii produs*: corectitudinea structurii tabelelor; definirea cheii primare și a indexului; validitatea datelor introduse. *Criterii atitudinale*: consecvența în lucru; capacitatea de autoevaluare și îmbunătățire.

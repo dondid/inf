@@ -248,6 +248,10 @@ end.
 
 === 2. Algoritm eficient: Cel mai lung subșir crescător de termeni pari (LIS O(N log N))
 
+*Metoda*: Prelucrăm numai termenii pari, deoarece subșirul cerut trebuie să conțină exclusiv valori pare. Folosim algoritmul eficient pentru cel mai lung subșir strict crescător. Vectorul `tail[k]` reține cea mai mică valoare posibilă a ultimului element al unui subșir crescător de lungime `k`. Pentru fiecare termen par `x`, căutăm binar prima poziție unde `tail[pos] >= x`; dacă există, înlocuim acea valoare cu `x`, altfel extindem vectorul. Dimensiunea finală a vectorului `tail` este lungimea maximă cerută.
+
+*Justificarea eficienței*: Fiecare număr din fișier este citit o singură dată. Pentru fiecare termen par se execută o căutare binară în vectorul `tail`, deci complexitatea este $O(n log n)$ în cel mai rău caz, cu memorie $O(n)$ pentru valorile intermediare. Este mai eficient decât programarea dinamică clasică $O(n^2)$.
+
 *Soluție C++:*
 ```cpp
 #include <iostream>
