@@ -37,7 +37,7 @@ inf/
 ## ⚡ Caracteristicile Rezolvărilor
 
 Fiecare an rezolvat conține elementele cheie cerute la examen:
-* **Ghid central de studiu**: `ghid_programa_titularizare_informatica_tic.typ/pdf` parcurge integral programa oficială de Titularizare, cu explicații, checklisturi, plan de studiu, proba practică și matrice de acoperire.
+* **Manual pas cu pas după programa oficială**: `ghid_programa_titularizare_informatica_tic.typ/pdf` parcurge integral programa de Titularizare rând cu rând, cu explicații, răspunsuri de examen, exemple, exerciții, checklisturi, plan de studiu, proba practică și matrice de acoperire.
 * **Programare & Algoritmică**: Rezolvări complete scrise în **două limbaje de programare**: **C++** și **Pascal**, însoțite de explicații în limbaj natural și analiză de complexitate.
 * **Baze de Date**: Proiectarea modelelor conceptuale (cu relații și reguli 3NF), modele fizice (tabele) și interogări SQL complete.
 * **Pedagogie și Didactică**: Planificări de lecții detaliate bazate pe metode didactice interactive (Mozaic, Problematizare, Învățare prin descoperire) și scenarii complete de lecție.

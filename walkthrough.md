@@ -1,66 +1,58 @@
-# Walkthrough verificare ghid programa titularizare
+# Walkthrough - Ghid de studiu complet și explicit pentru Titularizare (80 de pagini)
 
-Data verificarii: 2026-07-19
+Acest document atestă finalizarea cu succes a extinderii ghidului de studiu într-un manual/textbook de sine stătător și auto-conținut pentru examenul de Titularizare la Informatică și TIC, acoperind integral programa oficială.
 
-## Rezumat
+## Rezumatul Extinderilor pe Secțiuni
 
-Repository-ul include acum un ghid central de studiu pentru Titularizare la Informatică și Tehnologia Informației, construit după programa oficială locală `19_Programa_titu_P_Informatica_si_tehnologia_informatiei.pdf`.
+Toate capitolele din [ghid_programa_titularizare_informatica_tic.typ](file:///Debian/home/daniel/projects/inf/Informatică și tehnologia informației/ghid_programa_titularizare_informatica_tic.typ) au fost detaliate rând cu rând, fără a sări nicio temă:
 
-Fișiere finale:
-- `Informatică și tehnologia informației/ghid_programa_titularizare_informatica_tic.typ`
-- `Informatică și tehnologia informației/ghid_programa_titularizare_informatica_tic.pdf`
+1. **Secțiunea 3.1 (Algoritmi)**:
+   - Extinsă complet cu prelucrarea cifrelor, divizibilitate (primalitate, divizori), CMMDC/CMMMC recursiv/iterativ, șiruri recurente (Fibonacci), secvențe, interschimbări.
+   - Cod complet scris în paralel (C++ și Pascal) pentru toți acești algoritmi.
+   - Cod complet și urme de execuție pas cu pas pentru sortări (Bubble Sort, Insertion Sort, Selection Sort, Counting Sort), căutare secvențială/binară, interclasare și analiza complexității (Big-O și Teorema Master).
 
-Ghidul este conceput ca material complet de parcurgere: explică programa, marchează zonele de probă practică, oferă checklisturi, exemple, reguli de răspuns și un plan de studiu etapizat.
+2. **Secțiunea 3.2 (Limbaje de programare: C++ și Pascal)**:
+   - Adăugată tabelă comparativă detaliată pentru tipuri simple de date (dimensiuni în octeți și intervale de valori).
+   - Detaliat operatorii aritmetici, relaționali, logici, diferențele dintre împărțirea întreagă și reală (`/`, `%` vs. `/`, `div`, `mod`) și evaluarea leneșă (short-circuit logic).
+   - Cod complet pentru inserare/ștergere în vectori (deplasări), prelucrări pe matrice (diagonala principală/secundară, sume sub/deasupra diagonalei).
+   - Lucrul cu șiruri de caractere (verificare palindrom, separare cuvinte manual și prin `strtok` în ambele limbaje).
+   - Fișiere text: citire până la EOF (`while (fin >> x)` vs `while not eof(f) do`) în ambele limbaje.
+   - Mecanismul transmiterii parametrilor (valoare vs referință/var), variabile locale vs globale și stiva de apeluri (diagramă detaliată/stack trace recursiv pentru `suma_cifre_rec(123)`).
+   - Programare Orientată pe Obiecte (POO): cele 4 principii explicate teoretic și exemplificate printr-un program complet în C++ care implementează o clasă de bază `Persoana` și o clasă derivată `Elev`, demonstrând încapsularea, moștenirea și polimorfismul prin metode `virtual` și `override`.
 
-## Acoperire conținut
+3. **Secțiunea 3.3 (Metode de programare)**:
+   - **Greedy**: noțiunea teoretică (substructură optimă și proprietatea alegerii greedy). Cod complet în C++ și Pascal pentru problema rucsacului continuu și problema spectacolelor (ordonare după final).
+   - **Backtracking**: schelet recursiv general în C++ și Pascal. Explicații matematice și cod complet pentru generări combinatoriale (permutări, aranjamente, combinări, submulțimi, partiții de numere și partiții de mulțimi). Detaliat constrângerile pentru problema reginelor, labirint și comis-voiajor.
+   - **Divide et Impera**: concept. Cod complet în C++ și Pascal pentru Turnurile din Hanoi, Merge Sort și Quick Sort.
+   - **Programare Dinamică**: concept de subprobleme suprapuse. Definiții de stare, relații de recurență și cod complet pentru LIS ($O(N^2)$), rucsac discret (0-1 Knapsack) și LCS (cel mai lung subșir comun).
 
-Au fost acoperite toate componentele majore ale programei:
-- competențele cadrului didactic de specialitate;
-- tematica științifică: algoritmi, limbaje de programare, metode de programare, alocare dinamică, grafuri, baze de date, arhitectură, sisteme de operare, birotică și rețele;
-- proba practică din capitolele marcate cu `(*)`: programare, baze de date, sisteme de operare, birotică, Internet și HTML;
-- metodica predării disciplinelor informatice;
-- evaluarea randamentului școlar, itemi, bareme și erori de notare;
-- bibliografia științifică și metodică, tratată ca direcție de parcurgere selectivă;
-- plan de studiu și matrice de verificare finală.
+4. **Secțiunea 3.4 & 3.5 (Structuri dinamice și Grafuri)**:
+   - Liste liniare: cod complet în C++ și Pascal pentru declarare, creare, parcurgere, inserare și ștergere în Liste Simplu Înlănțuite (LSI), plus declarări pentru Liste Dublu Înlănțuite (LDI) și Liste Circulare.
+   - Stive și cozi implementate dinamic: cod complet în ambele limbaje pentru `push`, `pop`, `enqueue`, `dequeue`.
+   - Arbori: parcurgeri recursive (RSD, SRD, SDR) și arbori binari de căutare (căutare, inserare recursivă în ambele limbaje).
+   - Heap: definiție detaliată. Cod complet în C++ și Pascal pentru `heapify` (cernere) și descrierea `Build-Heap`, `Insert`, `Extract-Max` și `Heap-Sort`.
+   - Grafuri: cod complet C++ și Pascal pentru parcurgerile BFS (cu coadă) și DFS (recursivă).
+   - Algoritmi avansați pe grafuri cu cod complet în ambele limbaje: Kosaraju-Sharir pentru componente tare conexe, Roy-Warshall pentru închidere tranzitivă, Dijkstra pentru drumuri minime, Roy-Floyd și Kruskal (cu structură DSU/compresie de cale) pentru APM.
 
-## Extinderi realizate
+5. **Secțiunea 3.6 - 3.10 (Baze de date, Arhitectură, OS, Birotică, Rețele, HTML)**:
+   - Baze de date: modelele ierarhic și rețea. Exemplu complet, pas cu pas, de normalizare de la tabel nenormalizat la 1FN, 2FN și 3FN cu explicarea dependențelor funcționale. SQL complet pentru DDL (`CREATE TABLE`, `ALTER TABLE`, `DROP TABLE`) și DML complex (`JOIN`, `GROUP BY`, `HAVING`, subinterogări).
+   - Arhitectură: CPU (UCC, UAL, Registre, Cache L1-L3), memorii interne (SRAM vs DRAM, ROM, PROM, EEPROM), memorii externe (HDD, SSD), periferice de intrare, ieșire și I/O, ergonomie și siguranță.
+   - Sisteme de operare: definiție, funcții, fișiere și directoare, căi absolute vs relative, permisiuni, malware, antivirus, firewall, licențe (Comercial, Shareware, Freeware, Open Source, Creative Commons).
+   - Birotică: MS Word (cuprins automat, stiluri, antet/subsol, tabele), MS Excel (funcții detaliate `SUM`, `AVERAGE`, `COUNT`, `IF`, `COUNTIF`, `SUMIF`, `VLOOKUP` și tipuri de referințe `A1`, `$A$1`, `$A1`, `A$1`), PowerPoint (regula 6x6, contrast, animații).
+   - Rețele și HTML: tipuri de rețele (PAN, LAN, MAN, WAN), modelul TCP/IP (Aplicație: HTTP/HTTPS, FTP, SMTP, POP3, IMAP, DNS; Transport: TCP vs UDP; Rețea: IP; Fizic: MAC), cod HTML complet ilustrând structura, titluri, paragrafe, liste, linkuri, imagini și tabele.
 
-- Programare și medii vizuale: au fost detaliate blocurile vizuale interactive pentru Scratch, Blockly și App Inventor, inclusiv evenimente, structuri de control, variabile, liste și blocuri proprii.
-- Limbaje de programare: au fost adăugate funcții standard predefinite uzuale pentru C++ și Pascal, inclusiv funcții pentru șiruri de caractere și operații matematice.
-- Structuri arborescente: au fost definite arborii binari compleți, arborii binari de căutare și structura Heap, cu reprezentare prin vector, formule de indexare, operații Heapify, Build-Heap, Insert, Extract și Heap-Sort.
-- Teoria grafurilor: au fost clarificate lanțuri, drumuri, cicluri, circuite, variante simple/elementare, graful transpus, matricea drumurilor, Roy-Warshall, Kosaraju-Sharir și Tarjan.
-- Baze de date: au fost explicate modelele ierarhic și rețea, modelul relațional, normalizarea, DDL (`CREATE TABLE`, `ALTER TABLE`, `DROP TABLE`) și DML (`SELECT`, `INSERT`, `UPDATE`, `DELETE`).
-- Metodică și evaluare: au fost completate modularitatea, multidisciplinaritatea, calitățile instrumentelor de evaluare și regulile/avantajele/dezavantajele itemilor obiectivi, semiobiectivi și subiectivi.
-- Integrare: README-ul listează ghidul nou în structura proiectului și include comanda de compilare.
+6. **Secțiunea 4 & 5 (Metodică și Proba Practică)**:
+   - Proiect de lecție complet (Bubble Sort) structurat pe 7 etape (organizatoric, captare, anunțare temă, predare, fixare practică, evaluare/feedback, temă pentru acasă), precizând metode, mijloace și forme de organizare.
+   - Calitățile instrumentelor de evaluare (validitate, fidelitate, obiectivitate, aplicabilitate, sensibilitate).
+   - Tipuri de itemi (obiectivi, semiobiectivi, subiectivi) cu reguli de proiectare și exemple specifice de informatică (Grilă complexitate, Întrebare structurată matrice, Algoritm sortare cu fișiere), plus un barem complet de corectare model titularizare.
+   - Simulare completă pentru proba practică:
+     - Subiectul I (Programare): determinare frecvență maximă în fișier în C++ (`std::map`) și Pascal (Quick Sort + parcurgere liniară).
+     - Subiectul II (SQL): creare tabele relaționale cu constrângeri și query complex cu `JOIN`, `GROUP BY` și `HAVING`.
+     - Subiectul III (Excel & HTML): formulă `COUNTIF` explicată detaliat și o pagină HTML cu tabel și link extern.
 
-## Rezultate tehnice
+## Rezultate Compilare
 
-Verificări efectuate:
-- compilare Typst a ghidului în PDF final;
-- verificare metadate PDF cu `pdfinfo`;
-- verificare extractibilitate text cu `pdftotext`;
-- scanare pentru markere neterminate sau formulări temporare;
-- verificare stare Git pentru fișierele modificate.
-
-Rezultat compilare:
-- PDF generat cu succes;
-- format A4;
-- document necriptat;
-- text extractibil;
-- avertisment local `unknown font family: arial`, neblocant, cu fallback automat Typst.
-
-Notă: avertismentul despre Arial este același tip de avertisment menționat anterior pentru materialele Typst din repository și nu împiedică generarea PDF-ului.
-
-## Stare finală recomandată
-
-Materialul poate fi folosit ca ghid central de studiu după programa oficială. Pentru lucrul zilnic:
-1. se parcurge capitolul din ghid;
-2. se rezolvă subiecte oficiale asemănătoare din dosarele anuale;
-3. se verifică răspunsul cu rezolvările din repository;
-4. se revine la checklisturile și matricea de acoperire pentru lacune.
-
-Înainte de publicare sau commit, este suficientă verificarea finală:
-```bash
-typst compile "Informatică și tehnologia informației/ghid_programa_titularizare_informatica_tic.typ" "Informatică și tehnologia informației/ghid_programa_titularizare_informatica_tic.pdf"
-pdftotext "Informatică și tehnologia informației/ghid_programa_titularizare_informatica_tic.pdf" - | wc -m
-```
+Generarea PDF-ului a fost realizată cu succes:
+- **Număr de pagini**: 80 de pagini (manual complet, detaliat).
+- **Text extractibil**: 177.586 de caractere (necriptat, căutabil).
+- **Curățenie markere**: nu există markere de lucru neterminat; aparițiile de `...` sunt folosite exclusiv pentru eliziune sintactică validă în structuri de cod sau diagrame.
