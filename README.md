@@ -23,6 +23,8 @@ inf/
     │   ├── rezolvare_definitivat_[An].pdf # PDF Definitivat
     │   ├── rezolvare_titularizare_[An].typ # Sursa Typst pentru Titularizare
     │   └── rezolvare_titularizare_[An].pdf # PDF Titularizare
+    ├── ghid_programa_titularizare_informatica_tic.typ # Ghid complet de studiu după programa oficială
+    ├── ghid_programa_titularizare_informatica_tic.pdf # PDF generat pentru parcurgerea integrală a programei
     ├── statistici_subiecte.typ            # Sursa Typst pentru analiza statistică și recurență
     ├── statistici_subiecte.pdf            # PDF cu statistici și matricea de recurență a subiectelor
     ├── proba practica/                    # Subiecte și resurse pentru proba practică
@@ -35,6 +37,7 @@ inf/
 ## ⚡ Caracteristicile Rezolvărilor
 
 Fiecare an rezolvat conține elementele cheie cerute la examen:
+* **Ghid central de studiu**: `ghid_programa_titularizare_informatica_tic.typ/pdf` parcurge integral programa oficială de Titularizare, cu explicații, checklisturi, plan de studiu, proba practică și matrice de acoperire.
 * **Programare & Algoritmică**: Rezolvări complete scrise în **două limbaje de programare**: **C++** și **Pascal**, însoțite de explicații în limbaj natural și analiză de complexitate.
 * **Baze de Date**: Proiectarea modelelor conceptuale (cu relații și reguli 3NF), modele fizice (tabele) și interogări SQL complete.
 * **Pedagogie și Didactică**: Planificări de lecții detaliate bazate pe metode didactice interactive (Mozaic, Problematizare, Învățare prin descoperire) și scenarii complete de lecție.
@@ -79,6 +82,10 @@ Fiecare an rezolvat conține elementele cheie cerute la examen:
 Dacă ai Typst instalat pe sistem, deschide terminalul în directorul proiectului și rulează:
 ```bash
 typst compile "Informatică și tehnologia informației/2026/rezolvare_definitivat_2026.typ" "Informatică și tehnologia informației/2026/rezolvare_definitivat_2026.pdf"
+```
+Pentru ghidul complet al programei:
+```bash
+typst compile "Informatică și tehnologia informației/ghid_programa_titularizare_informatica_tic.typ" "Informatică și tehnologia informației/ghid_programa_titularizare_informatica_tic.pdf"
 ```
 Pentru a monitoriza modificările în timp real (Live Preview local):
 ```bash
