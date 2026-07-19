@@ -1,6 +1,8 @@
 import os
 import sys
-from concurrent.futures import ThreadPoolExecutor, as_completed
+import re
+import asyncio
+import time
 
 def check_dependencies():
     missing = []
@@ -9,28 +11,112 @@ def check_dependencies():
     except ImportError:
         missing.append("pypdf")
     try:
-        import gtts
+        import edge_tts
     except ImportError:
-        missing.append("gtts")
+        missing.append("edge_tts")
     
     if missing:
         print("[-] Lipsesc biblioteci necesare pentru rularea scriptului.")
         print("    Pentru a le instala, rulează următoarea comandă în terminal:")
-        print(f"    pip install {' '.join(missing)}")
+        print(f"    pip install {' '.join(missing)} --break-system-packages")
         return False
     return True
 
-def convert_single_page(page_num, text_clean, output_file):
-    from gtts import gTTS
-    try:
-        # Apelăm Google Text-to-Speech cu limba română ('ro')
-        tts = gTTS(text=text_clean, lang='ro', slow=False)
-        tts.save(output_file)
-        return page_num, True, None
-    except Exception as e:
-        return page_num, False, str(e)
+def is_code_line(line):
+    line_s = line.strip()
+    if not line_s:
+        return False
+        
+    keywords = [
+        '#include', 'using namespace', 'std::', 'cin', 'cout', 'ifstream', 'ofstream',
+        'int ', 'float ', 'double ', 'char ', 'void ', 'struct ', 'class ', 'public:', 'private:',
+        'begin', 'end.', 'end;', 'var ', 'procedure ', 'function ', 'type ', 'record',
+        'while ', 'for ', 'if ', 'do {', '} while', 'else ', 'swap', 'override',
+        'printf', 'scanf', 'iostream', 'vector<', 'map<', 'stack<', 'priority_queue<', 'temp[',
+        ':=', 'return', 'const ', 'inline ', 'main()', 'delete', 'new ', 'malloc',
+        'NULL', 'nullptr', 'mod ', 'div ', 'write(', 'writeln(', 'read(', 'readln('
+    ]
+    for kw in keywords:
+        if kw in line_s:
+            return True
+            
+    if line_s.endswith(';') and ('=' in line_s or '(' in line_s or ')' in line_s or '::' in line_s):
+        return True
+    if line_s == '{' or line_s == '}' or line_s == 'begin' or line_s.startswith('end;'):
+        return True
+    if line_s.startswith('//') or line_s.startswith('/*') or line_s.startswith('* '):
+        if any(c in line_s for c in [';', '{', '}', ':=']):
+            return True
+            
+    return False
 
-def convert_pdf_to_audio(pdf_path, output_dir):
+def clean_text_for_tts(text):
+    lines = text.split('\n')
+    cleaned_lines = []
+    in_code_block = False
+    
+    for line in lines:
+        line_strip = line.strip()
+        
+        # Eliminăm antetul repetitiv
+        if line_strip == "Ghid programa titularizare - Informatică și TIC":
+            continue
+            
+        # Eliminăm subsolul repetitiv cu pagina
+        if "Pregătire completă" in line_strip or "programa oficială" in line_strip:
+            continue
+        if re.match(r'^\d+$', line_strip):
+            continue
+            
+        # Eliminăm punctele de legătură specifice cuprinsului (. . . . . . .)
+        if ". . ." in line_strip:
+            line_strip = re.sub(r'\.\s*\.\s*\.\s*', '', line_strip)
+            
+        # Tratăm liniile de cod sursă
+        if is_code_line(line):
+            if not in_code_block:
+                cleaned_lines.append("[Se prezintă implementarea codului sursă în documentul PDF]")
+                in_code_block = True
+            continue
+        else:
+            in_code_block = False
+            
+        # Simplificăm / transliterăm caractere speciale și operatori logici
+        line_clean = line_strip
+        line_clean = line_clean.replace("==", " este egal cu ")
+        line_clean = line_clean.replace("!=", " diferit de ")
+        line_clean = line_clean.replace("<>", " diferit de ")
+        line_clean = line_clean.replace("<=", " mai mic sau egal cu ")
+        line_clean = line_clean.replace(">=", " mai mare sau egal cu ")
+        line_clean = line_clean.replace("->", " duce la ")
+        
+        cleaned_lines.append(line_clean)
+        
+    return "\n".join([l for l in cleaned_lines if l.strip()])
+
+async def synthesize_chunk(idx, chunk, voice, temp_dir):
+    import edge_tts
+    temp_file = os.path.join(temp_dir, f"temp_chunk_{idx:03d}.mp3")
+    
+    # Retry logic pentru fiabilitate maximă
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            communicate = edge_tts.Communicate(chunk, voice)
+            await communicate.save(temp_file)
+            return temp_file
+        except Exception as e:
+            print(f"[~] Eșec la chunk {idx}, încercarea {attempt + 1}: {e}")
+            if os.path.exists(temp_file):
+                try:
+                    os.remove(temp_file)
+                except:
+                    pass
+            await asyncio.sleep(2)
+            
+    raise RuntimeError(f"Nu s-a putut sintetiza chunk-ul {idx} după {max_retries} încercări.")
+
+async def convert_pdf_to_audio_async(pdf_path, output_dir):
     if not check_dependencies():
         return
 
@@ -42,72 +128,82 @@ def convert_pdf_to_audio(pdf_path, output_dir):
 
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
-        print(f"[+] S-a creat directorul de ieșire: {output_dir}")
 
-    print(f"[+] Se încarcă fișierul PDF: {pdf_path}")
+    # Citim textul din tot PDF-ul
+    print(f"[+] Se încarcă și se extrage textul din PDF: {pdf_path}")
     reader = pypdf.PdfReader(pdf_path)
-    num_pages = len(reader.pages)
-    print(f"[+] PDF-ul are {num_pages} pagini.")
-
-    # Pregătim sarcinile pentru execuție în paralel
-    tasks = []
-    for i in range(num_pages):
-        page_num = i + 1
-        page = reader.pages[i]
-        text = page.extract_text()
-        
-        if not text or not text.strip():
-            continue
+    full_text_list = []
+    
+    for i in range(len(reader.pages)):
+        text = reader.pages[i].extract_text()
+        if text:
+            full_text_list.append(text)
             
-        text_clean = text.strip()
-        output_file = os.path.join(output_dir, f"pagina_{page_num:02d}.mp3")
-        tasks.append((page_num, text_clean, output_file))
-
-    total_tasks = len(tasks)
-    print(f"[+] Se începe conversia în paralel pentru {total_tasks} pagini (folosind 10 thread-uri)...")
-
-    completed = 0
-    # Executăm descărcarea în paralel folosind ThreadPoolExecutor
-    with ThreadPoolExecutor(max_workers=10) as executor:
-        futures = {
-            executor.submit(convert_single_page, page_num, text_clean, out_file): page_num 
-            for page_num, text_clean, out_file in tasks
-        }
+    full_raw_text = "\n".join(full_text_list)
+    
+    # Curățăm textul extras complet
+    print("[+] Se curăță textul (se elimină codurile sursă, tabelele și antetele)...")
+    cleaned_text = clean_text_for_tts(full_raw_text)
+    
+    # Împărțim textul în bucăți mari de până la 8000 de caractere pentru viteză
+    print("[+] Se fragmentează textul în blocuri mari (de 8000 caractere)...")
+    lines = cleaned_text.split("\n")
+    chunks = []
+    current_chunk = []
+    current_len = 0
+    
+    for line in lines:
+        line_strip = line.strip()
+        if not line_strip:
+            continue
+        if current_len + len(line_strip) + 1 > 8000:
+            chunks.append("\n".join(current_chunk))
+            current_chunk = [line_strip]
+            current_len = len(line_strip)
+        else:
+            current_chunk.append(line_strip)
+            current_len += len(line_strip) + 1
+            
+    if current_chunk:
+        chunks.append("\n".join(current_chunk))
         
-        for future in as_completed(futures):
-            page_num, success, err = future.result()
-            completed += 1
-            if success:
-                print(f"[>] [{completed}/{total_tasks}] Pagina {page_num} descarcată cu succes.")
-            else:
-                print(f"[-] [{completed}/{total_tasks}] Eroare la pagina {page_num}: {err}")
+    num_chunks = len(chunks)
+    print(f"[+] S-au generat {num_chunks} blocuri de text. Începe descărcarea în paralel...")
 
-    print("\n[+] Toate paginile individuale au fost procesate!")
-
-    # Concatenăm toate paginile în ordine numerică exactă într-un singur fișier audio complet
-    master_file = os.path.join(output_dir, "ghid_complet_audio.mp3")
-    print(f"[+] Se generează fișierul audio complet unificat: {master_file}...")
+    # Executăm descărcarea tuturor blocurilor în paralel cu asyncio.gather
+    voice = "ro-RO-AlinaNeural"
+    start_time = time.time()
+    
     try:
-        with open(master_file, "wb") as outfile:
-            for i in range(num_pages):
-                page_file = os.path.join(output_dir, f"pagina_{i+1:02d}.mp3")
-                if os.path.exists(page_file):
-                    with open(page_file, "rb") as infile:
-                        outfile.write(infile.read())
-        print(f"[+] Succes! Fișierul unificat a fost creat la: {master_file}")
-    except Exception as e:
-        print(f"[-] Eroare la unificarea fișierelor audio: {e}")
+        tasks = [synthesize_chunk(i, chunk, voice, output_dir) for i, chunk in enumerate(chunks)]
+        temp_files = await asyncio.gather(*tasks)
         
-    print("    Le poți transfera pe telefon pentru a le asculta oricând în căști.")
+        # Concatenăm toate fișierele audio în ordinea corectă
+        master_file = os.path.join(output_dir, "ghid_complet_audio.mp3")
+        print(f"[+] Se asamblează fișierul audio unificat: {master_file}...")
+        
+        with open(master_file, "wb") as outfile:
+            for temp_file in sorted(temp_files):
+                with open(temp_file, "rb") as infile:
+                    outfile.write(infile.read())
+                # Ștergem bucățile temporare
+                os.remove(temp_file)
+                
+        elapsed = time.time() - start_time
+        print(f"[+] Succes! Fișierul unificat a fost creat în {elapsed:.1f} secunde la: {master_file}")
+        
+    except Exception as e:
+        print(f"[-] Eroare în timpul procesării audio: {e}")
 
-if __name__ == "__main__":
-    # Căile implicite
+def main():
     pdf_implicit = "ghid_programa_titularizare_informatica_tic.pdf"
     output_implicit = "ghid_audio"
 
-    # Permitem rularea din rădăcina proiectului sau din folderul specific
     if not os.path.exists(pdf_implicit) and os.path.exists(os.path.join("Informatică și tehnologia informației", pdf_implicit)):
         pdf_implicit = os.path.join("Informatică și tehnologia informației", pdf_implicit)
         output_implicit = os.path.join("Informatică și tehnologia informației", output_implicit)
 
-    convert_pdf_to_audio(pdf_implicit, output_implicit)
+    asyncio.run(convert_pdf_to_audio_async(pdf_implicit, output_implicit))
+
+if __name__ == "__main__":
+    main()
