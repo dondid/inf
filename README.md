@@ -91,3 +91,22 @@ Pentru a monitoriza modificările în timp real (Live Preview local):
 ```bash
 typst watch "Informatică și tehnologia informației/2026/rezolvare_definitivat_2026.typ"
 ```
+
+---
+
+## 🎧 Conversia Ghidului în Format Audio MP3
+
+Pentru a putea studia activ în timp ce mergi pe jos sau călătorești, am inclus un script Python care transformă ghidul de studiu formatat PDF în fișiere audio MP3 pagină cu pagină în limba română (folosind Google Text-to-Speech).
+
+### Cum se utilizează:
+
+1. **Instalează dependențele**:
+   ```bash
+   pip install gTTS pypdf
+   ```
+2. **Rulează scriptul**:
+   ```bash
+   python "Informatică și tehnologia informației/convert_to_audio.py"
+   ```
+3. **Rezultat**:
+   În folderul `Informatică și tehnologia informației/ghid_audio/` vor fi generate fișiere MP3 de forma `pagina_01.mp3`, `pagina_02.mp3` etc., pe care le poți pune pe telefon pentru a le asculta oricând în căști.
